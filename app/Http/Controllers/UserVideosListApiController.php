@@ -27,23 +27,23 @@ class UserVideosListApiController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
         if($user !== null)
         {
-            $user_videos_lists = DB::table('user_videos_lists')
-                                ->where('user_videos_lists.user_id', '=', $user->id)
-                                ->groupBy('user_videos_lists.video_id')
-                                ->pluck('user_videos_lists.video_id') //return an array of video_id
+            $userVideosLists = DB::table('userVideosLists')
+                                ->where('userVideosLists.user_id', '=', $user->id)
+                                ->groupBy('userVideosLists.video_id')
+                                ->pluck('userVideosLists.video_id') //return an array of video_id
                                 ->all();
 
             $tasks = DB::table('tasks')
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
-                            ->whereIn('tasks.video_id', $user_videos_lists)
+                            ->whereIn('tasks.video_id', $userVideosLists)
                             ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                             ->paginate(50);
 
@@ -65,8 +65,8 @@ class UserVideosListApiController extends AppBaseController
      */
     public function store(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
@@ -100,19 +100,19 @@ class UserVideosListApiController extends AppBaseController
      */
     public function show(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
         if($user !== null)
         {
-            $user_videos_lists = DB::table('user_videos_lists')
-                            ->where('user_videos_lists.user_id', '=', $user->id)
-                            ->where('user_videos_lists.video_id', '=', $request['video_id'])
+            $userVideosLists = DB::table('userVideosLists')
+                            ->where('userVideosLists.user_id', '=', $user->id)
+                            ->where('userVideosLists.video_id', '=', $request['video_id'])
                             ->get();
 
-            return AppBaseController::sendResponse($user_videos_lists, "");
+            return AppBaseController::sendResponse($userVideosLists, "");
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -129,8 +129,8 @@ class UserVideosListApiController extends AppBaseController
      */
     public function destroy(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 

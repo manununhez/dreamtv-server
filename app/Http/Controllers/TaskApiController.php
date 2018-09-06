@@ -63,8 +63,8 @@ class TaskApiController extends AppBaseController
     private function getAllTasks(Request $request)
     {
     // ORDER BY SELECT STR_TO_DATE('2015-03-27T04:40:01Z','%Y-%m-%dT%TZ');
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         
@@ -163,8 +163,8 @@ class TaskApiController extends AppBaseController
     private function getContinueTasks(Request $request)
     {
     // ORDER BY SELECT STR_TO_DATE('2015-03-27T04:40:01Z','%Y-%m-%dT%TZ');
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         
@@ -210,8 +210,8 @@ class TaskApiController extends AppBaseController
 
         $videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         

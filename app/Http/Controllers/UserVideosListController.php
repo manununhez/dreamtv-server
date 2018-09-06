@@ -29,7 +29,7 @@ class UserVideosListController extends AppBaseController
      */
     public function index(UserVideosListDataTable $userVideosListDataTable)
     {
-        return $userVideosListDataTable->render('user_videos_lists.index');
+        return $userVideosListDataTable->render('userVideosLists.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class UserVideosListController extends AppBaseController
      */
     public function create()
     {
-        return view('user_videos_lists.create');
+        return view('userVideosLists.create');
     }
 
     /**
@@ -77,7 +77,7 @@ class UserVideosListController extends AppBaseController
             return redirect(route('userVideosLists.index'));
         }
 
-        return view('user_videos_lists.show')->with('userVideosList', $userVideosList);
+        return view('userVideosLists.show')->with('userVideosList', $userVideosList);
     }
 
     /**
@@ -97,7 +97,7 @@ class UserVideosListController extends AppBaseController
             return redirect(route('userVideosLists.index'));
         }
 
-        return view('user_videos_lists.edit')->with('userVideosList', $userVideosList);
+        return view('userVideosLists.edit')->with('userVideosList', $userVideosList);
     }
 
     /**

@@ -29,8 +29,8 @@ class ReasonApiController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
@@ -64,8 +64,8 @@ class ReasonApiController extends AppBaseController
      */
     public function store(Request $request)
     {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 

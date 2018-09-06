@@ -29,7 +29,7 @@ class UserAccountController extends AppBaseController
      */
     public function index(UserAccountDataTable $userAccountDataTable)
     {
-        return $userAccountDataTable->render('user_accounts.index');
+        return $userAccountDataTable->render('userAccounts.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class UserAccountController extends AppBaseController
      */
     public function create()
     {
-        return view('user_accounts.create');
+        return view('userAccounts.create');
     }
 
     /**

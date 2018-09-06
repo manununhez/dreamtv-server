@@ -29,7 +29,7 @@ class UserTaskController extends AppBaseController
      */
     public function index(UserTaskDataTable $userTaskDataTable)
     {
-        return $userTaskDataTable->render('user_tasks.index');
+        return $userTaskDataTable->render('userTasks.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class UserTaskController extends AppBaseController
      */
     public function create()
     {
-        return view('user_tasks.create');
+        return view('userTasks.create');
     }
 
     /**
@@ -77,7 +77,7 @@ class UserTaskController extends AppBaseController
             return redirect(route('userTasks.index'));
         }
 
-        return view('user_tasks.show')->with('userTask', $userTask);
+        return view('userTasks.show')->with('userTask', $userTask);
     }
 
     /**
@@ -97,7 +97,7 @@ class UserTaskController extends AppBaseController
             return redirect(route('userTasks.index'));
         }
 
-        return view('user_tasks.edit')->with('userTask', $userTask);
+        return view('userTasks.edit')->with('userTask', $userTask);
     }
 
     /**

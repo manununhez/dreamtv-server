@@ -50,8 +50,8 @@ class UserTaskApiController extends AppBaseController
     */
     public function getUserTasks(Request $request) {
         
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
@@ -82,8 +82,8 @@ class UserTaskApiController extends AppBaseController
     * Requires user token - header 'Authorization'
     */
     public function getOtherUserTasks(Request $request) {
-        $user = DB::table('user_accounts')
-                ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
@@ -117,8 +117,8 @@ class UserTaskApiController extends AppBaseController
 
         $r = $request->all();
 
-        $user = DB::table('user_accounts')
-                    ->select('user_accounts.*')
+        $user = DB::table('userAccounts')
+                    ->select('userAccounts.*')
                     ->where('token', '=' ,$request->header('Authorization'))
                     ->first(); 
 
