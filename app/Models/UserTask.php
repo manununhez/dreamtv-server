@@ -19,7 +19,7 @@ use Eloquent as Model;
 class UserTask extends Model
 {
 
-    public $table = 'user_tasks';
+    public $table = 'userTasks';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

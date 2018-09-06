@@ -17,7 +17,7 @@ use Eloquent as Model;
 class UserVideosList extends Model
 {
 
-    public $table = 'user_videos_lists';
+    public $table = 'userVideosLists';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

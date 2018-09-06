@@ -13,7 +13,7 @@ class CreateUserVideosListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_videos_lists', function (Blueprint $table) {
+        Schema::create('userVideosLists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('video_id');
@@ -30,6 +30,6 @@ class CreateUserVideosListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_videos_lists');
+        Schema::dropIfExists('userVideosLists');
     }
 }

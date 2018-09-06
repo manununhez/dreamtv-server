@@ -1,4 +1,4 @@
-<?php
+exit<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,7 +13,7 @@ class CreateUsersAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_accounts', function (Blueprint $table) {
+        Schema::create('userAccounts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('type');
@@ -33,6 +33,6 @@ class CreateUsersAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_accounts');
+        Schema::dropIfExists('userAccounts');
     }
 }
