@@ -15,6 +15,10 @@ class CreateUserVideosListsTable extends Migration
     {
         Schema::create('user_videos_lists', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+            $table->string('video_id');
+            $table->string('primary_audio_language_code');
+            $table->string('original_language');
             $table->timestamps();
         });
     }
