@@ -73,10 +73,10 @@ class TaskApiController extends AppBaseController
             $sub_language = ($user->sub_language !== null && $user->sub_language != "NN")  ? $user->sub_language : null;
             $audio_language = ($user->audio_language !== null && $user->audio_language != "NN")  ? $user->audio_language : null;
 
-            $user_tasks = DB::table('user_tasks')
-                                ->where('user_tasks.user_id', '=', $user->id)
-                                ->groupBy('user_tasks.task_id')
-                                ->pluck('user_tasks.task_id')
+            $userTasks = DB::table('userTasks')
+                                ->where('userTasks.user_id', '=', $user->id)
+                                ->groupBy('userTasks.task_id')
+                                ->pluck('userTasks.task_id')
                                 ->all();
 
             if(($sub_language !== null) && ($audio_language !== null)) {
@@ -85,7 +85,7 @@ class TaskApiController extends AppBaseController
                 $tasks = DB::table('tasks')
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
-                            ->whereNotIn('tasks.task_id', $user_tasks)
+                            ->whereNotIn('tasks.task_id', $userTasks)
                             ->where(function ($query) {
                                 $query->where('tasks.type', 'Review')
                                       ->orWhere('tasks.type', 'Approve');
@@ -102,7 +102,7 @@ class TaskApiController extends AppBaseController
                 $tasks = DB::table('tasks')
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
-                            ->whereNotIn('tasks.task_id', $user_tasks)
+                            ->whereNotIn('tasks.task_id', $userTasks)
                             ->where(function ($query) {
                                 $query->where('tasks.type', 'Review')
                                       ->orWhere('tasks.type', 'Approve');
@@ -117,7 +117,7 @@ class TaskApiController extends AppBaseController
                 $tasks = DB::table('tasks')
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
-                            ->whereNotIn('tasks.task_id', $user_tasks)
+                            ->whereNotIn('tasks.task_id', $userTasks)
                             ->where(function ($query) {
                                 $query->where('tasks.type', 'Review')
                                       ->orWhere('tasks.type', 'Approve');
@@ -132,7 +132,7 @@ class TaskApiController extends AppBaseController
                 $tasks = DB::table('tasks')
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
-                            ->whereNotIn('tasks.task_id', $user_tasks)
+                            ->whereNotIn('tasks.task_id', $userTasks)
                             ->where(function ($query) {
                                 $query->where('tasks.type', 'Review')
                                       ->orWhere('tasks.type', 'Approve');
@@ -176,16 +176,16 @@ class TaskApiController extends AppBaseController
             //Traer la lista solo con los idiomas correspondientes????
 
             //We get all the videos already seen by the user
-            $user_tasks = DB::table('user_tasks')
-                                ->where('user_tasks.user_id', '=', $user->id)
-                                ->groupBy('user_tasks.task_id')
-                                ->pluck('user_tasks.task_id')
+            $userTasks = DB::table('userTasks')
+                                ->where('userTasks.user_id', '=', $user->id)
+                                ->groupBy('userTasks.task_id')
+                                ->pluck('userTasks.task_id')
                                 ->all();
 
             $tasks = DB::table('tasks')
                         ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
-                        ->whereIn('tasks.task_id', $user_tasks)
+                        ->whereIn('tasks.task_id', $userTasks)
                         // ->where('videos.project','=','tedtalks') //--------------><
                         ->where(function ($query) {
                             $query->where('tasks.type', 'Review')
