@@ -61,6 +61,6 @@ Route::post('/users/task', 'UserTaskApiController@store');
 
 // TaskApiController
 Route::get('/tasks', 'TaskApiController@index');
-Route::post('/tasks/backup','TaskApiController@saveTasksFromAmara');
-Route::post('/tasks/backup/test','TaskApiController@saveTestTasksFromAmara');
+Route::get('/tasks/backup','TaskApiController@saveTasksFromAmara');
+Route::get('/tasks/backup/test','TaskApiController@saveTestTasksFromAmara');
 

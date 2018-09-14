@@ -76,6 +76,8 @@ class UserVideosListApiController extends AppBaseController
                 $userList = new UserVideosList();
                 $userList->user_id = $user->id;
                 $userList->video_id = $request['video_id'];
+                $userList->original_language = $request['original_language'];
+                $userList->primary_audio_language_code = $request['primary_audio_language_code'];
                 $userList->save();
 
                 return AppBaseController::sendResponse($userList, "Video added to user list correctly.");
