@@ -1,5 +1,7 @@
 ## DREAMTV Middle-ware platform
- 
+
+http://www.dreamproject.pjwstk.edu.pl/
+
 DREAMTV - Middle-ware platform to gather the videos from Amara and save users’ recollected data. 
 
 [DREAM Project](https://sites.google.com/a/unitn.it/rise-dream/)- Social Participation for improving emotional, mental, and physical well-being in independently living older Adults.  
@@ -24,4 +26,3 @@ The database of subtitles with errors will help improve the quality of these sub
 
 #### API description
 
-http://www.dreamproject.pjwstk.edu.pl:8000/docs/
