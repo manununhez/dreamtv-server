@@ -11,10 +11,10 @@ Route::group([
 ], function (Router $router) {
 
 	$router->get('/', 'HomeController@index');
-	$router->resource('useraccounts','UserAccountAdminController');
-	$router->resource('tasks','TaskAdminController');
-	$router->resource('reasons','ReasonAdminController');
-	$router->resource('usertasks','UserTaskAdminController');
-	$router->resource('uservideoslists','UserVideosListAdminController');
-	$router->resource('videos','VideoAdminController');
+	$router->resource('db/useraccounts','UserAccountAdminController');
+	$router->resource('db/tasks','TaskAdminController');
+	$router->resource('db/reasons','ReasonAdminController');
+	$router->resource('db/usertasks','UserTaskAdminController');
+	$router->resource('db/uservideoslists','UserVideosListAdminController');
+	$router->resource('db/videos','VideoAdminController');
 });
