@@ -293,6 +293,8 @@ class TaskApiController extends AppBaseController
 
         $videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
+        //DJlZ5QYcHSQB, eC0ZoBNXwcwA, cYjdKCNfh989 not assigned
+
         foreach ($videoIdArray as $videoId){
             
             $offset = 0;
@@ -304,7 +306,7 @@ class TaskApiController extends AppBaseController
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
                         'language'=>'pl',
-                        'assignee'=>'ted_Snai',
+                        //'assignee'=>'ted_Snai',
                         'limit'=> $limit,
                         'offset'=>$offset,
                         ));
