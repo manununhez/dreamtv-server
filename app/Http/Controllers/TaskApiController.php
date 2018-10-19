@@ -90,6 +90,7 @@ class TaskApiController extends AppBaseController
                             //     $query->where('tasks.type', 'Review')
                             //           ->orWhere('tasks.type', 'Approve');
                             //     })
+                            ->where('tasks.type', 'Review')
                             ->where('tasks.language','=', $sub_language)
                             ->where('videos.primary_audio_language_code','=', $audio_language)
                             // ->where('videos.project','=','tedtalks') //--------------><
@@ -103,12 +104,13 @@ class TaskApiController extends AppBaseController
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
+                            // ->where('videos.project','=','tedtalks') //--------------><
                             // ->where(function ($query) {
                             //     $query->where('tasks.type', 'Review')
                             //           ->orWhere('tasks.type', 'Approve');
                             //     })
+                            ->where('tasks.type', 'Review')
                             ->where('tasks.language','=', $sub_language)
-                            // ->where('videos.project','=','tedtalks') //--------------><
                             ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                             ->paginate(16);
             } elseif($audio_language !== null) {
@@ -118,12 +120,13 @@ class TaskApiController extends AppBaseController
                             ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
+                            // ->where('videos.project','=','tedtalks') //--------------><
                             // ->where(function ($query) {
                             //     $query->where('tasks.type', 'Review')
                             //           ->orWhere('tasks.type', 'Approve');
                             //     })
+                            ->where('tasks.type', 'Review')
                             ->where('videos.primary_audio_language_code','=', $audio_language)
-                            // ->where('videos.project','=','tedtalks') //--------------><
                             ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                             ->paginate(16);
             } else {
@@ -138,6 +141,7 @@ class TaskApiController extends AppBaseController
                             //           ->orWhere('tasks.type', 'Approve');
                             //     })
                             // ->where('videos.project','=','tedtalks') //--------------><
+                            ->where('tasks.type', 'Review')
                             ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                             ->paginate(16);
             }
@@ -191,6 +195,7 @@ class TaskApiController extends AppBaseController
                         //     $query->where('tasks.type', 'Review')
                         //           ->orWhere('tasks.type', 'Approve');
                         //     })
+                        ->where('tasks.type', 'Review')
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             
@@ -226,6 +231,7 @@ class TaskApiController extends AppBaseController
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
                         ->where('videos.primary_audio_language_code','=', $audio_language)
+                        ->where('tasks.type', 'Review')
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
@@ -234,7 +240,8 @@ class TaskApiController extends AppBaseController
                         ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
                         ->where('videos.primary_audio_language_code','=', $audio_language)
-                        ->whereIn('videos.video_id', $videoIdArray)                                                         
+                        ->where('tasks.type', 'Review')
+                        ->whereIn('videos.video_id', $videoIdArray)                
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }elseif($sub_language !== null) {
@@ -242,6 +249,7 @@ class TaskApiController extends AppBaseController
                         ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
+                        ->where('tasks.type', 'Review')
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
@@ -249,6 +257,7 @@ class TaskApiController extends AppBaseController
                 $tasks = DB::table('tasks')
                         ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
+                        ->where('tasks.type', 'Review')
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
