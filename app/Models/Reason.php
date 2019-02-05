@@ -17,7 +17,7 @@ use Eloquent as Model;
 class Reason extends Model
 {
 
-    public $table = 'reasons';
+    public static $table = 'reasons';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';

@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 Use App\AmaraAPI;
 
 /**
- * @resource Language
+ * @group Languages
  *
- * Longer description
+ * APIs for retrieving languages
  */
-
 class LanguageController extends AppBaseController
 {
 
     /**
-     * Get languages from Amara
+     * List of languages
      *
      * Get all languages options availables in Amara (Amara API)
      */
@@ -25,8 +24,6 @@ class LanguageController extends AppBaseController
         $languages = $API->getLanguages();
 
         return AppBaseController::sendResponse($languages, "");
-
-        // return response()->json($languages;
 
     }
 

@@ -9,15 +9,20 @@ use App\Models\UserTask;
 
 
 /**
- * @resource UserTask
+ * @group User tasks
  *
- * Longer description
+ * APIs for retrieving user tasks
  */
-
 class UserTaskController extends AppBaseController
 {
     
-  
+    /**
+     * List of user tasks
+     *
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
+     */
     public function index(Request $request) 
     {
   

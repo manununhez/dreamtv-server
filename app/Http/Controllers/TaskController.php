@@ -12,15 +12,15 @@ Use App\Models\UserAccount;
 
     
 /**
- * @resource  TaskApiController
+ * @group Tasks
  *
- * Longer description
+ * APIs for retrieving tasks
  */
 class TaskController extends AppBaseController
 {
 
     /**
-     * Get all index tasks
+     * List of tasks
      *
      * Display a listing of the resource.
      *
@@ -56,7 +56,7 @@ class TaskController extends AppBaseController
 
    
     /**
-     * Get all getAllTasks
+     * Retrieve all tasks
      *
      * Display a listing of the resource.
      *
@@ -158,7 +158,7 @@ class TaskController extends AppBaseController
 
     
     /**
-     * Get all getContinueTasks
+     * Retrieve all tasks to continue
      *
      * Display a listing of the resource.
      *
@@ -208,7 +208,7 @@ class TaskController extends AppBaseController
     
     
     /**
-     * Get all getTestTasks
+     * Retrieve all test tasks
      *
      * Display a listing of the resource.
      *
@@ -275,7 +275,7 @@ class TaskController extends AppBaseController
 
 
     /**
-     * Get saveTestTasksFromAmara
+     * Save test tasks from Amara
      *
      * Display a listing of the resource.
      *
@@ -373,7 +373,7 @@ class TaskController extends AppBaseController
 
 
     /**
-     * Get saveTasksFromAmara
+     * Save tasks from Amara
      *
      * Display a listing of the resource.
      *

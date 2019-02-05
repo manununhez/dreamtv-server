@@ -7,11 +7,10 @@ Use App\AmaraAPI;
 
 
 /**
- * @resource Video
+ * @group Videos
  *
- * Longer description
+ * APIs for retrieving videos
  */
-
 class VideoController extends Controller
 {
 

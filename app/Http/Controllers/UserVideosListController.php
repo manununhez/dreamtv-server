@@ -9,9 +9,9 @@ use App\Models\UserVideosList;
 use App\Models\UserAccount;
 
 /**
- * @resource UserVideosList
+ * @group UservVideosList
  *
- * Longer description
+ * APIs for retrieving users videos list
  */
 class UserVideosListController extends AppBaseController
 {
@@ -92,7 +92,6 @@ class UserVideosListController extends AppBaseController
 
     /**
      * Show User Video Info
-     * Verify If Video Is In UserList
      *
      * Display the specified resource.
      *
@@ -123,7 +122,6 @@ class UserVideosListController extends AppBaseController
 
     /**
      * Remove Video from UserVideoList
-     * Remove the specified resource from storage.
      *
      * Parameters => video_id (text, mandatory)
      *

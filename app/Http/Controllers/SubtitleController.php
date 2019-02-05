@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 Use App\AmaraAPI;
 
 /**
- * @resource Subtitle
+ * @group Subtitles
  *
- * Longer description
+ * APIs for retrieving subtitles
  */
-
 class SubtitleController extends AppBaseController
 {
 
     /**
-     * Show Subtitle From Amara
+     * Show Subtitle
      *
      * Show a specific subtitle according to Amara API.
      *

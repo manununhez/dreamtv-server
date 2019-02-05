@@ -14,7 +14,6 @@ Use App\Models\UserAccount;
  *
  * APIs for managing error reasons
  */
-
 class ReasonController extends AppBaseController
 {
 
@@ -29,14 +28,14 @@ class ReasonController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $user = DB::table('userAccounts')
+        $user = DB::table(UserAccount::$table)
                 ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
         if($user !== null)
         {
-            $reasons = DB::table('reasons')
+            $reasons = DB::table(Reason::$table)
                     ->select('reasons.*')
                     ->where('language', '=' , $user->interface_language)
                     ->orderBy('code', 'ASC')

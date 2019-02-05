@@ -13,11 +13,10 @@ Use App\AmaraAPI;
 
 
 /**
- * @resource  UserAccount
+ * @group User account
  *
- * Longer description
+ * APIs for retrieving users account
  */
-
 class UserAccountController extends AppBaseController
 {
     /**
@@ -62,9 +61,6 @@ class UserAccountController extends AppBaseController
                 $users->sub_language = isset($r['sub_language']) ? $r['sub_language'] : "NN";
                 $users->audio_language = isset($r['audio_language']) ? $r['audio_language'] : "NN";
                 $users->save();
-
-                
-                // return $users;
             
             } catch(QueryException $e) {
                 return AppBaseController::sendError($e->getMessage());
