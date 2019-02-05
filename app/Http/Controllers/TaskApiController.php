@@ -10,18 +10,21 @@ Use App\Models\Task;
 use App\Models\Video;
 Use App\Models\UserAccount;
 
+    
 /**
- * @resource Task
+ * @resource  TaskApiController
  *
  * Longer description
  */
 class TaskApiController extends AppBaseController
 {
 
-   /**
-     * Get all tasks
+    /**
+     * Get all index tasks
      *
-     * Index
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
      */
     public function index(Request $request)
     {
@@ -51,14 +54,13 @@ class TaskApiController extends AppBaseController
     }
 
 
+   
     /**
-     * Get all tasks
+     * Get all getAllTasks
      *
      * Display a listing of the resource.
-     * Pagination mode : Displays 16 items per page
      *
-     * Tasks not finished yet by the user (whereNotIn('tasks.task_id')).
-     * Task type: Review and Approve.
+     * Requires user token - header 'Authorization'
      */
     private function getAllTasks(Request $request)
     {
@@ -154,15 +156,13 @@ class TaskApiController extends AppBaseController
 
     }
 
+    
     /**
-     * Get Continue Tasks
+     * Get all getContinueTasks
      *
      * Display a listing of the resource.
-     * Pagination mode : Displays 16 items per page
      *
-     * Tasks already finished by the user (whereIn('tasks.task_id')) no matter the audio  and subtitle language.
-     * Task type: Review and Approve.
-     * Continue Watching Category
+     * Requires user token - header 'Authorization'
      */
     private function getContinueTasks(Request $request)
     {
@@ -205,11 +205,15 @@ class TaskApiController extends AppBaseController
             return AppBaseController::sendError("User not found.");
     }
 
+    
+    
     /**
-    * Get test tasks.
-    *
-    * List of test videos to be used in the experiment.
-    */
+     * Get all getTestTasks
+     *
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
+     */
     private function getTestTasks(Request $request)
     {
 
@@ -269,30 +273,15 @@ class TaskApiController extends AppBaseController
     }
 
 
+
     /**
-     * Get Already Done Tasks
+     * Get saveTestTasksFromAmara
      *
      * Display a listing of the resource.
-     * Pagination mode : Displays 16 items per page
      *
-     * Tasks already finished by the user (whereIn('tasks.task_id')) no matter the audio  and subtitle language.
-     * Task type: Review and Approve.
-     * Continue Watching Category
+     * Requires user token - header 'Authorization'
      */
-    private function getAlreadyDoneTasks(Request $request)
-    {
-
-    }
-
-
-    /**
-    * Get and save test tasks from Amara
-    *
-    * List of preselected tasks to use in the experiment.
-    *
-    * Query parameter: 'team' => 'ted', 'order_by'=> '-modified', 'video_id'=>$videoId, 'language'=>'pl', 'assignee'=>'ted_Snai', 'limit'=> 40, 'offset'=> 0,
-    */
-    public function saveTestTasksFromAmara()
+    public function saveTestTasksFromAmara(Request $request)
     {
         $API = new AmaraAPI();
         $tasks = array();
@@ -383,16 +372,14 @@ class TaskApiController extends AppBaseController
     }
 
 
-
-   /**
-    * Get and Save Tasks From Amara
-    *
-    * Getting new and incomplete tasks from Amara and storage them in local database. We save a new task only if the task does not exist yet.   
-    *
-    * Also, we get details about the video of the task. We save a new video only if the video does not exist yet.
-    * According to Amara's API, getTasks: team => 'ted', open => true, order_by => '-created', limit => 40, offset => 0
-    */
-    public function saveTasksFromAmara()
+    /**
+     * Get saveTasksFromAmara
+     *
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
+     */
+    public function saveTasksFromAmara(Request $request)
     {
         $API = new AmaraAPI();
         $tasks = array();

@@ -11,7 +11,8 @@
         "laravel-admin-ext/api-tester": "^1.0",
         "laravel-admin-ext/helpers": "^1.0",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "mpociot/laravel-apidoc-generator": "^3.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

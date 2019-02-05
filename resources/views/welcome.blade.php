@@ -84,9 +84,9 @@
 
                 <div class="links">
                     <a href="{{url('/admin')}}">Admin Panel</a>
-			<a href="https://laravel.com/docs">Documentation</a>
+			<a href="{{url('/docs/index.html')}}">Documentation</a>
                     <a href="*">About</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a href="https://github.com/manununhez/dreamtv-server">GitHub</a>
                 </div>
             </div>
         </div>
