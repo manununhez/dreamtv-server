@@ -70,7 +70,7 @@ return [
              * Note that the route must be referenced by name here (wildcards are supported).
              */
             'exclude' => [
-               'api/tasks/*', 'api/tasks/backup/test'
+               //'api/tasks/*', 'api/tasks/backup/test'
             ],
 
             /*

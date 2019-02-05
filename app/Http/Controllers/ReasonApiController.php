@@ -10,16 +10,16 @@ Use App\Models\UserAccount;
 
 
 /**
- * @resource Reasons
+ * @group Error reasons management
  *
- * Longer description
+ * APIs for managing error reasons
  */
 
 class ReasonApiController extends AppBaseController
 {
 
     /**
-     * Get all reasons
+     * List of reasons
      *
      * This endpoint retrieves all reasons.
      * Order by code, ASC.
