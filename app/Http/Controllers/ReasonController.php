@@ -28,14 +28,14 @@ class ReasonController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $user = DB::table(UserAccount::$table)
+        $user = DB::table('userAccounts')
                 ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
 
         if($user !== null)
         {
-            $reasons = DB::table(Reason::$table)
+            $reasons = DB::table('reasons')
                     ->select('reasons.*')
                     ->where('language', '=' , $user->interface_language)
                     ->orderBy('code', 'ASC')

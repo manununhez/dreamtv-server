@@ -20,7 +20,7 @@ use Eloquent as Model;
 class UserAccount extends Model
 {
 
-    public static $table = 'userAccounts';
+    public $table = 'userAccounts';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
