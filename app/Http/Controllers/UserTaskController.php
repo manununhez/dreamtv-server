@@ -14,7 +14,7 @@ use App\Models\UserTask;
  * Longer description
  */
 
-class UserTaskApiController extends AppBaseController
+class UserTaskController extends AppBaseController
 {
     
   

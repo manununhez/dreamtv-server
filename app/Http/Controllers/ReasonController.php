@@ -15,7 +15,7 @@ Use App\Models\UserAccount;
  * APIs for managing error reasons
  */
 
-class ReasonApiController extends AppBaseController
+class ReasonController extends AppBaseController
 {
 
     /**

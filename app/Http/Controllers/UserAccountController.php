@@ -18,7 +18,7 @@ Use App\AmaraAPI;
  * Longer description
  */
 
-class UserAccountApiController extends AppBaseController
+class UserAccountController extends AppBaseController
 {
     /**
      * Get all user accounts

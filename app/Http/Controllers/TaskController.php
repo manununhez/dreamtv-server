@@ -16,7 +16,7 @@ Use App\Models\UserAccount;
  *
  * Longer description
  */
-class TaskApiController extends AppBaseController
+class TaskController extends AppBaseController
 {
 
     /**

@@ -13,7 +13,7 @@ use App\Models\UserAccount;
  *
  * Longer description
  */
-class UserVideosListApiController extends AppBaseController
+class UserVideosListController extends AppBaseController
 {
     /**
      * Get all videos from user list.

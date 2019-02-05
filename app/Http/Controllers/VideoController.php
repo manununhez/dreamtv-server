@@ -12,7 +12,7 @@ Use App\AmaraAPI;
  * Longer description
  */
 
-class VideoApiController extends Controller
+class VideoController extends Controller
 {
 
    /**

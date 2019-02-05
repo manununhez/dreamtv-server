@@ -3,51 +3,26 @@
 use Illuminate\Http\Request;
 use App\AmaraAPI;
 use App\Http\Controllers;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-// */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 // ReasonController
-Route::get('/reasons', 'ReasonApiController@index');
-Route::post('/reasons', 'ReasonApiController@store');
+Route::get('/reasons', 'ReasonController@index');
+Route::post('/reasons', 'ReasonController@store');
 
 // VideoApiController
-Route::get('/videos', 'VideoApiController@index');
-Route::get('/videos/info', 'VideoApiController@show');
+Route::get('/videos', 'VideoController@index');
+Route::get('/videos/info', 'VideoController@show');
 
 // UserAccountController
-Route::get('/users', 'UserAccountApiController@index');
-Route::post('/users', 'UserAccountApiController@store');
-Route::put('/users', 'UserAccountApiController@update');
+Route::get('/users', 'UserAccountController@index');
+Route::post('/users', 'UserAccountController@store');
+Route::put('/users', 'UserAccountController@update');
 
 // UserVideosListApiController
-Route::get('/users/videos', 'UserVideosListApiController@index');
-Route::post('/users/videos', 'UserVideosListApiController@store');
-Route::delete('/users/videos', 'UserVideosListApiController@destroy');
-Route::get('/users/videos/info', 'UserVideosListApiController@show');
+Route::get('/users/videos', 'UserVideosListController@index');
+Route::post('/users/videos', 'UserVideosListController@store');
+Route::delete('/users/videos', 'UserVideosListController@destroy');
+Route::get('/users/videos/info', 'UserVideosListController@show');
 
 // LanguageController
 Route::get('/languages', 'LanguageController@index');
@@ -56,11 +31,11 @@ Route::get('/languages', 'LanguageController@index');
 Route::get('/subtitle/info', 'SubtitleController@show');
 
 // UserTaskApiController
-Route::get('/users/task', 'UserTaskApiController@index');
-Route::post('/users/task', 'UserTaskApiController@store');
+Route::get('/users/task', 'UserTaskController@index');
+Route::post('/users/task', 'UserTaskController@store');
 
 // TaskApiController
-Route::get('/tasks', 'TaskApiController@index');
-Route::get('/tasks/backup','TaskApiController@saveTasksFromAmara');
-Route::get('/tasks/backup/test','TaskApiController@saveTestTasksFromAmara');
+Route::get('/tasks', 'TaskController@index');
+Route::get('/tasks/backup','TaskController@saveTasksFromAmara');
+Route::get('/tasks/backup/test','TaskController@saveTestTasksFromAmara');
 
