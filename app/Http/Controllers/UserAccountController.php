@@ -55,11 +55,11 @@ class UserAccountController extends AppBaseController
                 $users = new UserAccount();
                 $users->name = $r['name'];
                 $users->type = $r['type'];
-                $users->interface_mode = isset($r['interface_mode']) ? $r['interface_mode'] : "beginner"; //DEfault beginner
-                $users->interface_language = isset($r['interface_language']) ? $r['interface_language'] : "pl"; //DEfault polish
+                $users->interface_mode = isset($r['interface_mode']) ? $r['interface_mode'] : "beginner"; //Default beginner
+                $users->interface_language = isset($r['interface_language']) ? $r['interface_language'] : "pl"; //Default polish interface
                 $users->token = 'Bearer '.bcrypt($r['name']);
-                $users->sub_language = isset($r['sub_language']) ? $r['sub_language'] : "NN";
-                $users->audio_language = isset($r['audio_language']) ? $r['audio_language'] : "NN";
+                $users->sub_language = isset($r['sub_language']) ? $r['sub_language'] : "pl"; //Default polish subtitles
+                $users->audio_language = isset($r['audio_language']) ? $r['audio_language'] : "NN"; //Default NN or All Languages
                 $users->save();
             
             } catch(QueryException $e) {

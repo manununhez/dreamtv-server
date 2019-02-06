@@ -1,1 +1,2057 @@
-{"variables":[],"info":{"name":"","_postman_id":"a13cdcb1-6009-4c16-8315-57a8b6f0aac1","description":"","schema":"https:\/\/schema.getpostman.com\/json\/collection\/v2.0.0\/collection.json"},"item":[{"name":"Error reasons management\n\nAPIs for managing error reasons","description":"","item":[{"name":"List of reasons","request":{"url":"http:\/\/localhost\/api\/reasons","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"This endpoint retrieves all reasons.\nOrder by code, ASC.\nGet reasons according to language = user->interface_language\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Create reason","request":{"url":"http:\/\/localhost\/api\/reasons","method":"POST","body":{"mode":"formdata","formdata":[]},"description":"This endpoint create a specific reason.\n\nParameters => name (text, mandatory), code (text, mandatory), language (text, mandatory)\n\nRequires user token - header 'Authorization'","response":[]}}]},{"name":"Languages\n\nAPIs for retrieving languages","description":"","item":[{"name":"List of languages","request":{"url":"http:\/\/localhost\/api\/languages","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Get all languages options availables in Amara (Amara API)","response":[]}}]},{"name":"Subtitles\n\nAPIs for retrieving subtitles","description":"","item":[{"name":"Show Subtitle","request":{"url":"http:\/\/localhost\/api\/subtitle\/info","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Show a specific subtitle according to Amara API.\n\nParameter => video_id, language_code, format, version","response":[]}}]},{"name":"Tasks\n\nAPIs for retrieving tasks","description":"","item":[{"name":"List of tasks","request":{"url":"http:\/\/localhost\/api\/tasks","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Display a listing of the resource.\n\nRequires user token - header 'Authorization'","response":[]}}]},{"name":"User account\n\nAPIs for retrieving users account","description":"","item":[{"name":"Get all user accounts","request":{"url":"http:\/\/localhost\/api\/users","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Display a listing of the resource.\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Create user account","request":{"url":"http:\/\/localhost\/api\/users","method":"POST","body":{"mode":"formdata","formdata":[]},"description":"Store a newly created resource in storage.\n\nParameters => name (text, mandatory), type (text, mandatory), interface_mode (text, nullable, default: \"beginner\"), interface_language (text, nullable, default: \"pl\"), sub_language (text, nullable, default: All languages), audio_language (text, nullable, default: All languages)\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Update user","request":{"url":"http:\/\/localhost\/api\/users","method":"PUT","body":{"mode":"urlencoded","urlencoded":[]},"description":"Update the specified resource in storage.\n\nParameters => audio_language (text, nullable), interface_mode (text, nullable), interface_language (text, nullable), sub_language (text, nullable)\n\nRequires user token - header 'Authorization'","response":[]}}]},{"name":"User tasks\n\nAPIs for retrieving user tasks","description":"","item":[{"name":"List of user tasks","request":{"url":"http:\/\/localhost\/api\/users\/task","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Display a listing of the resource.\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Save User task\nStore a newly created resource in storage.","request":{"url":"http:\/\/localhost\/api\/users\/task","method":"POST","body":{"mode":"formdata","formdata":[]},"description":"Parameters => task_id (mandatory, text), subtitle_version (mandatory, text), subtitle_position (mandatory, text)\nRequires user token - header 'Authorization'","response":[]}}]},{"name":"UservVideosList\n\nAPIs for retrieving users videos list","description":"","item":[{"name":"Get all videos from user list.","request":{"url":"http:\/\/localhost\/api\/users\/videos","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Display a listing of the resource.\nPagination mode : Displays 16 items per page\n\nQueryParams => 'page':<number_page>  integer\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Add video to user video list\nStore a newly created resource in storage.","request":{"url":"http:\/\/localhost\/api\/users\/videos","method":"POST","body":{"mode":"formdata","formdata":[]},"description":"Parameters => video_id (text, mandatory)\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Remove Video from UserVideoList","request":{"url":"http:\/\/localhost\/api\/users\/videos","method":"DELETE","body":{"mode":"formdata","formdata":[]},"description":"Parameters => video_id (text, mandatory)\n\nRequires user token - header 'Authorization'","response":[]}},{"name":"Show User Video Info","request":{"url":"http:\/\/localhost\/api\/users\/videos\/info","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Display the specified resource.\n\nParameters => video_id (text, mandatory)\n\nRequires user token - header 'Authorization'","response":[]}}]},{"name":"Videos\n\nAPIs for retrieving videos","description":"","item":[{"name":"Get information about all videos in a team\/project","request":{"url":"http:\/\/localhost\/api\/videos","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"Note that this can take a long time on teams\/projects\nwith many videos.\n\nYou can pass a callable function as $r['filter'] to perform an operation\nduring the loop. For example, set ->meta->next to null if a certain creation\ndate has been reached.\n\nUse $params['offset'] and your own loop\nif you'd rather not wait for this method to finish.\n\nListing videos from Amara","response":[]}},{"name":"Retrieve metadata info about a video","request":{"url":"http:\/\/localhost\/api\/videos\/info","method":"GET","body":{"mode":"formdata","formdata":[]},"description":"The same info can be retrieved by video id or by video url,\nsince each video url is associated to a unique video id.\nListing an specific video from Amara.","response":[]}}]}]}
+{
+	"info": {
+		"_postman_id": "0fa14e75-801a-ec33-2bbd-65844f092911",
+		"name": "dream",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reason errors",
+			"item": [
+				{
+					"name": "Reasons list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/reasons",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"reasons"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Reasons list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/reasons",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"reasons"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 05 Feb 2019 00:05:45 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 2,\n            \"code\": \"23\",\n            \"name\": \"test polish\",\n            \"description\": \"asdsad\",\n            \"language\": \"pl\",\n            \"created_at\": \"2018-10-04 13:57:51\",\n            \"updated_at\": \"2018-10-04 13:57:51\"\n        },\n        {\n            \"id\": 5,\n            \"code\": \"45\",\n            \"name\": \"test polish 2\",\n            \"description\": \"asdsadasd\",\n            \"language\": \"pl\",\n            \"created_at\": \"2018-11-28 12:15:00\",\n            \"updated_at\": \"2018-11-28 12:15:00\"\n        }\n    ],\n    \"message\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create reasons",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/reasons?name=testing&code=test_code&language=en",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"reasons"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "testing"
+								},
+								{
+									"key": "code",
+									"value": "test_code"
+								},
+								{
+									"key": "language",
+									"value": "en"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create reasons",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/reasons?name=testing&code=test_code&language=en",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"reasons"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "testing"
+										},
+										{
+											"key": "code",
+											"value": "test_code"
+										},
+										{
+											"key": "language",
+											"value": "en"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 05 Feb 2019 00:06:58 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"name\": \"testing\",\n        \"code\": \"test_code\",\n        \"language\": \"en\",\n        \"updated_at\": \"2019-02-05 00:06:58\",\n        \"created_at\": \"2019-02-05 00:06:58\",\n        \"id\": 6\n    },\n    \"message\": \"Reason created correctly.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Videos",
+			"item": [
+				{
+					"name": "Videos list per page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d6d3c74c-137f-478f-93d8-37b9a6ec9414",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/videos?team=ted&project=tedxtalks&offset=0&limit=2",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "team",
+									"value": "ted",
+									"description": "Optional."
+								},
+								{
+									"key": "project",
+									"value": "tedxtalks"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Videos list per page",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/videos?team=ted&project=tedxtalks&offset=0&limit=2",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "team",
+											"value": "ted",
+											"description": "Optional."
+										},
+										{
+											"key": "project",
+											"value": "tedxtalks"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 05 Feb 2019 00:43:25 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"meta\": {\n        \"previous\": null,\n        \"next\": \"https://amara.org/api/videos/?limit=2&offset=2&project=tedxtalks&team=ted\",\n        \"offset\": 0,\n        \"limit\": 2,\n        \"total_count\": 58047\n    },\n    \"objects\": [\n        {\n            \"id\": \"jtYvWQ2tSHlA\",\n            \"video_type\": \"Y\",\n            \"primary_audio_language_code\": \"pt\",\n            \"original_language\": \"pt\",\n            \"title\": \"A educação matemática: Wanderson Silva at TEDxECC\",\n            \"description\": \"No TEDxECC, Wanderson Silva faz uma empolgante apresentação sobre o ensino da matemática no Brasil para alunos e professores.\\n\\nIn the spirit of ideas worth spreading, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TEDTalks video and live speakers combine to spark deep discussion and connection in a small group. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized.* (*Subject to certain rules and regulations)\",\n            \"duration\": 1036,\n            \"thumbnail\": \"https://userdata.amara.org/video/thumbnail/f8d77cf40205295e6b42f1f41306871ef3adb16b_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"created\": \"2012-03-28T14:30:04Z\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"all_urls\": [\n                \"http://www.youtube.com/watch?v=n6psPxcAKbg\"\n            ],\n            \"metadata\": {},\n            \"languages\": [\n                {\n                    \"code\": \"pt-br\",\n                    \"name\": \"Portuguese, Brazilian\",\n                    \"published\": true,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt-br/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt-br/\"\n                },\n                {\n                    \"code\": \"pt\",\n                    \"name\": \"Portuguese\",\n                    \"published\": false,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt/\"\n                }\n            ],\n            \"activity_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/activity/\",\n            \"urls_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/urls/\",\n            \"subtitle_languages_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/\",\n            \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/\"\n        },\n        {\n            \"id\": \"msXuZQ0fHIKs\",\n            \"video_type\": \"Y\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"How to save the world | Eero Paloheimo | TEDxTartu\",\n            \"description\": \"This talk was given at a local TEDx event, produced independently of the TED Conferences.\\t\\nFinnish engineer and environmentalist Eero Paloheimo talks about strategies for saving the world from the environmental crisis.\",\n            \"duration\": 1087,\n            \"thumbnail\": \"https://userdata.amara.org/video/thumbnail/c194b44445fd512d9ac7fcdaccd9214e2a18bd48_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"created\": \"2012-03-28T14:30:06Z\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"all_urls\": [\n                \"http://www.youtube.com/watch?v=cyG-8oPqulQ\"\n            ],\n            \"metadata\": {},\n            \"languages\": [\n                {\n                    \"code\": \"ru\",\n                    \"name\": \"Russian\",\n                    \"published\": false,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ru/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ru/\"\n                },\n                {\n                    \"code\": \"en\",\n                    \"name\": \"English\",\n                    \"published\": true,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/en/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/en/\"\n                },\n                {\n                    \"code\": \"ko\",\n                    \"name\": \"Korean\",\n                    \"published\": false,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ko/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ko/\"\n                },\n                {\n                    \"code\": \"it\",\n                    \"name\": \"Italian\",\n                    \"published\": true,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/it/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/it/\"\n                },\n                {\n                    \"code\": \"zh-cn\",\n                    \"name\": \"Chinese, Simplified\",\n                    \"published\": false,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/zh-cn/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/zh-cn/\"\n                },\n                {\n                    \"code\": \"ar\",\n                    \"name\": \"Arabic\",\n                    \"published\": true,\n                    \"dir\": \"rtl\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ar/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/ar/\"\n                },\n                {\n                    \"code\": \"es\",\n                    \"name\": \"Spanish\",\n                    \"published\": true,\n                    \"dir\": \"ltr\",\n                    \"subtitles_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/es/subtitles/\",\n                    \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/es/\"\n                }\n            ],\n            \"activity_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/activity/\",\n            \"urls_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/urls/\",\n            \"subtitle_languages_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/\",\n            \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Video details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d6d3c74c-137f-478f-93d8-37b9a6ec9414",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/video?video_id=jtYvWQ2tSHlA",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"video"
+							],
+							"query": [
+								{
+									"key": "video_id",
+									"value": "jtYvWQ2tSHlA"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Video details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/videos/info?video_id=jtYvWQ2tSHlA",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"videos",
+										"info"
+									],
+									"query": [
+										{
+											"key": "video_id",
+											"value": "jtYvWQ2tSHlA"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:13:38 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"jtYvWQ2tSHlA\",\n    \"video_type\": \"Y\",\n    \"primary_audio_language_code\": \"pt\",\n    \"original_language\": \"pt\",\n    \"title\": \"A educação matemática: Wanderson Silva at TEDxECC\",\n    \"description\": \"No TEDxECC, Wanderson Silva faz uma empolgante apresentação sobre o ensino da matemática no Brasil para alunos e professores.\\n\\nIn the spirit of ideas worth spreading, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TEDTalks video and live speakers combine to spark deep discussion and connection in a small group. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized.* (*Subject to certain rules and regulations)\",\n    \"duration\": 1036,\n    \"thumbnail\": \"https://userdata.amara.org/video/thumbnail/f8d77cf40205295e6b42f1f41306871ef3adb16b_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n    \"created\": \"2012-03-28T14:30:04Z\",\n    \"team\": \"ted\",\n    \"project\": \"tedxtalks\",\n    \"all_urls\": [\n        \"http://www.youtube.com/watch?v=n6psPxcAKbg\"\n    ],\n    \"metadata\": {},\n    \"languages\": [\n        {\n            \"code\": \"pt-br\",\n            \"name\": \"Portuguese, Brazilian\",\n            \"published\": true,\n            \"dir\": \"ltr\",\n            \"subtitles_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt-br/subtitles/\",\n            \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt-br/\"\n        },\n        {\n            \"code\": \"pt\",\n            \"name\": \"Portuguese\",\n            \"published\": false,\n            \"dir\": \"ltr\",\n            \"subtitles_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt/subtitles/\",\n            \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/pt/\"\n        }\n    ],\n    \"activity_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/activity/\",\n    \"urls_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/urls/\",\n    \"subtitle_languages_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/languages/\",\n    \"resource_uri\": \"https://amara.org/api/videos/jtYvWQ2tSHlA/\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Users list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "Users list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Feb 2019 23:48:30 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 2,\n            \"name\": \"HaystackTV\",\n            \"type\": \"com.haystack.android.livechannel.account\",\n            \"token\": \"Bearer $2y$10$n0ZtSOsiD7PnerFUEIj98OUPq7d0WVGF3VywKk1r1Tly7uqiDqROm\",\n            \"interface_mode\": \"advanced\",\n            \"interface_language\": \"en\",\n            \"sub_language\": \"NN\",\n            \"audio_language\": \"NN\",\n            \"created_at\": \"2018-10-01 13:25:38\",\n            \"updated_at\": \"2018-10-01 13:25:58\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Bloomberg Live TV\",\n            \"type\": \"com.bloomberg.btva.tvinput.account\",\n            \"token\": \"Bearer $2y$10$C9SUOrvfRn6ejlAdo5zXieZctNMZ9sPkWozAtaEYU/P0GMTRhmRAC\",\n            \"interface_mode\": \"beginner\",\n            \"interface_language\": \"en\",\n            \"sub_language\": \"NN\",\n            \"audio_language\": \"NN\",\n            \"created_at\": \"2018-10-18 12:50:41\",\n            \"updated_at\": \"2018-10-18 12:51:33\"\n        },\n        {\n            \"id\": 17,\n            \"name\": \"manuel.nunhez.pl@gmail.com\",\n            \"type\": \"com.google\",\n            \"token\": \"Bearer $2y$10$UrGOhYy.O84JU.vbTpnc0uz5KftUoOyL0NDmz0brE.cTd2NY5oacO\",\n            \"interface_mode\": \"beginner\",\n            \"interface_language\": \"en\",\n            \"sub_language\": \"NN\",\n            \"audio_language\": \"en\",\n            \"created_at\": \"2019-01-11 12:27:31\",\n            \"updated_at\": \"2019-01-11 12:33:31\"\n        }\n    ],\n    \"message\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users?name=test&type=com.google",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "test"
+								},
+								{
+									"key": "type",
+									"value": "com.google"
+								}
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users?name=test&type=com.google",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "test"
+										},
+										{
+											"key": "type",
+											"value": "com.google"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Feb 2019 23:51:07 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"name\": \"test\",\n        \"type\": \"com.google\",\n        \"interface_mode\": \"beginner\",\n        \"interface_language\": \"pl\",\n        \"token\": \"Bearer $2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq\",\n        \"sub_language\": \"NN\",\n        \"audio_language\": \"NN\",\n        \"updated_at\": \"2019-02-04 23:51:07\",\n        \"created_at\": \"2019-02-04 23:51:07\",\n        \"id\": 18\n    },\n    \"message\": \"User account created correctly.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users?sub_language=en",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "sub_language",
+									"value": "en"
+								}
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "Update User",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users?sub_language=en",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "sub_language",
+											"value": "en"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Feb 2019 23:56:58 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"id\": 18,\n        \"name\": \"test\",\n        \"type\": \"com.google\",\n        \"token\": \"Bearer $2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq\",\n        \"interface_mode\": \"beginner\",\n        \"interface_language\": \"pl\",\n        \"sub_language\": \"en\",\n        \"audio_language\": \"NN\",\n        \"created_at\": \"2019-02-04 23:51:07\",\n        \"updated_at\": \"2019-02-04 23:56:58\"\n    },\n    \"message\": \"User account updated correctly.\"\n}"
+						},
+						{
+							"name": "Update User",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users?name=test updated&type=com.google",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "test updated"
+										},
+										{
+											"key": "type",
+											"value": "com.google"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Feb 2019 23:51:53 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"User not found.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User Videos",
+			"item": [
+				{
+					"name": "Add Video to Users List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?video_id=tNE5imiv27uA&original_language=en&primary_audio_language_code=en",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "video_id",
+									"value": "tNE5imiv27uA"
+								},
+								{
+									"key": "original_language",
+									"value": "en"
+								},
+								{
+									"key": "primary_audio_language_code",
+									"value": "en"
+								}
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "Add Video to Users List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?video_id=werewrwerewr&original_language=en&primary_audio_language_code=en",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "video_id",
+											"value": "werewrwerewr"
+										},
+										{
+											"key": "original_language",
+											"value": "en"
+										},
+										{
+											"key": "primary_audio_language_code",
+											"value": "en"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:22:19 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "55"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"user_id\": 18,\n        \"video_id\": \"werewrwerewr\",\n        \"original_language\": \"en\",\n        \"primary_audio_language_code\": \"en\",\n        \"updated_at\": \"2019-02-06 00:22:19\",\n        \"created_at\": \"2019-02-06 00:22:19\",\n        \"id\": 14\n    },\n    \"message\": \"Video added to user list correctly.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove video from Users List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?video_id=tNE5imiv27uA",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "video_id",
+									"value": "tNE5imiv27uA"
+								}
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "Remove video from Users List",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?video_id=werewrwerewr",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "video_id",
+											"value": "werewrwerewr"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:26:50 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": 1,\n    \"message\": \"werewrwerewr\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Users Video List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"videos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Users Video List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:31:33 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"task_id\": 2596651,\n            \"video_id\": \"tNE5imiv27uA\",\n            \"language\": \"pl\",\n            \"type\": \"Translate\",\n            \"priority\": 0,\n            \"created\": \"2018-03-16T15:38:39Z\",\n            \"modified\": \"2018-10-04T16:58:46Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:04:55\",\n            \"updated_at\": \"2018-09-10 21:04:55\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"The hidden ways stairs shape your life\",\n            \"description\": \"Stairs don't just get you from point A to point B. Architect David Rockwell explains how they shape your movement -- and your feelings.\",\n            \"duration\": 188,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/a0ab9e7946995f969f2b5eb276cca86cb0cbef40_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedtalks\",\n            \"video_url\": \"https://s3.amazonaws.com/ted.conferences/talk/transcript/2018V/None/DavidRockwell_2018V-transcript.mp4\"\n        }\n    ],\n    \"first_page_url\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1\",\n    \"from\": 1,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1\",\n    \"next_page_url\": null,\n    \"path\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos\",\n    \"per_page\": 50,\n    \"prev_page_url\": null,\n    \"to\": 1,\n    \"total\": 1\n}"
+						},
+						{
+							"name": "Users Video List - Empty list",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users",
+										"videos"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:32:04 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"current_page\": 1,\n    \"data\": [],\n    \"first_page_url\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1\",\n    \"from\": null,\n    \"last_page\": 1,\n    \"last_page_url\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos?page=1\",\n    \"next_page_url\": null,\n    \"path\": \"http://dreamproject.pjwstk.edu.pl/api/users/videos\",\n    \"per_page\": 50,\n    \"prev_page_url\": null,\n    \"to\": null,\n    \"total\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Users video details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/video?video_id=tNE5imiv27uA",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"video"
+							],
+							"query": [
+								{
+									"key": "video_id",
+									"value": "tNE5imiv27uA"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Users video details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/users/videos/info?video_id=tNE5imiv27uA",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"users",
+										"videos",
+										"info"
+									],
+									"query": [
+										{
+											"key": "video_id",
+											"value": "tNE5imiv27uA"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:36:14 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": [\n        {\n            \"id\": 18,\n            \"user_id\": 18,\n            \"video_id\": \"tNE5imiv27uA\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"created_at\": \"2019-02-06 00:36:07\",\n            \"updated_at\": \"2019-02-06 00:36:07\"\n        }\n    ],\n    \"message\": \"\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Languages",
+			"item": [
+				{
+					"name": "List of languages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$aVqmCTyhGSlVkklg3RGg/.O5VJIddrDsJdTQaXD50ttJiq2KGdQ5S",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/languages",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User tasks",
+			"item": [
+				{
+					"name": "User tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/task?type=user",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"task"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "user"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Other users tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/users/task?type=others",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"users",
+								"task"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "others"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "List of tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.dreamproject.pjwstk.edu.pl/api/tasks/?page=1&type=all",
+							"protocol": "http",
+							"host": [
+								"www",
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "type",
+									"value": "all"
+								}
+							]
+						},
+						"description": "The HTTP `GET` request method is meant to retrieve data from a server. The data\nis identified by a unique URI (Uniform Resource Identifier). \n\nA `GET` request can pass parameters to the server using \"Query String \nParameters\". For example, in the following request,\n\n> http://example.com/hi/there?hand=wave\n\nThe parameter \"hand\" has the value \"wave\".\n\nThis endpoint echoes the HTTP headers, request parameters and the complete\nURI requested."
+					},
+					"response": [
+						{
+							"name": "List of tasks",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://www.dreamproject.pjwstk.edu.pl/api/tasks/?page=1&type=all",
+									"protocol": "http",
+									"host": [
+										"www",
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"tasks",
+										""
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "type",
+											"value": "all"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 00:33:11 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 298,\n            \"task_id\": 2822720,\n            \"video_id\": \"0lvEBIKUmaaD\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-29T19:08:06Z\",\n            \"modified\": \"2018-08-29T19:08:06Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:12:12\",\n            \"updated_at\": \"2018-09-10 21:12:12\",\n            \"primary_audio_language_code\": \"es\",\n            \"original_language\": \"es\",\n            \"title\": \"Químicos en el hogar: Una amenaza invisible | Fernando Manera | TEDxCórdoba\",\n            \"description\": \"Esta charla es de un evento TEDx, organizado de manera independiente de las conferencias TED. Más información en: http://ted.com/tedx\\n\\nFernando es bioquímico y actualmente se desempeña como director de MicroBioLab y funcionario del área de Salud de la Municipalidad de Colonia Caroya, provincia de Córdoba. A partir de sus trabajos, se transformó en un referente obligado en cuestiones vinculadas a la salud pública y al mundo químico sintético con el que estamos en permanente interacción. Estos peligros cotidianos son detallados en su libro “Una amenaza invisible” y en otras acciones de divulgación por las cuales ha recibido reconocimientos del INAL (Instituto Nacional de Alimentos). Además, Fernando aportó datos concluyentes para que ANMAT (Administración Nacional de Medicamentos, Alimentos y Tecnología Médica) obligara a las empresas farmacéuticas a abandonar el uso del agente químico conocido como Lindano en las composiciones antipediculicidas.\",\n            \"duration\": 680,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/f2dacff310e8e5b89c19cebccad51f38f9310ed6_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=vHm0mwptQTM\"\n        },\n        {\n            \"id\": 1050,\n            \"task_id\": 2809875,\n            \"video_id\": \"2hoxtBGCQnSH\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-22T12:49:08Z\",\n            \"modified\": \"2018-09-08T22:26:48Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:40:12\",\n            \"updated_at\": \"2018-09-10 21:40:12\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"A 12-year-old inventor's device for detecting lead in water | Gitanjali Rao | TEDxNashville\",\n            \"description\": \"After seventh grader Gitanjali Rao heard about the Flint water crisis, she wanted to do something to help, After much research, she created \\\"Tethys\\\" -- a device that can detect lead in drinking water.\\n\\nIn 2018, she was named \\\"America's top young scientist\\\" for her design.\\n\\nThis talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 694,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/f4b698bc06730ac79a3d429d24fe69e05e593592_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=gVgaJN3GI6U\"\n        },\n        {\n            \"id\": 653,\n            \"task_id\": 2823830,\n            \"video_id\": \"2nd2WYEDXSHz\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-30T20:40:28Z\",\n            \"modified\": \"2018-08-30T20:40:28Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:24:11\",\n            \"updated_at\": \"2018-09-10 21:24:11\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"How today’s veterans build community differently | Noah Siple | TEDxBoise\",\n            \"description\": \"U. S. Army National Guard Major Noah Siple challenges the social narrative around military veterans with his portrayal of the emerging generation of all-volunteer, post-9/11 veterans and how they choose to build communities differently. With a message applicable for leaders of all types of communities working to engage the younger generation, Noah offers concrete ways to attract young people and inspire meaningful social activism.\\n\\nNoah is a combat veteran and recipient of the Bronze Star and Combat Action Badge. Living his message that a veteran's desire to volunteer doesn't end with military service, he works to create spaces for veterans by building communities around group affinity, and disrupting stereotypes about what today’s warriors really seek in order to feel part of their community. Noah Siple has a passion for enriching the lives of veterans through employment, education, purpose, and social connection. He advocates for building community in ways that meet the needs of emerging generations of veterans in Idaho. Noah is a combat veteran and recipient of the Bronze Star and the Combat Action Badge. He is an Army strategist, and currently the Chief Operations Officer of the 116th Cavalry Brigade Combat Team, as a Major in the Idaho Army National Guard. Noah has served in the Middle East, Southeast Asia, and Europe. This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 862,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/c7995391fea9b93e15a2b132d207d1d33252e843_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=lnZd9JKHmW8\"\n        },\n        {\n            \"id\": 469,\n            \"task_id\": 2826977,\n            \"video_id\": \"2rNlDKJctTvy\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-03T20:34:25Z\",\n            \"modified\": \"2018-09-03T20:34:25Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:19:04\",\n            \"updated_at\": \"2018-09-10 21:19:04\",\n            \"primary_audio_language_code\": \"de\",\n            \"original_language\": \"de\",\n            \"title\": \"Die eingerahmte Wirklichkeit | Stephan Bruckmeier | TEDxStuttgart\",\n            \"description\": \"Stephan Bruckmeier lädt das Publikum zu einem Fußballspiel auf die Bühne – der Auftakt zu einer Tour de Force, während der er unsere Res\\u00adsen\\u00adti\\u00adments für \\\"Andere\\\" beleuchtet.\\n\\nStephan Bruckmeier wurde 1962 in Wien geboren und lebt seit über 20 Jahren in Deutschland. Er realisierte weit über einhundert Theaterprojekte in Deutschland, Frankreich, Kenia, Mosambik, den Niederlanden, Österreich, Ungarn und den USA. Er wurde mit dem Josef Kainz Preis Wien, dem Karl Skraup Preis Wien, dem Kölner Theaterpreis, dem Baden-Württembergischen Jugendtheaterpreis und der Stuttgarter Ehrenmünze ausgezeichnet. Von 1998 bis 2008 war er im Leitungsteam des Theater Rampe Stuttgart, von 2000 bis 2004 Intendant des NÖ.Donaufestivals. 2006 eröffnete er den Stuttgarter Fernsehturm als Theaterspielort. Er ist regelmäßiger Gast bei den Stuttgarter Schauspielbühnen, dem Altonaer Theater Hamburg und den Burgfestspielen Jagsthausen. Seit 2003 arbeitet er in Afrika, 2009 gründete er das Hope Theater Nairobi mit regelmäßigen Gastspielen in Deutschland. Seit 2011 lebt er auch in Nairobi und beschäftigt sich intensiv mit der schwierigen Beziehung zwischen den Kontinenten Afrika und Europa.\\n\\nDieser Vortrag wurde bei einem TEDx-Event gehalten, der dem Format für TED-Konferenzen entspricht, aber eigenständig von einem lokalen Veranstalter organisiert wurde. Erfahren Sie mehr unter http://ted.com/tedx.\",\n            \"duration\": 996,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/1812e0f6d25dcac1e443bb7dfa963b49d6b6d7c7_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=sJ7EySRbVBs\"\n        },\n        {\n            \"id\": 1513,\n            \"task_id\": 2794273,\n            \"video_id\": \"3WFWEpo0F1Da\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-07T09:06:44Z\",\n            \"modified\": \"2018-08-07T09:06:44Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 22:03:47\",\n            \"updated_at\": \"2018-09-10 22:03:47\",\n            \"primary_audio_language_code\": \"es\",\n            \"original_language\": \"es\",\n            \"title\": \"La felicidad se puede imprimir | Guillermo Martínez | TEDxManzanares\",\n            \"description\": \"Esta charla es de un evento TEDx, organizado de manera independiente de las conferencias TED. Más información en: http://ted.com/tedx\\n\\n¿Cómo un ingeniero en organización industrial madrileño puede acabar dando una segunda oportunidad a personas del otro lado del mundo? Después de acabar su carrera de ingeniería, frustrado de tanto estudiar y poco poner en práctica, Guillermo Martínez decidió realizar un voluntariado en Kenia donde una impresora 3D le ayudó a cambiar vidas. Nos contará su historia, y es que la felicidad, se puede imprimir.\\n\\nGuillermo es graduado en Ingeniería en Organización Industrial y especializado en diseño de drones y fabricación aditiva.  Su proyecto Ayúdame3D nació tras un viaje de voluntariado a Kenia, ofreciendo gratuitamente prótesis 3D de brazos a personas del Valle del Rift. Ha diseñado varias prótesis que llevó a África, mejorando la vida de los campesinos del poblado de Kabarnet, en el suroeste de Kenia.\",\n            \"duration\": 711,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/31c2ee15a5940b9c2069f283ba4388e9045c3055_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=KiOYhgq9xvE\"\n        },\n        {\n            \"id\": 445,\n            \"task_id\": 2827865,\n            \"video_id\": \"3Wn6G4Y9qWjJ\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-04T08:39:17Z\",\n            \"modified\": \"2018-09-04T08:39:17Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:18:03\",\n            \"updated_at\": \"2018-09-10 21:18:03\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"Breaking free: freedom, peace and prosperity | Dirk Helbing | TEDxVarese\",\n            \"description\": \"What has happened to our dream of a society in which we can all live in freedom, equality and solidarity? How have technology and economy affected this great dream? Dirk Helbing, a professor of Computational Social Science at ETH Zurich, chair of Future ICT steering committee, affiliate professor at TU Delft, external faculty of the Complexity Science Hub Vienna, explains to us how we get here and proposes a solution to restore the feasibility of our dream. The notion of democratic capitalism and the right use of information and technology can be the keys to helping everyone break free.\\n\\nCosa è successo al nostro sogno di una società in cui tutti possiamo vivere in libertà, uguaglianza e solidarietà? In che modo la tecnologia e l'economia hanno influenzato questo grande sogno? Dirk Helbing, professore di Scienze sociali computazionali presso l'ETH di Zurigo, presidente del comitato direttivo Future ICT, professore associato presso TU Delft, facoltà esterna del Complexity Science Hub Vienna, ci spiega come siamo arrivati a questo punto e propone una soluzione per ripristinare la fattibilità del nostro sogno. La nozione di capitalismo democratico e il corretto uso delle informazioni e della tecnologia possono essere le chiavi per aiutare tutti a liberarsi. Dirk Helbing è professore ordinario e direttore dell’Istituto per i trasporti e l’economia all’Università di tecnologia di Dresda. Dal giugno 2015 è membro della Facoltà di Tecnologia, Politica e Management di TU Delft, dove dirige la scuola di dottorato in “Ingegneria delle tecnologie sociali per un futuro digitale responsabile”. È stato anche co-fondatore della divisione Physics of Socio-Economic Systems della German Physical Society (DPG). Ha co-fondato il Centro di competenza per complessi sistemi socio-economici, il Centro rischi, l’Istituto per la scienza, la tecnologia e la politica (ISTP) e il Decision Science Laboratory (DeSciL). È membro dei consigli di amministrazione del Global Brain Institute di Bruxelles e dell’International Center for Earth Simulation di Ginevra. È anche coinvolto nelle attività di “Staatslabor” (un’iniziativa scientifica del governo svizzero), nonché nella creazione dell’iniziativa Blockchain [X] e del Blockchain Lab a Delft. This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 851,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/4d6f900b26291b89e8738698dc10b9fc703b27d3_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=PJGZpV4PUwY\"\n        },\n        {\n            \"id\": 120,\n            \"task_id\": 2838097,\n            \"video_id\": \"4j4M7I4iRuJt\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-09T16:41:35Z\",\n            \"modified\": \"2018-09-09T16:41:35Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:08:42\",\n            \"updated_at\": \"2018-09-10 21:08:42\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"Old Art, Fresh Design | Julia Noulin-Merat | TEDxUNO\",\n            \"description\": \"Mozart set in a nightclub? Opera in a warehouse? TEDxUNO speaker Julia Noulin-Mérat is changing the way we think of opera by bringing this classic art form into the 21st century. \\r\\n\\n\\nA triple American, Canadian and French citizen, Julia Noulin-Mérat is the principal designer at Noulin-Mérat Studio, an intrepid NYC production design firm that specializes in Theater, Film & TV, with an emphasis in Opera and immersive site specific theatre. In addition to her work as Associate Producer for Boston Lyric Opera, Ms. Noulin-Mérat is Director of Design and Production for Guerilla Opera and resident set designer for Attic Theater in New York. \\r\\n\\r\\nLast season, Ms. Noulin-Mérat earned ArtsImpulse’s Award Best Boston Set Design for her production of The Rape of Lucretia and Best Opera for Gallo. The 2016-17 Season started with her designing La Traviata for Pittsburgh Opera and Peter Pan in a 50,000 feet immersive show in Beijing. Ms. Noulin-Mérat returns to Opera Omaha in February to design Mozart’s Così fan tutte before heading back to Boston Lyric Opera for Stravinsky’s The Rake’s Progress.\\n\\nThis talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at http://ted.com/tedx\",\n            \"duration\": 659,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/8b9db17ec5225f23a85ff4c1e783882d3a4df2d8_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=VkvLKVMeO_w\"\n        },\n        {\n            \"id\": 500,\n            \"task_id\": 2826441,\n            \"video_id\": \"5kirOHgvUD1s\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-03T08:34:46Z\",\n            \"modified\": \"2018-09-04T01:19:42Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:19:57\",\n            \"updated_at\": \"2018-09-10 21:19:57\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"The virtues of gossip: Richard Weiner at TEDxMiami 2013\",\n            \"description\": \"Richard Weiner is the author of 23 books, including Webster's New World Dictionary of Media and Communications, found in major libraries around the world, and Professional's Guide to Public Relations Services, a textbook at many colleges.\\n\\nIn the spirit of ideas worth spreading, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TEDTalks video and live speakers combine to spark deep discussion and connection in a small group. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized.* (*Subject to certain rules and regulations)\",\n            \"duration\": 651,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/23a1cfdeb9ed708655f638cb4e813a25a86421ed_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=WpiTp2COVZk\"\n        },\n        {\n            \"id\": 435,\n            \"task_id\": 2828182,\n            \"video_id\": \"6S2ZhJVQruY0\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-04T11:35:48Z\",\n            \"modified\": \"2018-09-04T11:35:48Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:17:33\",\n            \"updated_at\": \"2018-09-10 21:17:33\",\n            \"primary_audio_language_code\": \"it\",\n            \"original_language\": \"it\",\n            \"title\": \"Trovare un equilibrio tra cambiamento e tradizione | Federico Visconti | TEDxVarese\",\n            \"description\": \"Qual è il contributo dell’Università nel trovare un nuovo punto di equilibrio nei modelli educativi tra ciò che cambia per effetto della tecnologia e ciò che permane in virtù della natura umana? Federico Visconti, Rettore della LIUC - Università Cattaneo e professore ordinario di Economia Aziendale presso la medesima università, traccia una possibile risposta a questa domanda sottolineando l’importanza di affiancare alla dimensione del “lifelong learning” quella del “long-lasting learning”.\\n\\nQuesto intervento è stato presentato a un evento TEDx, che utilizza il format della conferenza TED ma è stato organizzato in maniera indipendente da una comunità locale.\\n\\nPer maggiori informazioni, visita il sito http://ted.com/tedx\",\n            \"duration\": 748,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/a3ba9f3010d28bfabd8e4741903412b920929d1f_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=0rVQQ3ddRJk\"\n        },\n        {\n            \"id\": 1225,\n            \"task_id\": 2803663,\n            \"video_id\": \"8noFTgUjnift\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-16T21:18:32Z\",\n            \"modified\": \"2018-08-19T07:53:24Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:49:15\",\n            \"updated_at\": \"2018-09-10 21:49:15\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"How art and science collaborate, intervene and innovate | Claudia Schnugg | TEDxLinz\",\n            \"description\": \"Have you ever thought of combining two remarkably different fields like art and science?  What happens when artists start using new technologies and scientific research as their tools? Can breaking the routines and challenging the organisational structures with artistic interventions improve the research process? Different career goals of artists and scientists can help to understand the value of one’s work from a perspective of an uncommon audience. Expand your normal thinking and find a better solution. Claudia Schnugg is a researcher and ArtScience consultant whose passion is to connect art, science, technology and business. Now she is on the stage to tell about the projects she has investigated and worked with. This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 951,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/87dfcf734e975bac33976894c2695565d43469a4_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=7FKhqMDd9xA\"\n        },\n        {\n            \"id\": 115,\n            \"task_id\": 2838102,\n            \"video_id\": \"9DxIjzwsLcJi\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-09T18:13:51Z\",\n            \"modified\": \"2018-09-09T18:13:51Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:08:36\",\n            \"updated_at\": \"2018-09-10 21:08:36\",\n            \"primary_audio_language_code\": \"fr\",\n            \"original_language\": \"fr\",\n            \"title\": \"Tiny House, une maison alternative connectée au monde | Yvan SAINT-JOURS | TEDxClermont\",\n            \"description\": \"Alors éditeur d’un magazine écologiste, Yvan habitait une maison certes écologique, mais grande. Grande en tout cas pour l’un des nombreux visiteurs qu’il avait accueilli. La graine était semée… Et c’est quelques années plus tard qu’il se décidera à construire la première Tiny House en France.\\n\\nYvan a fondé deux magazines : La Maison Écologique et le magazine de société Kaizen. Yvan est actuellement auteur et directeur de collection aux éditions YpyPyp spécialisées sur les questions d’autonomie (habitat, permaculture, alimentation...). Il vit en Auvergne, dans les Combrailles, dans sa tiny auto-construite en 2013. Pionnier dans ce domaine, il a écrit l’ouvrage « Tiny House, le nid qui voyage » .\\n\\nCette présentation a été donnée lors d'un événement TEDx local utilisant le format des conférences TED mais organisé indépendamment. En savoir plus : http://ted.com/tedx\",\n            \"duration\": 1001,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/70483e7691ef7930c0b5f399c605ce629335cc01_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=agh1sUdo_po\"\n        },\n        {\n            \"id\": 1037,\n            \"task_id\": 2810285,\n            \"video_id\": \"9JCKqZY5YMbO\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-22T22:20:29Z\",\n            \"modified\": \"2018-08-28T16:59:09Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:39:42\",\n            \"updated_at\": \"2018-09-10 21:39:42\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"Closing Closets: The Upside of Disclosing Your Sexual Identity | Jeroen Mulder | TEDxTwenteU\",\n            \"description\": \"'Coming out of the closet' is the term we use when we talk about disclosing your sexual identity, a metaphor that has gained a greatly negative connotation over the years. Based on his personal experience, Jeroen makes a case for using the metaphor of an inspiring journey, focusing on the joys and upside of disclosing your sexual orientation, instead of on the downside of the claustrophobic closet.\\n\\nJeroen Mulder is a student in communication sciences at the University of Twente. Next to that, he is engaged in Contramime, in which he entertains people with cabaret together with his fellow students.\\n\\nThis talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at http://ted.com/tedx\",\n            \"duration\": 532,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/97dde58af5133d98bb549dba71fb3c87ddc878bb_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=f55N3O4PPMc\"\n        },\n        {\n            \"id\": 549,\n            \"task_id\": 2826310,\n            \"video_id\": \"9YwD8Aa0mZQ1\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-02T16:18:20Z\",\n            \"modified\": \"2018-09-02T16:18:20Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:20:18\",\n            \"updated_at\": \"2018-09-10 21:20:18\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"#BlackLivesMatter | Kennedy Cook | TEDxYouth@Dayton\",\n            \"description\": \"Impassioned by her personal experience and the Black Lives Matter movement, Kennedy Cook takes the TEDxYouth@Dayton stage to talk about the importance of studying and learning about other cultures to bring peace and unity to communities. Kennedy Cook is a 12th Grader at Stivers School for the Arts. She has been at Stivers for six years, where she is the Vice President of her choir. Kennedy is also a part of a local girl group called ‘Wiiildflower.’No matter what Kennedy is doing she always hopes that she can inspire and make a difference in someone’s life. This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 327,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/6b6752664cf388f2d52bd154a7b7107d7caa08de_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=Sd-VUOgS3rE\"\n        },\n        {\n            \"id\": 936,\n            \"task_id\": 2813787,\n            \"video_id\": \"A2qqiCKJrinH\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-25T18:13:26Z\",\n            \"modified\": \"2018-08-25T18:13:26Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:34:35\",\n            \"updated_at\": \"2018-09-10 21:34:35\",\n            \"primary_audio_language_code\": \"es\",\n            \"original_language\": \"es\",\n            \"title\": \"Dependencia emocional | Arun Mansukhani | TEDxMalagueta\",\n            \"description\": \"Esta charla es de un evento TEDx, organizado de manera independiente de las conferencias TED. Más información en: http://ted.com/tedx\\n\\n¿Es negativo siempre ser dependiente emocional? En esta sorprendente y divertida charla en la que todos nos sentiremos identificados, Arun nos enseña a detectar las personalidades con las que podemos entablar una sana relación de codependencia. Arun es psicólogo clínico (PsyD). Máster en Psicología Clínica. Master en Sexología. Experto Universitario en Hipnósis Clínica. EuroPsy Specialist in Psychology y Psychotherapy. Miembro de la junta directiva de la Federación Española de Sociedades Sexológicas (FESS). Presidente de la Comisión de Adopciones Internacionales del COP-AO. Asesor ante el ORAS-CONHU (Fondo de Poblaciones de Naciones Unidas).\",\n            \"duration\": 1076,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/2a729838b069dca8d87f83d4de50f3e60661f2be_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=zRj5M-MDzzo\"\n        },\n        {\n            \"id\": 1353,\n            \"task_id\": 2799755,\n            \"video_id\": \"B1Mon5xk6gtX\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-08-14T04:36:11Z\",\n            \"modified\": \"2018-08-19T07:53:16Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:55:22\",\n            \"updated_at\": \"2018-09-10 21:55:22\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"Life with Gender Dysphoria | Sunny Miller | TEDxEBS\",\n            \"description\": \"Imagine suffering from gender dysphoria. What would your life be like? How would society view you? How will people behave towards you? Your friends? Your family? Take a personal journey with Sunny and discover the “Turning Point” and understand the impact our society has and how we can make it a place for everyone. Sunny Miller is a kindergarten teacher, that has suffered from gender dysphoria . He discussed his personal journey and how the society might need to change their behavior to people that are or have been in his situation. This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https://www.ted.com/tedx\",\n            \"duration\": 599,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/50895564101f566b37649895cfc6aff0e63df7fa_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=M9YICZZeJNs\"\n        },\n        {\n            \"id\": 590,\n            \"task_id\": 2825706,\n            \"video_id\": \"B1xAkPXz5ZDM\",\n            \"language\": \"en\",\n            \"type\": \"Review\",\n            \"priority\": 0,\n            \"created\": \"2018-09-01T12:30:43Z\",\n            \"modified\": \"2018-09-02T10:55:13Z\",\n            \"completed\": null,\n            \"created_at\": \"2018-09-10 21:21:18\",\n            \"updated_at\": \"2018-09-10 21:21:18\",\n            \"primary_audio_language_code\": \"en\",\n            \"original_language\": \"en\",\n            \"title\": \"TEDxFlourCity - CharlesMoreland - Parkour Training\",\n            \"description\": \"Charles will introduce us to parkour training; a form of fitness and dexterity training that employs natural (yet under-utilized) movements to effectively navigate the environment. He addresses some misconceptions about parkour and describes its practical advantages. He also brings a thought provoking perspective regarding the sedentary lifestyle, play behavior and social norms.\\n\\nIn the spirit of ideas worth spreading, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TEDTalks video and live speakers combine to spark deep discussion and connection in a small group. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized.* (*Subject to certain rules and regulations)\",\n            \"duration\": 854,\n            \"thumbnail\": \"https://s3.amazonaws.com/s3.userdata.www.universalsubtitles.org/video/thumbnail/b203618d8660bbcdc1a65b561533c0c32fd2d25d_jpg_480x270_crop-smart_upscale-True_q85.jpg\",\n            \"team\": \"ted\",\n            \"project\": \"tedxtalks\",\n            \"video_url\": \"http://www.youtube.com/watch?v=3x-vqr3ZnZE\"\n        }\n    ],\n    \"first_page_url\": \"http://www.dreamproject.pjwstk.edu.pl/api/tasks?page=1\",\n    \"from\": 1,\n    \"last_page\": 5,\n    \"last_page_url\": \"http://www.dreamproject.pjwstk.edu.pl/api/tasks?page=5\",\n    \"next_page_url\": \"http://www.dreamproject.pjwstk.edu.pl/api/tasks?page=2\",\n    \"path\": \"http://www.dreamproject.pjwstk.edu.pl/api/tasks\",\n    \"per_page\": 16,\n    \"prev_page_url\": null,\n    \"to\": 16,\n    \"total\": 68\n}"
+						}
+					]
+				},
+				{
+					"name": "Backup test tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$qk2hojJKc0z7Q2QiShXjUerD88B0lVvCJszBXq2k2a9GQeiiCwqDm",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.dreamproject.pjwstk.edu.pl/api/tasks/backup/test",
+							"protocol": "http",
+							"host": [
+								"www",
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"backup",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Backup tasks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$qk2hojJKc0z7Q2QiShXjUerD88B0lVvCJszBXq2k2a9GQeiiCwqDm",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://www.dreamproject.pjwstk.edu.pl/api/tasks/backup",
+							"protocol": "http",
+							"host": [
+								"www",
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"tasks",
+								"backup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subtitle",
+			"item": [
+				{
+					"name": "Subtitle details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f1dbc080-1a9c-4693-aec2-c261a0847d91",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "$2y$10$8EVrhHKG5hAJUy9zTYj0Nuy765N5.c1OUxRK15ym0Ua1H4UrmgXCq",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://dreamproject.pjwstk.edu.pl/api/subtitle?video_id=msXuZQ0fHIKs&language_code=en&version=1",
+							"protocol": "http",
+							"host": [
+								"dreamproject",
+								"pjwstk",
+								"edu",
+								"pl"
+							],
+							"path": [
+								"api",
+								"subtitle"
+							],
+							"query": [
+								{
+									"key": "video_id",
+									"value": "msXuZQ0fHIKs"
+								},
+								{
+									"key": "language_code",
+									"value": "en"
+								},
+								{
+									"key": "version",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Subtitle details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "http://dreamproject.pjwstk.edu.pl/api/subtitle/info?video_id=msXuZQ0fHIKs&language_code=en&version=1",
+									"protocol": "http",
+									"host": [
+										"dreamproject",
+										"pjwstk",
+										"edu",
+										"pl"
+									],
+									"path": [
+										"api",
+										"subtitle",
+										"info"
+									],
+									"query": [
+										{
+											"key": "video_id",
+											"value": "msXuZQ0fHIKs"
+										},
+										{
+											"key": "language_code",
+											"value": "en"
+										},
+										{
+											"key": "version",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.10.3 (Ubuntu)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 06 Feb 2019 01:02:15 GMT"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"data\": {\n        \"version_number\": 1,\n        \"sub_format\": \"json\",\n        \"subtitles\": [\n            {\n                \"start\": 29660,\n                \"text\": \"We all know that the world is in a<br>very serious environmental crisis today.\",\n                \"meta\": {\n                    \"new_paragraph\": true,\n                    \"region\": null\n                },\n                \"end\": 37360,\n                \"position\": 1\n            },\n            {\n                \"start\": 38398,\n                \"text\": \"We also know that we are in a great hurry.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 41998,\n                \"position\": 2\n            },\n            {\n                \"start\": 42053,\n                \"text\": \"We do not have too much time<br>to think and change the strategies.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 49203,\n                \"position\": 3\n            },\n            {\n                \"start\": 49495,\n                \"text\": \"We probably have decades of time.<br>We do not have centuries of time.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 56265,\n                \"position\": 4\n            },\n            {\n                \"start\": 57575,\n                \"text\": \"So I begin with that.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 59655,\n                \"position\": 5\n            },\n            {\n                \"start\": 60744,\n                \"text\": \"The first thing we should do<br>is to change the attitude\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 65474,\n                \"position\": 6\n            },\n            {\n                \"start\": 65748,\n                \"text\": \"towards the planet and the world.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 69488,\n                \"position\": 7\n            },\n            {\n                \"start\": 70887,\n                \"text\": \"We should think that the planet is sick\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 74227,\n                \"position\": 8\n            },\n            {\n                \"start\": 74443,\n                \"text\": \"and that it is a patient,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 76053,\n                \"position\": 9\n            },\n            {\n                \"start\": 77152,\n                \"text\": \"and human beings, the mankind, is the disease.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 82932,\n                \"position\": 10\n            },\n            {\n                \"start\": 84033,\n                \"text\": \"We should no longer be the disease.<br>We should be the doctor.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 88343,\n                \"position\": 11\n            },\n            {\n                \"start\": 90495,\n                \"text\": \"This is why I will present<br>three different strategies\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 96165,\n                \"position\": 12\n            },\n            {\n                \"start\": 96222,\n                \"text\": \"which can be realized simultaneously.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 99202,\n                \"position\": 13\n            },\n            {\n                \"start\": 100195,\n                \"text\": \"I will take healthcare as a comparison.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 103665,\n                \"position\": 14\n            },\n            {\n                \"start\": 106081,\n                \"text\": \"The first strategy should begin very quickly\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 110801,\n                \"position\": 15\n            },\n            {\n                \"start\": 111029,\n                \"text\": \"and it cannot last for a long time.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 114389,\n                \"position\": 16\n            },\n            {\n                \"start\": 117583,\n                \"text\": \"I would call that 'the first aid' of this sickness.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 124293,\n                \"position\": 17\n            },\n            {\n                \"start\": 125682,\n                \"text\": \"We have an immense number of resources<br>on earth.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 130712,\n                \"position\": 18\n            },\n            {\n                \"start\": 131416,\n                \"text\": \"We have a lot of armies\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 133316,\n                \"position\": 19\n            },\n            {\n                \"start\": 134518,\n                \"text\": \"and they cost about 1,500 billion dollars per year.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 143898,\n                \"position\": 20\n            },\n            {\n                \"start\": 146032,\n                \"text\": \"1,500 billion dollars.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 149032,\n                \"position\": 21\n            },\n            {\n                \"start\": 150309,\n                \"text\": \"The goal of all that money is to destroy and to kill.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 158959,\n                \"position\": 22\n            },\n            {\n                \"start\": 159609,\n                \"text\": \"Destroy other armies.<br>Destroy and kill other people and cities.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 166709,\n                \"position\": 23\n            },\n            {\n                \"start\": 168098,\n                \"text\": \"So, my first suggestion here is that\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 172328,\n                \"position\": 24\n            },\n            {\n                \"start\": 172852,\n                \"text\": \"we should joined the armies.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 175142,\n                \"position\": 25\n            },\n            {\n                \"start\": 176820,\n                \"text\": \"We should declare a new war,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 179860,\n                \"position\": 26\n            },\n            {\n                \"start\": 180675,\n                \"text\": \"not between the armies,<br>not one army against another army,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 187045,\n                \"position\": 27\n            },\n            {\n                \"start\": 187680,\n                \"text\": \"but we should declare a defensive war\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 191280,\n                \"position\": 28\n            },\n            {\n                \"start\": 191905,\n                \"text\": \"on how we should take care<br>of the dangers of the future.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 197145,\n                \"position\": 29\n            },\n            {\n                \"start\": 198239,\n                \"text\": \"In this way, we could give tasks to the armies.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 202989,\n                \"position\": 30\n            },\n            {\n                \"start\": 203288,\n                \"text\": \"The armies are good<br>because they obey the tasks.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 207288,\n                \"position\": 31\n            },\n            {\n                \"start\": 208358,\n                \"text\": \"The armies are not so good in that<br>they don't protest and they are not democratic.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 213058,\n                \"position\": 32\n            },\n            {\n                \"start\": 213058,\n                \"text\": \"They do what they're told to do.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 215428,\n                \"position\": 33\n            },\n            {\n                \"start\": 216356,\n                \"text\": \"We could give them the task to reforest Sahara.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 224146,\n                \"position\": 34\n            },\n            {\n                \"start\": 226118,\n                \"text\": \"Then the task that seems impossible<br>will become possible.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 231588,\n                \"position\": 35\n            },\n            {\n                \"start\": 232780,\n                \"text\": \"The reforestation in Sahara\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 236090,\n                \"position\": 36\n            },\n            {\n                \"start\": 236652,\n                \"text\": \"costs about one sixth of the resourses<br>used today in these armies.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 247022,\n                \"position\": 37\n            },\n            {\n                \"start\": 248210,\n                \"text\": \"So my first suggestion is to join the armies.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 252690,\n                \"position\": 38\n            },\n            {\n                \"start\": 252730,\n                \"text\": \"Declare a new kind of war.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 255250,\n                \"position\": 39\n            },\n            {\n                \"start\": 258403,\n                \"text\": \"Then comes the next step, 'Use your healthcare.'\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 267113,\n                \"position\": 40\n            },\n            {\n                \"start\": 268659,\n                \"text\": \"We have a wrong kind of production.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 271879,\n                \"position\": 41\n            },\n            {\n                \"start\": 272941,\n                \"text\": \"We produce things but we do not plan<br>or make the design work properly,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 282811,\n                \"position\": 42\n            },\n            {\n                \"start\": 283601,\n                \"text\": \"as mentioned in the earlier speech.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 287961,\n                \"position\": 43\n            },\n            {\n                \"start\": 290004,\n                \"text\": \"So we need a new kind of industrial revolution.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": 294004,\n                \"position\": 44\n            },\n            {\n                \"start\": null,\n                \"text\": \"That revolution must change all the different parts\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 45\n            },\n            {\n                \"start\": null,\n                \"text\": \"of the production and the consumption<br>at the same time.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 46\n            },\n            {\n                \"start\": null,\n                \"text\": \"It has to change the traffic.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 47\n            },\n            {\n                \"start\": null,\n                \"text\": \"We cannot use the cars anymore.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 48\n            },\n            {\n                \"start\": null,\n                \"text\": \"It has to change the energy production.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 49\n            },\n            {\n                \"start\": null,\n                \"text\": \"The energy production can no longer have<br>CO2 emission to the atmosphere.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 50\n            },\n            {\n                \"start\": null,\n                \"text\": \"The land used must be renewed\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 51\n            },\n            {\n                \"start\": null,\n                \"text\": \"so that we have food produced<br>close to where people live.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 52\n            },\n            {\n                \"start\": null,\n                \"text\": \"The whole production must be based<br>on recycling.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 53\n            },\n            {\n                \"start\": null,\n                \"text\": \"So all these different sectors of production<br>must change.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 54\n            },\n            {\n                \"start\": null,\n                \"text\": \"How can they change?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 55\n            },\n            {\n                \"start\": null,\n                \"text\": \"They can actually change, in the best way,<br>by building the so-called 'eco-cities'.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 56\n            },\n            {\n                \"start\": null,\n                \"text\": \"In an eco-city, all these different changes<br>are taken into consideration simultaneously.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 57\n            },\n            {\n                \"start\": null,\n                \"text\": \"For example, while producing an electric car,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 58\n            },\n            {\n                \"start\": null,\n                \"text\": \"if the electricity is produced in another place<br>by burning coal,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 59\n            },\n            {\n                \"start\": null,\n                \"text\": \"then there is still the emission of CO2 like before.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 60\n            },\n            {\n                \"start\": null,\n                \"text\": \"So there is a comprehensive change<br>in everything.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 61\n            },\n            {\n                \"start\": null,\n                \"text\": \"When we design and plan new kinds of cities,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 62\n            },\n            {\n                \"start\": null,\n                \"text\": \"all these should be taken into consideration<br>simultaneously.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 63\n            },\n            {\n                \"start\": null,\n                \"text\": \"Another thing is, when we plan the new cities\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 64\n            },\n            {\n                \"start\": null,\n                \"text\": \"we must also take into consideration<br>the cities that already exist.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 65\n            },\n            {\n                \"start\": null,\n                \"text\": \"Cities like London, Paris, Beijing, Lagos in Africa<br>and Mexico should also be changed.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 66\n            },\n            {\n                \"start\": null,\n                \"text\": \"That is a much greater job than building<br>a new city in a virgin environment.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 67\n            },\n            {\n                \"start\": null,\n                \"text\": \"We must develop a strategy to build new cities\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 68\n            },\n            {\n                \"start\": null,\n                \"text\": \"while taking into consideration<br>energy, traffic, land use and production.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 69\n            },\n            {\n                \"start\": null,\n                \"text\": \"We have think about what we would do<br>to the cities in which we are living today.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 70\n            },\n            {\n                \"start\": null,\n                \"text\": \"For example, if we say Paris must change,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 71\n            },\n            {\n                \"start\": null,\n                \"text\": \"it doesn't mean that we would get rid of<br>all the buildings and streets,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 72\n            },\n            {\n                \"start\": null,\n                \"text\": \"but it means that the whole infrastructure<br>must completely change.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 73\n            },\n            {\n                \"start\": null,\n                \"text\": \"The system of traffic must change<br>so there are no more cars.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 74\n            },\n            {\n                \"start\": null,\n                \"text\": \"The change that is similar to<br>when they changed from horses to cars.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 75\n            },\n            {\n                \"start\": null,\n                \"text\": \"Traffic systems that do not pollute the atmosphere.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 76\n            },\n            {\n                \"start\": null,\n                \"text\": \"Energy production in Paris must also change<br>completely, and so on.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 77\n            },\n            {\n                \"start\": null,\n                \"text\": \"The infrastructure of the old cities should change.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 78\n            },\n            {\n                \"start\": null,\n                \"text\": \"Now the last point.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 79\n            },\n            {\n                \"start\": null,\n                \"text\": \"Preventive cure.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 80\n            },\n            {\n                \"start\": null,\n                \"text\": \"The preventive cure is the slowest of these three.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 81\n            },\n            {\n                \"start\": null,\n                \"text\": \"The preventive cure involves<br>completely changing our values\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 82\n            },\n            {\n                \"start\": null,\n                \"text\": \"for the next generation.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 83\n            },\n            {\n                \"start\": null,\n                \"text\": \"Our values are too materialistic.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 84\n            },\n            {\n                \"start\": null,\n                \"text\": \"We must renew the values.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 85\n            },\n            {\n                \"start\": null,\n                \"text\": \"We must have more spiritual values.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 86\n            },\n            {\n                \"start\": null,\n                \"text\": \"We must appreciate different things<br>than what we appreciate today.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 87\n            },\n            {\n                \"start\": null,\n                \"text\": \"A big car is ridiculous, for example.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 88\n            },\n            {\n                \"start\": null,\n                \"text\": \"You should not waste things.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 89\n            },\n            {\n                \"start\": null,\n                \"text\": \"You should use your objects until the end,<br>as presented earlier.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 90\n            },\n            {\n                \"start\": null,\n                \"text\": \"That is the main question, actually.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 91\n            },\n            {\n                \"start\": null,\n                \"text\": \"I don't believe that can be changed\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 92\n            },\n            {\n                \"start\": null,\n                \"text\": \"in the next few years<br>or even in the next twenty years.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 93\n            },\n            {\n                \"start\": null,\n                \"text\": \"But it can absolutely be changed<br>by the future generations.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 94\n            },\n            {\n                \"start\": null,\n                \"text\": \"The future generation will change their values.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 95\n            },\n            {\n                \"start\": null,\n                \"text\": \"We have a very good foundation<br>for the other two strategies,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 96\n            },\n            {\n                \"start\": null,\n                \"text\": \"which I will propose here.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 97\n            },\n            {\n                \"start\": null,\n                \"text\": \"I think there are two ways of changing the world.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 98\n            },\n            {\n                \"start\": null,\n                \"text\": \"The first is, 'from grassroots upwards'.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 99\n            },\n            {\n                \"start\": null,\n                \"text\": \"This is what everyone can do individually.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 100\n            },\n            {\n                \"start\": null,\n                \"text\": \"Everyone can do this,<br>by considering their manners of consumption.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 101\n            },\n            {\n                \"start\": null,\n                \"text\": \"And that would already<br>be the start of something.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 102\n            },\n            {\n                \"start\": null,\n                \"text\": \"I must confess that I am a criminal.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 103\n            },\n            {\n                \"start\": null,\n                \"text\": \"Ah, yes. (laughter) Criminal.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 104\n            },\n            {\n                \"start\": null,\n                \"text\": \"A criminal speaking to you.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 105\n            },\n            {\n                \"start\": null,\n                \"text\": \"I drive a car daily, you know?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 106\n            },\n            {\n                \"start\": null,\n                \"text\": \"I eat meat from an animal. (laughter)\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 107\n            },\n            {\n                \"start\": null,\n                \"text\": \"I have more than two children. <br>That is the worst thing.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 108\n            },\n            {\n                \"start\": null,\n                \"text\": \"I have more than two pairs of shoes.<br>Can you imagine?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 109\n            },\n            {\n                \"start\": null,\n                \"text\": \"More than two pairs of shoes.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 110\n            },\n            {\n                \"start\": null,\n                \"text\": \"So from grassroots upwards,<br>I am not in the position to give you any advice.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 111\n            },\n            {\n                \"start\": null,\n                \"text\": \"The other thing is that<br>we try to influence the powerful people\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 112\n            },\n            {\n                \"start\": null,\n                \"text\": \"to change their minds by discussing with them,<br>by teaching them\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 113\n            },\n            {\n                \"start\": null,\n                \"text\": \"because they are not the most intelligent people,<br>those powerful people.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 114\n            },\n            {\n                \"start\": null,\n                \"text\": \"Teaching them how they should<br>actually change the world.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 115\n            },\n            {\n                \"start\": null,\n                \"text\": \"I cannot boast.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 116\n            },\n            {\n                \"start\": null,\n                \"text\": \"I was told how to speak, how not to speak,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 117\n            },\n            {\n                \"start\": null,\n                \"text\": \"what to say and what not to say.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 118\n            },\n            {\n                \"start\": null,\n                \"text\": \"I got very strict instructions.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 119\n            },\n            {\n                \"start\": null,\n                \"text\": \"So I am not telling anything about myself.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 120\n            },\n            {\n                \"start\": null,\n                \"text\": \"I will tell you about Mr Somebody<br>who has done something.<br>\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 121\n            },\n            {\n                \"start\": null,\n                \"text\": \"Mr Somebody.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 122\n            },\n            {\n                \"start\": null,\n                \"text\": \"The first story was in 1980,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 123\n            },\n            {\n                \"start\": null,\n                \"text\": \"when Mr Somebody and his friend<br>decided at a pub in Helsinki\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 124\n            },\n            {\n                \"start\": null,\n                \"text\": \"that the Islamic architecture<br>must somehow remain in the world.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 125\n            },\n            {\n                \"start\": null,\n                \"text\": \"The Arabic countries back then had oil and money\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 126\n            },\n            {\n                \"start\": null,\n                \"text\": \"and they wanted to employ<br>all the Western planners and constructors\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 127\n            },\n            {\n                \"start\": null,\n                \"text\": \"to change their cities.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 128\n            },\n            {\n                \"start\": null,\n                \"text\": \"And that seemed to be a distraction<br>to the Islamic architecture.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 129\n            },\n            {\n                \"start\": null,\n                \"text\": \"After 6 months, we were, no sorry. (laughter)\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 130\n            },\n            {\n                \"start\": null,\n                \"text\": \"After 6 months, when Mr Somebody and his friends\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 131\n            },\n            {\n                \"start\": null,\n                \"text\": \"were sitting at the pub in Helsinki<br>and talking about that,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 132\n            },\n            {\n                \"start\": null,\n                \"text\": \"there was a range in Baghdad,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 133\n            },\n            {\n                \"start\": null,\n                \"text\": \"a big conference with high officials<br>from all the Arabic countries\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 134\n            },\n            {\n                \"start\": null,\n                \"text\": \"talking about how to preserve<br>the Islamic architecture.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 135\n            },\n            {\n                \"start\": null,\n                \"text\": \"There was a guy whose name was Saddam Hussein.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 136\n            },\n            {\n                \"start\": null,\n                \"text\": \"He was the president of Iraq at the time.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 137\n            },\n            {\n                \"start\": null,\n                \"text\": \"A young handsome guy.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 138\n            },\n            {\n                \"start\": null,\n                \"text\": \"He showed up everyday,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 139\n            },\n            {\n                \"start\": null,\n                \"text\": \"opened the whole conference<br>and spoke very wisely.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 140\n            },\n            {\n                \"start\": null,\n                \"text\": \"He had gotten good instructions<br>from Mr Somebody.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 141\n            },\n            {\n                \"start\": null,\n                \"text\": \"Two days after the conference was over,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 142\n            },\n            {\n                \"start\": null,\n                \"text\": \"Mr Hussein began a war against Iran.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 143\n            },\n            {\n                \"start\": null,\n                \"text\": \"Everything then on is history, as you know.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 144\n            },\n            {\n                \"start\": null,\n                \"text\": \"But the seed was cultivated anyhow.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 145\n            },\n            {\n                \"start\": null,\n                \"text\": \"All those high officials<br>from different Arabic countries\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 146\n            },\n            {\n                \"start\": null,\n                \"text\": \"began to think this over.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 147\n            },\n            {\n                \"start\": null,\n                \"text\": \"Next case.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 148\n            },\n            {\n                \"start\": null,\n                \"text\": \"The Finnish Parliamentarians are similar<br>to those in other countries.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 149\n            },\n            {\n                \"start\": null,\n                \"text\": \"They think four years ahead to the next election.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 150\n            },\n            {\n                \"start\": null,\n                \"text\": \"That is a pity because<br>they should think more ahead.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 151\n            },\n            {\n                \"start\": null,\n                \"text\": \"Decades ahead.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 152\n            },\n            {\n                \"start\": null,\n                \"text\": \"For this reason, a new committee was created<br>in the Finnish Parliament,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 153\n            },\n            {\n                \"start\": null,\n                \"text\": \"which was the first in the world,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 154\n            },\n            {\n                \"start\": null,\n                \"text\": \"and it is now an official part<br>of the Finnish Parliament.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 155\n            },\n            {\n                \"start\": null,\n                \"text\": \"That committee has a task of<br>only thinking about longterm questions.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 156\n            },\n            {\n                \"start\": null,\n                \"text\": \"But again, there is a problem.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 157\n            },\n            {\n                \"start\": null,\n                \"text\": \"The problem is that<br>the everyday legislation does not follow\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 158\n            },\n            {\n                \"start\": null,\n                \"text\": \"those longterm visions<br>that the future committee has.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 159\n            },\n            {\n                \"start\": null,\n                \"text\": \"But that probably will also change.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 160\n            },\n            {\n                \"start\": null,\n                \"text\": \"Number three.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 161\n            },\n            {\n                \"start\": null,\n                \"text\": \"Development aid in Africa has been criticized<br>for a long, long time.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 162\n            },\n            {\n                \"start\": null,\n                \"text\": \"That's why Mr Somebody made about twenty trips<br>to Sub-Saharan Africa,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 163\n            },\n            {\n                \"start\": null,\n                \"text\": \"wrote a book about those trips<br>and came to a conclusion.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 164\n            },\n            {\n                \"start\": null,\n                \"text\": \"What should be done with Africa?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 165\n            },\n            {\n                \"start\": null,\n                \"text\": \"Now I ask you, what are the four issues<br>that are most important?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 166\n            },\n            {\n                \"start\": null,\n                \"text\": \"Environment? No?\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 167\n            },\n            {\n                \"start\": null,\n                \"text\": \"Education? Hands up if you think so.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 168\n            },\n            {\n                \"start\": null,\n                \"text\": \"Family planning? Government? Okay.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 169\n            },\n            {\n                \"start\": null,\n                \"text\": \"It's time for the last topic.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 170\n            },\n            {\n                \"start\": null,\n                \"text\": \"China is the next topic.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 171\n            },\n            {\n                \"start\": null,\n                \"text\": \"China has begun to build eco-cities.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 172\n            },\n            {\n                \"start\": null,\n                \"text\": \"The eco-cities combine all the new technology,\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 173\n            },\n            {\n                \"start\": null,\n                \"text\": \"and that is the first step<br>to the new kind of production.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 174\n            },\n            {\n                \"start\": null,\n                \"text\": \"But even then, they make too many compromises.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 175\n            },\n            {\n                \"start\": null,\n                \"text\": \"The compromises somehow diminish<br>the value of these cities.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 176\n            },\n            {\n                \"start\": null,\n                \"text\": \"But at least it is another step forward.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 177\n            },\n            {\n                \"start\": null,\n                \"text\": \"It seems to be that we have the dream,<br>so we take two steps forward.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 178\n            },\n            {\n                \"start\": null,\n                \"text\": \"Then comes the reality,<br>and we take one step backward.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 179\n            },\n            {\n                \"start\": null,\n                \"text\": \"But in the end, at least we have taken one step forward.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 180\n            },\n            {\n                \"start\": null,\n                \"text\": \"Remember that. Thank you.\",\n                \"meta\": {\n                    \"new_paragraph\": false,\n                    \"region\": null\n                },\n                \"end\": null,\n                \"position\": 181\n            }\n        ],\n        \"author\": {\n            \"username\": \"bella_borahm\",\n            \"id\": \"eRwICjIUdiKXaneHeVoGdIFgT0uIZF2tpkbzBqiH5bk\",\n            \"uri\": \"https://amara.org/api/users/id$eRwICjIUdiKXaneHeVoGdIFgT0uIZF2tpkbzBqiH5bk/?format=json\"\n        },\n        \"language\": {\n            \"code\": \"en\",\n            \"name\": \"English\",\n            \"dir\": \"ltr\"\n        },\n        \"title\": \"\",\n        \"description\": \"\",\n        \"metadata\": {},\n        \"video_title\": \"How to save the world | Eero Paloheimo | TEDxTartu\",\n        \"video_description\": \"This talk was given at a local TEDx event, produced independently of the TED Conferences.\\t\\nFinnish engineer and environmentalist Eero Paloheimo talks about strategies for saving the world from the environmental crisis.\",\n        \"actions_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/en/subtitles/actions/?format=json\",\n        \"notes_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/en/subtitles/notes/?format=json\",\n        \"resource_uri\": \"https://amara.org/api/videos/msXuZQ0fHIKs/languages/en/subtitles/?format=json\",\n        \"site_uri\": \"https://amara.org/en/videos/msXuZQ0fHIKs/en/218920/1416225/?format=json\",\n        \"video\": \"How to save the world | Eero Paloheimo | TEDxTartu\",\n        \"version_no\": 1\n    },\n    \"message\": \"\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
