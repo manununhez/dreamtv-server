@@ -480,7 +480,7 @@ fetch(url, {
 #Subtitles
 
 APIs for retrieving subtitles
-<!-- START_c70be6706ce4270e72f389087f271c6d -->
+<!-- START_43c021228adb6b27fb7c1232579d25e3 -->
 ## Show Subtitle
 
 Show a specific subtitle according to Amara API.
@@ -490,11 +490,11 @@ Parameter => video_id, language_code, format, version
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/subtitle/info" 
+curl -X GET -G "http://localhost/api/subtitle" 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/subtitle/info");
+const url = new URL("http://localhost/api/subtitle");
 
 let headers = {
     "Accept": "application/json",
@@ -949,10 +949,10 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET api/subtitle/info`
+`GET api/subtitle`
 
 
-<!-- END_c70be6706ce4270e72f389087f271c6d -->
+<!-- END_43c021228adb6b27fb7c1232579d25e3 -->
 
 #Tasks
 
@@ -1064,18 +1064,6 @@ fetch(url, {
             "updated_at": "2018-10-18 12:51:33"
         },
         {
-            "id": 17,
-            "name": "manuel.nunhez.pl@gmail.com",
-            "type": "com.google",
-            "token": "Bearer $2y$10$UrGOhYy.O84JU.vbTpnc0uz5KftUoOyL0NDmz0brE.cTd2NY5oacO",
-            "interface_mode": "beginner",
-            "interface_language": "en",
-            "sub_language": "NN",
-            "audio_language": "en",
-            "created_at": "2019-01-11 12:27:31",
-            "updated_at": "2019-01-11 12:33:31"
-        },
-        {
             "id": 18,
             "name": "test",
             "type": "com.google",
@@ -1086,6 +1074,18 @@ fetch(url, {
             "audio_language": "NN",
             "created_at": "2019-02-04 23:51:07",
             "updated_at": "2019-02-04 23:56:58"
+        },
+        {
+            "id": 20,
+            "name": "manuel.nunhez.pl@gmail.com",
+            "type": "com.google",
+            "token": "Bearer $2y$10$SC59.rIXCVUmvB2wPzpTYuscT1k1D8nAUrvTyt0eNsl\/YCAKCsAt2",
+            "interface_mode": "beginner",
+            "interface_language": "pl",
+            "sub_language": "es",
+            "audio_language": "zh",
+            "created_at": "2019-02-06 15:21:58",
+            "updated_at": "2019-02-06 15:38:47"
         }
     ],
     "message": ""
@@ -1380,7 +1380,7 @@ fetch(url, {
 
 <!-- END_b3b04092df632a3d232a76098d8677e3 -->
 
-<!-- START_b43c1ebb2aff30b7dd4327d93a9807a1 -->
+<!-- START_8de571440893f6c98d94c8b46f645093 -->
 ## Show User Video Info
 
 Display the specified resource.
@@ -1392,11 +1392,11 @@ Requires user token - header 'Authorization'
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/users/videos/info" 
+curl -X GET -G "http://localhost/api/users/video" 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/users/videos/info");
+const url = new URL("http://localhost/api/users/video");
 
 let headers = {
     "Accept": "application/json",
@@ -1421,10 +1421,10 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET api/users/videos/info`
+`GET api/users/video`
 
 
-<!-- END_b43c1ebb2aff30b7dd4327d93a9807a1 -->
+<!-- END_8de571440893f6c98d94c8b46f645093 -->
 
 #Videos
 
@@ -1479,138 +1479,19 @@ fetch(url, {
     },
     "objects": [
         {
-            "id": "cx4wVZGOImfE",
-            "video_type": "H",
-            "primary_audio_language_code": null,
-            "original_language": null,
-            "title": "https:\/...\/975fdcaf5817b8a1f6ba233836ed4cc4.mp4",
-            "description": "",
-            "duration": null,
-            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
-            "created": "2019-02-05T21:52:05Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "https:\/\/mediahub.unl.edu\/uploads\/975fdcaf5817b8a1f6ba233836ed4cc4.mp4"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/cx4wVZGOImfE\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/cx4wVZGOImfE\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/cx4wVZGOImfE\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/cx4wVZGOImfE\/"
-        },
-        {
-            "id": "y6cpKHW71P7v",
+            "id": "7usL0Qzpptj4",
             "video_type": "Y",
-            "primary_audio_language_code": "en",
-            "original_language": "en",
-            "title": "Lay it All Down (feat. Will Reagan)",
-            "description": "get the new record on itunes: https:\/\/itunes.apple.com\/us\/album\/tell-all-my-friends\/id1196200097\nSpotify: https:\/\/open.spotify.com\/album\/0FCfSIukAiBXKLYFNugmIF\nApple Music: https:\/\/itun.es\/us\/Hcjthb\n\nEdited and directed by David Silverberg\n\nLyrics: \nbring your worry, grief and pain \nEvery cause you have for shame \nlay it all down, lay it all down\nWhen your cares have buried you\nand there’s nothing left to do\nlay it all down lay it all down\nat the feet of jesus, at the feet of jesus\n\nCarried on but your heart was tired\nFeared the worst and felt the fire\nlay it all down, lay it all down\nFilled with all those anxious thoughts\nall your doubts became your god\nlay it all down, lay it all down\nat the feet of jesus, at the feet of jesus\n\nLay it all down\nLay it all down\nLay it all down\nLay it all down\n\nat the feet of Jesus\nat the feet of Jesus\n\nWhen we’ve given up on better days\nthere are memories we can’t erase\nlay it all down, lay it all down\nWe’ve come to fear what we can’t explain\nthere’s nothing here that can ease the pain\nlay it all down, lay it all down\nat the feet of Jesus, at the feet of Jesus",
-            "duration": 380,
-            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/2f44316f54555c8d1f94d2720eceaabec78360cd_480x270_crop-smart_upscale-True_q85.jpg",
-            "created": "2019-02-05T21:50:08Z",
+            "primary_audio_language_code": "ja",
+            "original_language": "ja",
+            "title": "Androidでゆっくり実況をする方法",
+            "description": "Android端末でのゆっくり実況のやり方です。\nあくまでこれはPCが使える環境がない人やPCでのやり方がわからない人向けです向けです。\nPC環境がある人はゆっくりムービーメーカーを使用する方法を強くお勧めします。\n\nキネマスター https:\/\/play.google.com\/store\/apps\/details?id=com.nexstreaming.app.kinemasterfree\nトークロイド https:\/\/play.google.com\/store\/apps\/details?id=com.area513.android.talkroid\n\nTwitter：https:\/\/twitter.com\/Roa_zero_G\nニコニコ：69716972",
+            "duration": 256,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/11ae9711ff6622a2fcc039c925778b95c010cd46_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:49:23Z",
             "team": null,
             "project": null,
             "all_urls": [
-                "http:\/\/www.youtube.com\/watch?v=RNacm6zR8eU"
-            ],
-            "metadata": {},
-            "languages": [
-                {
-                    "code": "pl",
-                    "name": "Polish",
-                    "published": false,
-                    "dir": "ltr",
-                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/languages\/pl\/subtitles\/",
-                    "resource_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/languages\/pl\/"
-                }
-            ],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/y6cpKHW71P7v\/"
-        },
-        {
-            "id": "f9H5yyaD9EyZ",
-            "video_type": "Y",
-            "primary_audio_language_code": null,
-            "original_language": null,
-            "title": "El Papa en Santa Marta: Un sacerdote no es ni un empleado ni un funcionario, es un padre",
-            "description": "Suscríbete al canal: http:\/\/smarturl.it\/RomeReportsESP\n\nVisita nuestra web: http:\/\/www.romereports.com\/es\nSuscríbete a nuestra newsletter: http:\/\/bit.ly\/1RLUQBz\nSíguenos en Facebook https:\/\/www.facebook.com\/RomeReportsESP\n\n[DESCRIPCIÓN DE LA NOTICIA]\n\n---------------------\n\nPara difusión del vídeo: sales@romereports.com\n\nROME REPORTS es una Agencia de Noticias para TV, internacional e independiente, especializada en la actividad del Papa, la vida del Vaticano y los debates de actualidad sobre temas sociales, culturales o religiosos.  Informar sobre la Iglesia Católica requiere cercanía a las fuentes, conocimiento en profundidad de la Institución, y elevados niveles de creatividad y competencia técnica.\n\nROME REPORTS informa directamente al público y cubre las necesidades de las emisoras mediante noticias diarias, programas informativos semanales y documentales especializados.\n\n---------------------\n\nVisítanos en...\nNuestra WEB http:\/\/es.romereports.com\/\nFACEBOOK https:\/\/www.facebook.com\/RomeReportsESP\nTWITTER https:\/\/twitter.com\/romereports",
-            "duration": 134,
-            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/6646d076ec7ae4cfb3fd7fa2125013b0c611aa0a_480x270_crop-smart_upscale-True_q85.jpg",
-            "created": "2019-02-05T21:49:22Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "http:\/\/www.youtube.com\/watch?v=zX5XtIrFlRk"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/f9H5yyaD9EyZ\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/f9H5yyaD9EyZ\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/f9H5yyaD9EyZ\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/f9H5yyaD9EyZ\/"
-        },
-        {
-            "id": "6qPxXWPP6SsE",
-            "video_type": "Y",
-            "primary_audio_language_code": null,
-            "original_language": null,
-            "title": "SWITCHFOOT - ALL I NEED - Official Music Video",
-            "description": "The official music video for \"ALL I NEED\" from SWITCHFOOT's forthcoming album, NATIVE TONGUE! The NATIVE TONGUE Tour with Colony House and Tyson Motsenbocker starts this February! Tickets and VIP Experiences are now available at https:\/\/www.switchfoot.com\n\nLyrics:\nALL I NEED\nSometimes I feel so small \nLike a picture on your wall\nLike I’m hanging on just to fall\nNo matter how I try\n\nSo love sing to me gentle\nThat I’m more than accidental\nMore than just inconsequential \nBurning out tonight\n\nAll I need is the air I breathe\nThe time we share\nAnd the ground beneath my feet\nAll I need is the love that I believe in\nTell me love, do you believe in me \n\nThere’s a place down by the ocean\nWhere I take my mixed emotions\nWhen my soul’s rocked by explosions \nOf these tired times\n\nWhere love sings to me slowly\nEven when I feel low and lonely\nEven when the road feels like \nThe only friend of mine\n\nOne light\nOne goal\nOne feeling in my soul\nOne fight \nOne hope\nOne twisting rope\nI’m ready to run where the ocean meets the sky\n\nDirected by Brad Davis\nProduced by Adventure Vision\nhttps:\/\/adventurevision.co\/",
-            "duration": 191,
-            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/5a639311934cbd465a7de9fcbe0a32c31ddb6f06_480x270_crop-smart_upscale-True_q85.jpg",
-            "created": "2019-02-05T21:47:01Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "http:\/\/www.youtube.com\/watch?v=2LOmjNHb08I"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/6qPxXWPP6SsE\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/6qPxXWPP6SsE\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/6qPxXWPP6SsE\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/6qPxXWPP6SsE\/"
-        },
-        {
-            "id": "PkYqMhTc6ydD",
-            "video_type": "H",
-            "primary_audio_language_code": null,
-            "original_language": null,
-            "title": "https:\/...\/1163e9ff62d826cfcf8239be13baaf69.mp4",
-            "description": "",
-            "duration": null,
-            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
-            "created": "2019-02-05T21:45:25Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "https:\/\/mediahub.unl.edu\/uploads\/1163e9ff62d826cfcf8239be13baaf69.mp4"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/PkYqMhTc6ydD\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/PkYqMhTc6ydD\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/PkYqMhTc6ydD\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/PkYqMhTc6ydD\/"
-        },
-        {
-            "id": "0DL57qJr0tSu",
-            "video_type": "Y",
-            "primary_audio_language_code": "en",
-            "original_language": "en",
-            "title": "Kant Attack Ad",
-            "description": "Kant Attack Ad by James DiGiovanna and Carey Burtt",
-            "duration": 57,
-            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/d90c19695c966f20a891cacaae9640c795308ba3_480x270_crop-smart_upscale-True_q85.jpg",
-            "created": "2019-02-05T21:41:02Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "http:\/\/www.youtube.com\/watch?v=7M-cmNdiFuI"
+                "http:\/\/www.youtube.com\/watch?v=3allbUzy750"
             ],
             "metadata": {},
             "languages": [
@@ -1619,29 +1500,201 @@ fetch(url, {
                     "name": "English",
                     "published": false,
                     "dir": "ltr",
-                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/languages\/en\/subtitles\/",
-                    "resource_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/languages\/en\/"
+                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/languages\/en\/subtitles\/",
+                    "resource_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/languages\/en\/"
                 }
             ],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/0DL57qJr0tSu\/"
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/7usL0Qzpptj4\/"
         },
         {
-            "id": "04VTPROUDpZp",
-            "video_type": "H",
-            "primary_audio_language_code": "en",
-            "original_language": "en",
-            "title": "https:\/...\/QkFoYkIxc0hhUVQ0R240RE1Hd3JCOFJUVzF3PS0tZDcxZWE5NWIxMzRhYjVhODU1OTE3NTM1NmE2OGE1MmMyNmE5M2VlYw.mp4",
-            "description": "",
-            "duration": 7,
-            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
-            "created": "2019-02-05T21:40:41Z",
+            "id": "tUW1jSoOqcUx",
+            "video_type": "Y",
+            "primary_audio_language_code": "nl",
+            "original_language": "nl",
+            "title": "Financieel medewerker vacature in Best",
+            "description": "Find out more: http:\/\/bit.ly\/2RSZbgf",
+            "duration": 38,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/e166c4b5f30e11aec6b4a49333ee3b02273533a4_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:48:12Z",
             "team": null,
             "project": null,
             "all_urls": [
-                "https:\/\/nv.instructuremedia.com\/fetch\/QkFoYkIxc0hhUVQ0R240RE1Hd3JCOFJUVzF3PS0tZDcxZWE5NWIxMzRhYjVhODU1OTE3NTM1NmE2OGE1MmMyNmE5M2VlYw.mp4"
+                "http:\/\/www.youtube.com\/watch?v=TBokIlXG2Zo"
+            ],
+            "metadata": {},
+            "languages": [
+                {
+                    "code": "nl",
+                    "name": "Dutch",
+                    "published": false,
+                    "dir": "ltr",
+                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/languages\/nl\/subtitles\/",
+                    "resource_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/languages\/nl\/"
+                }
+            ],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/tUW1jSoOqcUx\/"
+        },
+        {
+            "id": "UZvkLp2AvqJM",
+            "video_type": "Y",
+            "primary_audio_language_code": null,
+            "original_language": null,
+            "title": "FEL FOGUNK ROBBANNI!!! l Keep Talking And Nobody Explodes Tamarával",
+            "description": "Sziasztok!\nRemélem tetszett ez a videó, mert ha igen akkor nyomjatok egy likeot, és egy feliratkozást! Írjatok és kövessetek az alábbi platformokon:\n\nFacebook: https:\/\/www.facebook.com\/adam.komjathi\nInstagram: https:\/\/www.instagram.com\/adamkomjathi\/\nE-mail: komjathiadam@gmail.com\n\nLegyen szép napotok, na szevasztok!",
+            "duration": 894,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/c3e6774ad101da0acebb1cdf7702a6886ca59b4c_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:47:29Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=yPve1EUt4YQ"
+            ],
+            "metadata": {},
+            "languages": [],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/UZvkLp2AvqJM\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/UZvkLp2AvqJM\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/UZvkLp2AvqJM\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/UZvkLp2AvqJM\/"
+        },
+        {
+            "id": "MZC1unevvkwb",
+            "video_type": "Y",
+            "primary_audio_language_code": null,
+            "original_language": null,
+            "title": "Basic Split Brain Science Primer - Alan Alda with Michael Gazzaniga",
+            "description": "1996 Special on the \"Split Brain\" with Alan Alda and Michael Gazzaniga, called by many the \"Father\" of Cogitive Neuroscience.",
+            "duration": 604,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/842e2d8d2d180089bb790c3be9cce0e3c13a500f_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:47:22Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=4CdmvNKwNjM"
+            ],
+            "metadata": {},
+            "languages": [],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/MZC1unevvkwb\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/MZC1unevvkwb\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/MZC1unevvkwb\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/MZC1unevvkwb\/"
+        },
+        {
+            "id": "OWJOdqFV6nlv",
+            "video_type": "Y",
+            "primary_audio_language_code": null,
+            "original_language": null,
+            "title": "www.youtube.com\/...\/watch?v=3Qi6CVQmvrE",
+            "description": "",
+            "duration": null,
+            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
+            "created": "2019-02-06T17:45:07Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=3Qi6CVQmvrE"
+            ],
+            "metadata": {},
+            "languages": [],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/OWJOdqFV6nlv\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/OWJOdqFV6nlv\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/OWJOdqFV6nlv\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/OWJOdqFV6nlv\/"
+        },
+        {
+            "id": "E3dMNmRRjZeA",
+            "video_type": "Y",
+            "primary_audio_language_code": "en",
+            "original_language": "en",
+            "title": "John Mayer - Heart Of Life (Live in LA) [High Def!]",
+            "description": "From the live album and concert film \"Where the light is\". Live in Los Angeles at the Nokia Theatre on December 8 2007. Enjoy :)",
+            "duration": 223,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/7ed841dee9124612661ddec3d7ac33126dba75ca_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:43:59Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=3uA_ya8DcLs"
+            ],
+            "metadata": {},
+            "languages": [
+                {
+                    "code": "en",
+                    "name": "English",
+                    "published": true,
+                    "dir": "ltr",
+                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/languages\/en\/subtitles\/",
+                    "resource_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/languages\/en\/"
+                }
+            ],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/E3dMNmRRjZeA\/"
+        },
+        {
+            "id": "V4InnIWBH30m",
+            "video_type": "Y",
+            "primary_audio_language_code": null,
+            "original_language": null,
+            "title": "Libertad y Punto: Tornado y circo constituyente",
+            "description": "",
+            "duration": 2006,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/ce6d206a86bcbfd8a7e50df560083b7fe33bc811_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:41:19Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=i7cunk1fVcE"
+            ],
+            "metadata": {},
+            "languages": [],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/V4InnIWBH30m\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/V4InnIWBH30m\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/V4InnIWBH30m\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/V4InnIWBH30m\/"
+        },
+        {
+            "id": "mVkvyLmfIdFH",
+            "video_type": "Y",
+            "primary_audio_language_code": null,
+            "original_language": null,
+            "title": "Easterseals Autism Therapy and Disability Services Center in Irvine Grand Opening",
+            "description": "#GrandOpening #Irvine #autism #parent \nA parent of an Autism Services participant shares her story.",
+            "duration": 152,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/3097d217b0a4a260ae9e0fe71f486fcbdd981b05_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:41:05Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=JLlhFZzEb3w"
+            ],
+            "metadata": {},
+            "languages": [],
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/mVkvyLmfIdFH\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/mVkvyLmfIdFH\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/mVkvyLmfIdFH\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/mVkvyLmfIdFH\/"
+        },
+        {
+            "id": "ISLZmp5EmWmq",
+            "video_type": "Y",
+            "primary_audio_language_code": "fa",
+            "original_language": "fa",
+            "title": "Funny Iranian clip (eide emsaal)",
+            "description": "",
+            "duration": 238,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/985e97097136fd111370903636ccf2ee1e94921d_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:40:38Z",
+            "team": null,
+            "project": null,
+            "all_urls": [
+                "http:\/\/www.youtube.com\/watch?v=OqOSNI5LLx8"
             ],
             "metadata": {},
             "languages": [
@@ -1650,89 +1703,45 @@ fetch(url, {
                     "name": "English",
                     "published": false,
                     "dir": "ltr",
-                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/languages\/en\/subtitles\/",
-                    "resource_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/languages\/en\/"
+                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/languages\/en\/subtitles\/",
+                    "resource_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/languages\/en\/"
                 }
             ],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/04VTPROUDpZp\/"
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/ISLZmp5EmWmq\/"
         },
         {
-            "id": "C3Kw1lNbNxYP",
-            "video_type": "H",
-            "primary_audio_language_code": null,
-            "original_language": null,
-            "title": "https:\/...\/62a7a173f07272a9b952ae1699cc1d5a.mp4",
-            "description": "",
-            "duration": null,
-            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
-            "created": "2019-02-05T21:39:11Z",
-            "team": null,
-            "project": null,
-            "all_urls": [
-                "https:\/\/mediahub-test.unl.edu\/uploads\/62a7a173f07272a9b952ae1699cc1d5a.mp4"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/C3Kw1lNbNxYP\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/C3Kw1lNbNxYP\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/C3Kw1lNbNxYP\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/C3Kw1lNbNxYP\/"
-        },
-        {
-            "id": "07tvEGUSQU5l",
+            "id": "7YYqMbWY3Eie",
             "video_type": "Y",
-            "primary_audio_language_code": "ru",
-            "original_language": "ru",
-            "title": "Почему спорт вне политики? \/ Why do sports stay out of politics? | VASILIY UTKIN | TEDxRANEPA",
-            "description": "ВАСИЛИЙ УТКИН\nРоссийский спортивный журналист и телекомментатор, теле- и радиоведущий, шоумен.\nТЕМА: Почему спорт вне политики\n\nVASILIY UTKIN\nRussian sport journalist and TV commentator, broadcast presenter, showman, actor \nTALK: Why do sports stay out of politics?\n Russian sport journalist and TV commentator, broadcast presenter, showman, actor This talk was given at a TEDx event using the TED conference format but independently organized by a local community. Learn more at https:\/\/www.ted.com\/tedx",
-            "duration": 1121,
-            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/e00db52e6a50773ce94a34e3e7fb03d71968e1ef_480x270_crop-smart_upscale-True_q85.jpg",
-            "created": "2019-02-05T21:30:12Z",
-            "team": "ted",
-            "project": "tedxtalks",
-            "all_urls": [
-                "http:\/\/www.youtube.com\/watch?v=XhuRnaSfz-o"
-            ],
-            "metadata": {},
-            "languages": [],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/07tvEGUSQU5l\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/07tvEGUSQU5l\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/07tvEGUSQU5l\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/07tvEGUSQU5l\/"
-        },
-        {
-            "id": "vNKoHjkwBQsA",
-            "video_type": "V",
-            "primary_audio_language_code": "pl",
-            "original_language": "pl",
-            "title": "vimeo.com\/...\/313400067",
-            "description": "",
-            "duration": 354,
-            "thumbnail": "https:\/\/static.amara.org\/7a48caf8\/images\/video-no-thumbnail-wide.png",
-            "created": "2019-02-05T21:29:53Z",
+            "primary_audio_language_code": "en",
+            "original_language": "en",
+            "title": "Lizzo: Juice",
+            "description": "Music guest Lizzo puts on a dazzling performance of \"Juice\" for the Tonight Show audience.\n\nSubscribe NOW to The Tonight Show Starring Jimmy Fallon: http:\/\/bit.ly\/1nwT1aN\n\nWatch The Tonight Show Starring Jimmy Fallon Weeknights 11:35\/10:35c\nGet more Jimmy Fallon: \nFollow Jimmy: http:\/\/Twitter.com\/JimmyFallon\nLike Jimmy: https:\/\/Facebook.com\/JimmyFallon\n\nGet more The Tonight Show Starring Jimmy Fallon: \nFollow The Tonight Show: http:\/\/Twitter.com\/FallonTonight\nLike The Tonight Show: https:\/\/Facebook.com\/FallonTonight\nThe Tonight Show Tumblr: http:\/\/fallontonight.tumblr.com\/\n\nGet more NBC: \nNBC YouTube: http:\/\/bit.ly\/1dM1qBH\nLike NBC: http:\/\/Facebook.com\/NBC\nFollow NBC: http:\/\/Twitter.com\/NBC\nNBC Tumblr: http:\/\/nbctv.tumblr.com\/\nNBC Google+: https:\/\/plus.google.com\/+NBC\/posts\n\nThe Tonight Show Starring Jimmy Fallon features hilarious highlights from the show including: comedy sketches, music parodies, celebrity interviews, ridiculous games, and, of course, Jimmy's Thank You Notes and hashtags! You'll also find behind the scenes videos and other great web exclusives.\n\nLizzo: Juice\nhttp:\/\/www.youtube.com\/fallontonight\n\n#FallonTonight\n#Lizzo\n#JimmyFallon",
+            "duration": 232,
+            "thumbnail": "https:\/\/userdata.amara.org\/video\/thumbnail\/45bfabe430f2efc22c96c3dcca96cc70450596e7_480x270_crop-smart_upscale-True_q85.jpg",
+            "created": "2019-02-06T17:40:12Z",
             "team": null,
             "project": null,
             "all_urls": [
-                "http:\/\/vimeo.com\/313400067"
+                "http:\/\/www.youtube.com\/watch?v=6lsJIeazws8"
             ],
             "metadata": {},
             "languages": [
                 {
-                    "code": "pl",
-                    "name": "Polish",
-                    "published": false,
+                    "code": "en",
+                    "name": "English",
+                    "published": true,
                     "dir": "ltr",
-                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/languages\/pl\/subtitles\/",
-                    "resource_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/languages\/pl\/"
+                    "subtitles_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/languages\/en\/subtitles\/",
+                    "resource_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/languages\/en\/"
                 }
             ],
-            "activity_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/activity\/",
-            "urls_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/urls\/",
-            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/languages\/",
-            "resource_uri": "https:\/\/amara.org\/api\/videos\/vNKoHjkwBQsA\/"
+            "activity_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/activity\/",
+            "urls_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/urls\/",
+            "subtitle_languages_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/languages\/",
+            "resource_uri": "https:\/\/amara.org\/api\/videos\/7YYqMbWY3Eie\/"
         }
     ]
 }
@@ -1744,7 +1753,7 @@ fetch(url, {
 
 <!-- END_163aba6e8558a53b9c4ee0dfa18a20e9 -->
 
-<!-- START_4b690ed1506401a2e000fba280685985 -->
+<!-- START_64746d3437f524a2386fd24d151ce582 -->
 ## Retrieve metadata info about a video
 
 The same info can be retrieved by video id or by video url,
@@ -1754,11 +1763,11 @@ Listing an specific video from Amara.
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/videos/info" 
+curl -X GET -G "http://localhost/api/video" 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/videos/info");
+const url = new URL("http://localhost/api/video");
 
 let headers = {
     "Accept": "application/json",
@@ -2213,9 +2222,193 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`GET api/videos/info`
+`GET api/video`
 
 
-<!-- END_4b690ed1506401a2e000fba280685985 -->
+<!-- END_64746d3437f524a2386fd24d151ce582 -->
+
+#general
+<!-- START_75c37ccb66511985eb2074e1e050ad98 -->
+## Display a listing of the resource.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost/api/videotests" 
+```
+
+```javascript
+const url = new URL("http://localhost/api/videotests");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "video_id": "tNE5imiv27uA",
+            "version": 13,
+            "language_code": "pl",
+            "created_at": "2019-02-06 17:51:02",
+            "updated_at": "2019-02-06 17:51:02"
+        }
+    ]
+}
+```
+
+### HTTP Request
+`GET api/videotests`
+
+
+<!-- END_75c37ccb66511985eb2074e1e050ad98 -->
+
+<!-- START_81932f5e4a46a0d795fc17f64fa1c77a -->
+## Store a newly created resource in storage.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost/api/videotests" 
+```
+
+```javascript
+const url = new URL("http://localhost/api/videotests");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`POST api/videotests`
+
+
+<!-- END_81932f5e4a46a0d795fc17f64fa1c77a -->
+
+<!-- START_190bdc6b772e859b234d4c797fa3c7f3 -->
+## Display the specified resource.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost/api/videotests/{videotest}" 
+```
+
+```javascript
+const url = new URL("http://localhost/api/videotests/{videotest}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+> Example response (200):
+
+```json
+null
+```
+
+### HTTP Request
+`GET api/videotests/{videotest}`
+
+
+<!-- END_190bdc6b772e859b234d4c797fa3c7f3 -->
+
+<!-- START_9db2495f8ec703446b684f3fa0a10ee5 -->
+## Update the specified resource in storage.
+
+> Example request:
+
+```bash
+curl -X PUT "http://localhost/api/videotests/{videotest}" 
+```
+
+```javascript
+const url = new URL("http://localhost/api/videotests/{videotest}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`PUT api/videotests/{videotest}`
+
+`PATCH api/videotests/{videotest}`
+
+
+<!-- END_9db2495f8ec703446b684f3fa0a10ee5 -->
+
+<!-- START_a17936c820b65c2b4f8e48bc075ba891 -->
+## Remove the specified resource from storage.
+
+> Example request:
+
+```bash
+curl -X DELETE "http://localhost/api/videotests/{videotest}" 
+```
+
+```javascript
+const url = new URL("http://localhost/api/videotests/{videotest}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response => response.json())
+    .then(json => console.log(json));
+```
+
+
+### HTTP Request
+`DELETE api/videotests/{videotest}`
+
+
+<!-- END_a17936c820b65c2b4f8e48bc075ba891 -->
 
 
