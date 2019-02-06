@@ -10,8 +10,9 @@ Use App\Models\Task;
 use App\Models\Video;
 Use App\Models\UserAccount;
 use App\VideoTests;
+use App\Models\Task;
+use App\Models\UserTask;  
 
-    
 /**
  * @group Tasks
  *
@@ -76,17 +77,15 @@ class TaskController extends AppBaseController
             $sub_language = ($user->sub_language !== null && $user->sub_language != "NN")  ? $user->sub_language : null;
             $audio_language = ($user->audio_language !== null && $user->audio_language != "NN")  ? $user->audio_language : null;
 
-            $userTasks = DB::table('userTasks')
-                                ->where('userTasks.user_id', '=', $user->id)
+            $userTasks =    UserTask::where('userTasks.user_id', '=', $user->id)
                                 ->groupBy('userTasks.task_id')
                                 ->pluck('userTasks.task_id')
                                 ->all();
-
+                            // DB::table('userTasks')
             if(($sub_language !== null) && ($audio_language !== null)) {
 
                 //We only shows tasks not finished yet by the user
-                $tasks = DB::table('tasks')
-                            ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id') //DB::table('tasks')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
                             // ->where(function ($query) {
@@ -103,8 +102,7 @@ class TaskController extends AppBaseController
             } elseif($sub_language !== null) {
                                 
                 //We only shows tasks not finished yet by the user
-                $tasks = DB::table('tasks')
-                            ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id') //DB::table('tasks')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
                             // ->where('videos.project','=','tedtalks') //--------------><
@@ -119,8 +117,7 @@ class TaskController extends AppBaseController
             } elseif($audio_language !== null) {
 
                 //We only shows tasks not finished yet by the user
-                $tasks = DB::table('tasks')
-                            ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id') //DB::table('tasks')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
                             // ->where('videos.project','=','tedtalks') //--------------><
@@ -135,8 +132,7 @@ class TaskController extends AppBaseController
             } else {
 
                 //We only shows tasks not finished yet by the user
-                $tasks = DB::table('tasks')
-                            ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id') //DB::table('tasks')
                             ->select('tasks.*', 'videos.*')
                             ->whereNotIn('tasks.task_id', $userTasks)
                             // ->where(function ($query) {
@@ -149,7 +145,8 @@ class TaskController extends AppBaseController
                             ->paginate(16);
             }
             
-            return AppBaseController::sendResponse($tasks, "");
+            //return AppBaseController::sendResponse($tasks, "");
+            return $tasks;
             
         }
         else
@@ -200,7 +197,8 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             
-            return AppBaseController::sendResponse($tasks, "");
+            //return AppBaseController::sendResponse($tasks, "");
+            return $tasks;
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -269,7 +267,9 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }
-            return AppBaseController::sendResponse($tasks, "");
+            
+            //return AppBaseController::sendResponse($tasks, "");
+            return $tasks;
         }
         else
             return AppBaseController::sendError("User not found.");
