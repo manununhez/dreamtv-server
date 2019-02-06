@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\AmaraAPI;
 use App\Http\Controllers;
 
+Route::apiResource('videotests','VideoTestsController');
 
 // ReasonController
 Route::get('/reasons', 'ReasonController@index');
