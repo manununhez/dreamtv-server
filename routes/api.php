@@ -11,7 +11,7 @@ Route::post('/reasons', 'ReasonController@store');
 
 // VideoApiController
 Route::get('/videos', 'VideoController@index');
-Route::get('/videos/info', 'VideoController@show');
+Route::get('/video', 'VideoController@show');
 
 // UserAccountController
 Route::get('/users', 'UserAccountController@index');
@@ -22,13 +22,13 @@ Route::put('/users', 'UserAccountController@update');
 Route::get('/users/videos', 'UserVideosListController@index');
 Route::post('/users/videos', 'UserVideosListController@store');
 Route::delete('/users/videos', 'UserVideosListController@destroy');
-Route::get('/users/videos/info', 'UserVideosListController@show');
+Route::get('/users/video', 'UserVideosListController@show');
 
 // LanguageController
 Route::get('/languages', 'LanguageController@index');
 
 // SubtitleController
-Route::get('/subtitle/info', 'SubtitleController@show');
+Route::get('/subtitle', 'SubtitleController@show');
 
 // UserTaskApiController
 Route::get('/users/task', 'UserTaskController@index');
