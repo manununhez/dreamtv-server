@@ -11,7 +11,7 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving videos
  */
-class VideoController extends Controller
+class VideoController extends AppBaseController
 {
 
    /**
@@ -33,8 +33,9 @@ class VideoController extends Controller
     {
         $API = new AmaraAPI();
         $r = $request->all();
-        $response = $API->getVideos($r);
-        return response()->json($response);
+        $videos = $API->getVideos($r);
+        return AppBaseController::sendResponse($videos, ""); 
+        //return response()->json($response);
     }
 
     /**
@@ -49,8 +50,9 @@ class VideoController extends Controller
     {
         $API = new AmaraAPI();
         $r = $request->all();
-        $response = $API->getVideoInfo($r);
-        return response()->json($response);
+        $video = $API->getVideoInfo($r);
+        //return response()->json($response);
+        return AppBaseController::sendResponse($video, ""); 
 
     }
 

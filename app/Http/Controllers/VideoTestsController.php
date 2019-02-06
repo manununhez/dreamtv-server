@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\VideoTests;
-use App\Http\Resources\VideoTestsResource;
+//use App\Http\Resources\VideoTestsResource;
 
-class VideoTestsController extends Controller
+class VideoTestsController extends AppBaseController
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class VideoTestsController extends Controller
      */
     public function index()
     {
-        return VideoTestsResource::collection(VideoTests::all());
+        return AppBaseController::sendResponse(VideoTests::all(), "");
+        //return VideoTestsResource::collection(VideoTests::all());
     }
 
     /**

@@ -20,7 +20,7 @@ class ReasonController extends AppBaseController
     /**
      * List of reasons
      *
-     * This endpoint retrieves all reasons.
+     * This endpoint retrieves all reasons according to users interface language.
      * Order by code, ASC.
      * Get reasons according to language = user->interface_language
      * 
@@ -52,14 +52,17 @@ class ReasonController extends AppBaseController
             return AppBaseController::sendError("User not found.");
     }
 
+
     /**
-     * Create reason
+     * Create and save a newly created reason
      *
      * This endpoint create a specific reason.
      *
      * Parameters => name (text, mandatory), code (text, mandatory), language (text, mandatory)
      * 
      * Requires user token - header 'Authorization'
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -85,6 +88,41 @@ class ReasonController extends AppBaseController
         }
         else
             return AppBaseController::sendError("User not found.");
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 
 }

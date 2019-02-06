@@ -47,7 +47,7 @@ class UserVideosListController extends AppBaseController
                             ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                             ->paginate(50);
 
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
 
         }
         else

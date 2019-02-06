@@ -9,6 +9,7 @@ Use App\AmaraAPI;
 Use App\Models\Task;
 use App\Models\Video;
 Use App\Models\UserAccount;
+use App\VideoTests;
 
     
 /**
@@ -148,7 +149,7 @@ class TaskController extends AppBaseController
                             ->paginate(16);
             }
             
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
             
         }
         else
@@ -199,7 +200,7 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -217,8 +218,10 @@ class TaskController extends AppBaseController
     private function getTestTasks(Request $request)
     {
 
-        $videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
+        //$videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
+        $videoIdArray = VideoTests::select('video_id')->lists('video_id');
+        
         $user = DB::table('userAccounts')
                 ->select('userAccounts.*')
                 ->where('token', '=' ,$request->header('Authorization'))
@@ -266,7 +269,7 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -289,7 +292,8 @@ class TaskController extends AppBaseController
         $limit = 40;
 
 
-        $videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
+        $videoIdArray = VideoTests::select('video_id')->lists('video_id');
+        //$videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
         //DJlZ5QYcHSQB, eC0ZoBNXwcwA, cYjdKCNfh989 not assigned
 

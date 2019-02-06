@@ -29,9 +29,9 @@ class UserAccountController extends AppBaseController
     public function index(Request $request)
     {
 
-        $users = UserAccount::all();
+        //$users = UserAccount::all();
        
-        return AppBaseController::sendResponse($users, "");
+        return AppBaseController::sendResponse(UserAccount::all(), "");
     }
 
     
