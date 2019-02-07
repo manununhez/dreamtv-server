@@ -213,7 +213,7 @@ class TaskController extends AppBaseController
 
         //$videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
-        $videoIdArray = VideoTests::select('video_id')->lists('video_id');
+        $videoIdArray = VideoTests::select('video_id')->pluck('video_id');
         
         $user = UserAccount::select('userAccounts.*') //DB::table('userAccounts')
                 ->where('token', '=' ,$request->header('Authorization'))
@@ -282,7 +282,7 @@ class TaskController extends AppBaseController
         $limit = 40;
 
 
-        $videoIdArray = VideoTests::select('video_id')->lists('video_id');
+        $videoIdArray = VideoTests::select('video_id')->pluck('video_id');
         //$videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
 
         //DJlZ5QYcHSQB, eC0ZoBNXwcwA, cYjdKCNfh989 not assigned
