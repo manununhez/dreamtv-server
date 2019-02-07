@@ -66,8 +66,7 @@ class TaskController extends AppBaseController
     private function getAllTasks(Request $request)
     {
     // ORDER BY SELECT STR_TO_DATE('2015-03-27T04:40:01Z','%Y-%m-%dT%TZ');
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
+        $user = UserAccount::select('userAccounts.*') //DB::table('userAccounts')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         
@@ -76,7 +75,7 @@ class TaskController extends AppBaseController
             $sub_language = ($user->sub_language !== null && $user->sub_language != "NN")  ? $user->sub_language : null;
             $audio_language = ($user->audio_language !== null && $user->audio_language != "NN")  ? $user->audio_language : null;
 
-            $userTasks =    UserTask::where('userTasks.user_id', '=', $user->id)
+            $userTasks = UserTask::where('userTasks.user_id', '=', $user->id)
                                 ->groupBy('userTasks.task_id')
                                 ->pluck('userTasks.task_id')
                                 ->all();
@@ -144,8 +143,8 @@ class TaskController extends AppBaseController
                             ->paginate(16);
             }
             
-            //return AppBaseController::sendResponse($tasks, "");
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
+            //return $tasks;
             
         }
         else
@@ -164,8 +163,7 @@ class TaskController extends AppBaseController
     private function getContinueTasks(Request $request)
     {
     // ORDER BY SELECT STR_TO_DATE('2015-03-27T04:40:01Z','%Y-%m-%dT%TZ');
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
+        $user = UserAccount::select('userAccounts.*') //DB::table('userAccounts')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         
@@ -177,14 +175,12 @@ class TaskController extends AppBaseController
             //Traer la lista solo con los idiomas correspondientes????
 
             //We get all the videos already seen by the user
-            $userTasks = DB::table('userTasks')
-                                ->where('userTasks.user_id', '=', $user->id)
+            $userTasks = UserTask::where('userTasks.user_id', '=', $user->id) //DB::table('userTasks')
                                 ->groupBy('userTasks.task_id')
                                 ->pluck('userTasks.task_id')
                                 ->all();
 
-            $tasks = DB::table('tasks')
-                        ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->whereIn('tasks.task_id', $userTasks)
                         // ->where('videos.project','=','tedtalks') //--------------><
@@ -196,8 +192,8 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             
-            //return AppBaseController::sendResponse($tasks, "");
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
+            //return $tasks;
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -219,8 +215,7 @@ class TaskController extends AppBaseController
 
         $videoIdArray = VideoTests::select('video_id')->lists('video_id');
         
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
+        $user = UserAccount::select('userAccounts.*') //DB::table('userAccounts')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
         
@@ -230,8 +225,7 @@ class TaskController extends AppBaseController
             $audio_language = ($user->audio_language !== null && $user->audio_language != "NN")  ? $user->audio_language : null;
 
             if(($sub_language !== null) && ($audio_language !== null)) {
-                $tasks = DB::table('tasks')
-                        ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
                         ->where('videos.primary_audio_language_code','=', $audio_language)
@@ -240,8 +234,7 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }elseif($audio_language !== null) {
-                $tasks = DB::table('tasks')
-                        ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->where('videos.primary_audio_language_code','=', $audio_language)
                         //->where('tasks.type', 'Review')
@@ -249,8 +242,7 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }elseif($sub_language !== null) {
-                $tasks = DB::table('tasks')
-                        ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
                         //->where('tasks.type', 'Review')
@@ -258,8 +250,7 @@ class TaskController extends AppBaseController
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
             }else{
-                $tasks = DB::table('tasks')
-                        ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
+                $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         //->where('tasks.type', 'Review')
                         ->whereIn('videos.video_id', $videoIdArray)
@@ -267,8 +258,8 @@ class TaskController extends AppBaseController
                         ->paginate(50);
             }
             
-            //return AppBaseController::sendResponse($tasks, "");
-            return $tasks;
+            return AppBaseController::sendResponse($tasks, "");
+            //return $tasks;
         }
         else
             return AppBaseController::sendError("User not found.");
@@ -319,8 +310,7 @@ class TaskController extends AppBaseController
 
                 foreach ($tasks as $key => $value){
                     $objectTask = new Task();
-                    $task = DB::table('tasks')
-                            ->select('tasks.*')
+                    $task = Task::select('tasks.*')
                             ->where('task_id', '=' ,$value->id)
                             ->first();
                     
@@ -338,8 +328,7 @@ class TaskController extends AppBaseController
                             $objectTask->completed = $value->completed;
                             $objectTask->save();
                         
-                            $video = DB::table('videos')
-                                    ->select('videos.*')
+                            $video = Video::select('videos.*')
                                     ->where('video_id', '=' ,$value->video_id)
                                     ->first();
 
@@ -405,8 +394,7 @@ class TaskController extends AppBaseController
 
                 foreach ($tasks as $key => $value){
                     $objectTask = new Task();
-                    $task = DB::table('tasks')
-                            ->select('tasks.*')
+                    $task = Task::select('tasks.*')
                             ->where('task_id', '=' ,$value->id)
                             ->first();
                     
@@ -422,8 +410,7 @@ class TaskController extends AppBaseController
                             $objectTask->completed = $value->completed;
                             $objectTask->save();
                         
-                            $video = DB::table('videos')
-                                    ->select('videos.*')
+                            $video = Video::select('videos.*')
                                     ->where('video_id', '=' ,$value->video_id)
                                     ->first();
 
