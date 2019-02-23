@@ -310,7 +310,7 @@ class TaskController extends AppBaseController
 
                 $tasks = $resultChunk->objects;
 
-                if($tasks === null) {
+                if($tasks == []) {
                     $resultChunk = $API->getTasks(array(
                         'team' => 'ted',
                         'order_by'=> '-modified',
@@ -324,7 +324,7 @@ class TaskController extends AppBaseController
 
                     $tasks = $resultChunk->objects;
 
-                    if($tasks === null) {
+                    if($tasks == []) {
                         $resultChunk = $API->getTasks(array(
                             'team' => 'ted',
                             'order_by'=> '-modified',
