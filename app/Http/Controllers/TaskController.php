@@ -302,14 +302,47 @@ class TaskController extends AppBaseController
                         'video_id'=>$videoId,
                         'language'=>'pl',
                         //'assignee'=>'ted_Snai',
+                        'type' => $Translate,
                         'limit'=> $limit,
                         'offset'=>$offset,
                         ));
 
+
+                if($resultChunk->objects === null) {
+                    $resultChunk = $API->getTasks(array(
+                        'team' => 'ted',
+                        'order_by'=> '-modified',
+                        'video_id'=>$videoId,
+                        'language'=>'pl',
+                        //'assignee'=>'ted_Snai',
+                        'type' => $Review,
+                        'limit'=> $limit,
+                        'offset'=>$offset,
+                        ));
+
+                    $tasks = $resultChunk->objects;
+
+                    if($resultChunk->objects === null) {
+                        $resultChunk = $API->getTasks(array(
+                            'team' => 'ted',
+                            'order_by'=> '-modified',
+                            'video_id'=>$videoId,
+                            'language'=>'pl',
+                            //'assignee'=>'ted_Snai',
+                            'type' => $Approve,
+                            'limit'=> $limit,
+                            'offset'=>$offset,
+                            ));
+
+                    }
+                }
+
+
+                $tasks = $resultChunk->objects;
+
                 $offset += $limit;
 
                 // if(isset($resultChunk->objects)) {
-                $tasks = $resultChunk->objects;
 
                 foreach ($tasks as $key => $value){
                     $objectTask = new Task();
