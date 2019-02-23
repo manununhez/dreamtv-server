@@ -308,7 +308,9 @@ class TaskController extends AppBaseController
                         ));
 
 
-                if($resultChunk->objects === null) {
+                $tasks = $resultChunk->objects;
+
+                if($tasks === null) {
                     $resultChunk = $API->getTasks(array(
                         'team' => 'ted',
                         'order_by'=> '-modified',
@@ -322,7 +324,7 @@ class TaskController extends AppBaseController
 
                     $tasks = $resultChunk->objects;
 
-                    if($resultChunk->objects === null) {
+                    if($tasks === null) {
                         $resultChunk = $API->getTasks(array(
                             'team' => 'ted',
                             'order_by'=> '-modified',
@@ -334,11 +336,11 @@ class TaskController extends AppBaseController
                             'offset'=>$offset,
                             ));
 
+                        $tasks = $resultChunk->objects;
+
                     }
                 }
 
-
-                $tasks = $resultChunk->objects;
 
                 $offset += $limit;
 
