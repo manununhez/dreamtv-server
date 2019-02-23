@@ -210,14 +210,15 @@ class TaskController extends AppBaseController
      */
     private function getTestTasks(Request $request)
     {
-
-        //$videoIdArray = ['tNE5imiv27uA','DJlZ5QYcHSQB','eC0ZoBNXwcwA','cYjdKCNfh989','8ULN8kSqfMkk'];
-
         $videoIdArray = VideoTests::select('video_id')->pluck('video_id');
         
         $user = UserAccount::select('userAccounts.*') //DB::table('userAccounts')
                 ->where('token', '=' ,$request->header('Authorization'))
                 ->first();
+
+        $Translate = 'Translate';
+        $Review = 'Review';
+        $Approve = 'Approve';
         
         if($user !== null)
         {
@@ -229,33 +230,114 @@ class TaskController extends AppBaseController
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
                         ->where('videos.primary_audio_language_code','=', $audio_language)
-                        //->where('tasks.type', 'Review')
+                        ->where('tasks.type', $Translate)
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
-            }elseif($audio_language !== null) {
+
+                if($tasks === null) {
+                    $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                        ->select('tasks.*', 'videos.*')
+                        ->where('tasks.language','=', $sub_language)
+                        ->where('videos.primary_audio_language_code','=', $audio_language)
+                        ->where('tasks.type', $Review)
+                        ->whereIn('videos.video_id', $videoIdArray)
+                        ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                        ->paginate(50);
+
+                        if($tasks === null) {
+                            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                                ->select('tasks.*', 'videos.*')
+                                ->where('tasks.language','=', $sub_language)
+                                ->where('videos.primary_audio_language_code','=', $audio_language)
+                                ->where('tasks.type', $Approve)
+                                ->whereIn('videos.video_id', $videoIdArray)
+                                ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                                ->paginate(50);
+                        }
+                }
+            } elseif($audio_language !== null) {
                 $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->where('videos.primary_audio_language_code','=', $audio_language)
-                        //->where('tasks.type', 'Review')
+                        ->where('tasks.type', $Translate)
                         ->whereIn('videos.video_id', $videoIdArray)                
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
-            }elseif($sub_language !== null) {
+
+                if($tasks === null) {
+                    $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                        ->select('tasks.*', 'videos.*')
+                        ->where('videos.primary_audio_language_code','=', $audio_language)
+                        ->where('tasks.type', $Review)
+                        ->whereIn('videos.video_id', $videoIdArray)                
+                        ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                        ->paginate(50);
+
+                    if($tasks === null) {
+                        $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                        ->select('tasks.*', 'videos.*')
+                        ->where('videos.primary_audio_language_code','=', $audio_language)
+                        ->where('tasks.type', $Approve)
+                        ->whereIn('videos.video_id', $videoIdArray)                
+                        ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                        ->paginate(50);
+                    }
+                }
+            } elseif($sub_language !== null) {
                 $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
                         ->where('tasks.language','=', $sub_language)
-                        //->where('tasks.type', 'Review')
+                        ->where('tasks.type', $Translate)
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
+
+                if($tasks === null) {
+                    $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                        ->select('tasks.*', 'videos.*')
+                        ->where('tasks.language','=', $sub_language)
+                        ->where('tasks.type', $Review)
+                        ->whereIn('videos.video_id', $videoIdArray)
+                        ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                        ->paginate(50);
+
+
+                        if($tasks === null) {
+                            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                                ->select('tasks.*', 'videos.*')
+                                ->where('tasks.language','=', $sub_language)
+                                ->where('tasks.type', $Approve)
+                                ->whereIn('videos.video_id', $videoIdArray)
+                                ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                                ->paginate(50);
+                        }
+                }                
             }else{
                 $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                         ->select('tasks.*', 'videos.*')
-                        //->where('tasks.type', 'Review')
+                        ->where('tasks.type', $Translate)
                         ->whereIn('videos.video_id', $videoIdArray)
                         ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(50);
+
+                if($tasks === null) {
+                    $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                        ->select('tasks.*', 'videos.*')
+                        ->where('tasks.type', $Review)
+                        ->whereIn('videos.video_id', $videoIdArray)
+                        ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                        ->paginate(50);
+
+                        if($tasks === null) {
+                            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
+                                ->select('tasks.*', 'videos.*')
+                                ->where('tasks.type', $Approve)
+                                ->whereIn('videos.video_id', $videoIdArray)
+                                ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
+                                ->paginate(50);
+                        }
+                }
             }
             
             return AppBaseController::sendResponse($tasks, "");
