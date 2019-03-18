@@ -3,82 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+Use App\AmaraAPI;
 
-class VideoController extends Controller
+
+/**
+ * @group Videos
+ *
+ * APIs for retrieving videos
+ */
+class VideoController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
+
+   /**
+     * Get information about all videos in a team/project
      *
-     * @return \Illuminate\Http\Response
+     * Note that this can take a long time on teams/projects
+     * with many videos.
+     *
+     * You can pass a callable function as $r['filter'] to perform an operation
+     * during the loop. For example, set ->meta->next to null if a certain creation
+     * date has been reached.
+     *
+     * Use $params['offset'] and your own loop
+     * if you'd rather not wait for this method to finish.
+     *
+     * Listing videos from Amara
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $API = new AmaraAPI();
+        $r = $request->all();
+        $videos = $API->getVideos($r);
+        return AppBaseController::sendResponse($videos, ""); 
+        //return response()->json($response);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Retrieve metadata info about a video
      *
-     * @return \Illuminate\Http\Response
+     * The same info can be retrieved by video id or by video url,
+     * since each video url is associated to a unique video id.
+     * Listing an specific video from Amara.
+     *
      */
-    public function create()
+    public function show(Request $request)
     {
-        //
+        $API = new AmaraAPI();
+        $r = $request->all();
+        $video = $API->getVideoInfo($r);
+        //return response()->json($response);
+        return AppBaseController::sendResponse($video, ""); 
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

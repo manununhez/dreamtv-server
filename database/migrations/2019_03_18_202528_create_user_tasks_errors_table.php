@@ -14,7 +14,14 @@ class CreateUserTasksErrorsTable extends Migration
     public function up()
     {
         Schema::create('user_tasks_errors', function (Blueprint $table) {
-            $table->increments('id');
+            $table->primary(['user_id','task_id','subtitle_version','subtitle_position','reason_code']);
+            $table->integer('user_id');
+            $table->integer('task_id');
+            $table->string('subtitle_version');
+            $table->integer('subtitle_position');
+            $table->string('reason_code');
+            $table->text('comments')->nullable();
+            $table->integer('video_watched_time');
             $table->timestamps();
         });
     }
