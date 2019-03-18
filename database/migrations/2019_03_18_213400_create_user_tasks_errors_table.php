@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserTasksTable extends Migration
+class CreateUserTasksErrorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateUserTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('userTasks', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('user_tasks_errors', function (Blueprint $table) {
+            $table->primary(['user_id','task_id','subtitle_version','subtitle_position','reason_code']);
             $table->integer('user_id');
             $table->integer('task_id');
             $table->string('subtitle_version');
             $table->integer('subtitle_position');
-            $table->string('reason_id')->nullable();
+            $table->string('reason_code');
             $table->text('comments')->nullable();
+            $table->integer('video_watched_time');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ class CreateUserTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userTasks');
+        Schema::dropIfExists('user_tasks_errors');
     }
 }

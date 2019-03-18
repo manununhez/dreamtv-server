@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserVideosListsTable extends Migration
+class CreateErrorReasonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateUserVideosListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('userVideosLists', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->string('video_id');
-            $table->string('primary_audio_language_code');
-            $table->string('original_language');
+        Schema::create('error_reasons', function (Blueprint $table) {
+            $table->string('code')->primary();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('language');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateUserVideosListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userVideosLists');
+        Schema::dropIfExists('error_reasons');
     }
 }
