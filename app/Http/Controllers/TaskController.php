@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 Use App\AmaraAPI;
 Use App\Models\Task;
 use App\Models\Video;
-Use App\Models\UserAccount;
-use App\VideoTests;
-use App\Models\UserTask;  
+Use App\Models\User;
+use App\Models\VideoTest;
+use App\Models\UserTasksError;  
 
 /**
  * @group Tasks

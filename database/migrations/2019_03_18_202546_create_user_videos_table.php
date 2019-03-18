@@ -14,7 +14,11 @@ class CreateUserVideosTable extends Migration
     public function up()
     {
         Schema::create('user_videos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->primary(['user_id', 'video_id']);
+            $table->integer('user_id');
+            $table->string('video_id');
+            $table->string('sub_language_config');
+            $table->string('audio_language_config');
             $table->timestamps();
         });
     }
