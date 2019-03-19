@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->integer('task_id')->primary();
             $table->string('video_id');
+            $table->foreign('video_id')->references('video_id')->on('videos');
             $table->string('language');
             $table->string('type');
             $table->string('created');

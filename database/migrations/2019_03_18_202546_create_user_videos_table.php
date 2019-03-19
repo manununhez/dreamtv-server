@@ -15,8 +15,10 @@ class CreateUserVideosTable extends Migration
     {
         Schema::create('user_videos', function (Blueprint $table) {
             $table->primary(['user_id', 'video_id']);
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
             $table->string('video_id');
+            $table->foreign('video_id')->references('video_id')->on('videos');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('sub_language_config');
             $table->string('audio_language_config');
             $table->timestamps();
