@@ -16,7 +16,7 @@ class CreateVideoTestsTable extends Migration
         Schema::create('video_tests', function (Blueprint $table) {
             $table->increments('id');
             $table->string('video_id');
-            $table->foreign('video_id')->references('video_id')->on('videos');
+            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
             $table->integer("subtitle_version");
             $table->string("language_code");    
             $table->timestamps();

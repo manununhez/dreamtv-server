@@ -23,7 +23,7 @@ class CreateVideosTable extends Migration
             $table->string('thumbnail');
             $table->string('team');
             $table->string('project');
-            $table->string('video_url');
+            $table->string('video_url'); 
             $table->timestamps();
         });
     }

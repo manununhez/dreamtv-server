@@ -22,9 +22,9 @@ class CreateUserTasksErrorsTable extends Migration
             $table->text('comments')->nullable();
             $table->integer('video_watched_time');
             $table->primary(['user_id','task_id','subtitle_version','subtitle_position','reason_code'], 'pk_user_tasks_errors');
-            $table->foreign('task_id')->references('task_id')->on('tasks');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('reason_code')->references('code')->on('error_reasons');
+            $table->foreign('task_id')->references('task_id')->on('tasks')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reason_code')->references('code')->on('error_reasons')->onDelete('cascade');
             $table->timestamps();
         });
     }
