@@ -16,13 +16,15 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->integer('task_id')->primary();
             $table->string('video_id');
-            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
             $table->string('language');
             $table->string('type');
             $table->string('created');
             $table->string('modified');
             $table->string('completed')->nullable();
             $table->timestamps();
+
+            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
+            
         });
     }
 

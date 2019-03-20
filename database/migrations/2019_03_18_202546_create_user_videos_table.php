@@ -17,11 +17,12 @@ class CreateUserVideosTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('video_id');
             $table->primary(['user_id', 'video_id']);
-            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('sub_language_config');
             $table->string('audio_language_config');
             $table->timestamps();
+
+            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

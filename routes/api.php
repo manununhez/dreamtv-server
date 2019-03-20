@@ -40,3 +40,13 @@ Route::get('/tasks', 'TaskController@index');
 Route::get('/tasks/backup','TaskController@saveTasksFromAmara');
 Route::get('/tasks/backup/test','TaskController@saveTestTasksFromAmara');
 
+
+Route::post('login', 'PassportController@login');
+Route::post('register', 'PassportController@register');
+ 
+Route::middleware('auth:api')->group(function () {
+    Route::get('user', 'PassportController@details');
+ 
+    Route::resource('products', 'ProductController');
+});
+

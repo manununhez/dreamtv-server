@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVideoTestsTable extends Migration
+class CreateProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateVideoTestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('video_tests', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('video_id');
-            $table->integer("subtitle_version");
-            $table->string("language_code");    
+            $table->integer('user_id');
+            $table->string('name');
+            $table->integer('price');
             $table->timestamps();
-
-            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
-            
+     
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 
@@ -32,6 +33,6 @@ class CreateVideoTestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('video_tests');
+        Schema::dropIfExists('products');
     }
 }
