@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller as Controller;
+
 /**
  * This class should be parent class for other API controllers
  * Class AppBaseController
