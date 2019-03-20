@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Validator;
+
+
+class LoginController extends BaseController
+{
+    /**
+     * Handles Login Request
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
+    {
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+ 
+        if (auth()->attempt($credentials)) {
+            $token = auth()->user()->createToken('DreamTv')->accessToken;
+            $success['token'] =  $user->createToken('DreamTv')->accessToken;
+            return $this->sendResponse($success, 'Login successfully.');
+        } else {
+            return $this->sendError(['error' => 'UnAuthorised'], 401);
+        }
+    }
+
+}

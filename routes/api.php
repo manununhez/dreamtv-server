@@ -41,8 +41,8 @@ Route::get('/tasks/backup','TaskController@saveTasksFromAmara');
 Route::get('/tasks/backup/test','TaskController@saveTestTasksFromAmara');
 
 
-Route::post('login', 'PassportController@login');
-Route::post('register', 'PassportController@register');
+Route::post('login', 'API\LoginController@login');
+Route::post('register', 'API\RegisterController@register');
  
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'PassportController@details');

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
  
 use App\Product;
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
  
-class ProductController extends Controller
+class ProductController extends BaseController
 {
     public function index()
     {
