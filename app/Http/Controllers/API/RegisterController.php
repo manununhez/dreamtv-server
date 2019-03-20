@@ -33,13 +33,10 @@ class RegisterController extends BaseController
 
 
         $user = User::create([
-            'name' => $input['name'],
             'email' => $input['email'],
             'password' => bcrypt($input['password'])
         ]);
         $success['token'] =  $user->createToken('DreamTv')->accessToken;
-        $success['name'] =  $user->name;
-
 
         return $this->sendResponse($success, 'User register successfully.');
     }
