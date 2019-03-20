@@ -16,7 +16,6 @@ class PassportController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -27,7 +26,7 @@ class PassportController extends Controller
             'password' => bcrypt($request->password)
         ]);
  
-        $token = $user->createToken('TutsForWeb')->accessToken;
+        $token = $user->createToken('DreamTv')->accessToken;
  
         return response()->json(['token' => $token], 200);
     }
@@ -46,7 +45,7 @@ class PassportController extends Controller
         ];
  
         if (auth()->attempt($credentials)) {
-            $token = auth()->user()->createToken('TutsForWeb')->accessToken;
+            $token = auth()->user()->createToken('DreamTv')->accessToken;
             return response()->json(['token' => $token], 200);
         } else {
             return response()->json(['error' => 'UnAuthorised'], 401);
