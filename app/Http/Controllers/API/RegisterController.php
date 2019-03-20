@@ -19,7 +19,9 @@ class RegisterController extends BaseController
      */
     public function register(Request $request)
     {
-        $validator = Validator::make($request, [
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -31,9 +33,9 @@ class RegisterController extends BaseController
 
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => bcrypt($input['password'])
         ]);
         $success['token'] =  $user->createToken('DreamTv')->accessToken;
         $success['name'] =  $user->name;
