@@ -46,8 +46,8 @@ Route::post('register', 'API\RegisterController@register');
 Route::get('/languages', 'API\Amara\LanguageAmaraController@index');
 
 // VideoApiController
-Route::get('/videos', 'API\Amara\VideoAmaraController@index');
-Route::get('/video', 'API\Amara\VideoAmaraController@show');
+Route::get('amara/videos', 'API\Amara\VideoAmaraController@index');
+Route::get('amara/video', 'API\Amara\VideoAmaraController@show');
  
 Route::middleware('auth:api')->group(function () {
     Route::get('user', 'API\UserController@details');

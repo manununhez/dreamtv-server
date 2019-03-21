@@ -16,7 +16,7 @@ class Video extends Model
 	// If your primary key is not an integer, you should set the protected $keyType property on your model to string.
     protected $keyType = 'string';
 
-    
+    protected $fillable = ['video_id','primary_audio_language_code', 'original_language', 'title', 'description', 'duration', 'thumbnail', 'team', 'project', 'video_url'];  
 
     public function userVideos(){
         return $this->hasMany(UserVideo::class);
