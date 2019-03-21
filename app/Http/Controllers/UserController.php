@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Database\QueryException;
-use App\Models\UserAccount;
-use App\Models\Task;
-use App\Models\Video;
-Use App\AmaraAPI;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use Validator;
 
 
 /**
@@ -17,60 +14,73 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving users account
  */
-class UserController extends AppBaseController
+class UserController extends BaseController
 {
+    
     /**
-     * Get all user accounts
-     *
      * Display a listing of the resource.
      *
-     * Requires user token - header 'Authorization'
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
+        $users = User::all();
 
-        //$users = UserAccount::all();
-       
-        return AppBaseController::sendResponse(UserAccount::all(), "");
+
+        return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
     }
 
-    
+
+
     /**
-     * Create user account
+     * Update the specified resource in storage.
      *
-     * Store a newly created resource in storage.
-     *
-     * Parameters => name (text, mandatory), type (text, mandatory), interface_mode (text, nullable, default: "beginner"), interface_language (text, nullable, default: "pl"), sub_language (text, nullable, default: All languages), audio_language (text, nullable, default: All languages)
-     *
-     * Requires user token - header 'Authorization'
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function update(Request $request, User $user)
     {
-        $r = $request->all();
-        $users = UserAccount::where('name', '=' ,$r['name'])->first();
-        
-        if($users === null)
-        {   
-            try {
-                $users = new UserAccount();
-                $users->name = $r['name'];
-                $users->type = $r['type'];
-                $users->interface_mode = isset($r['interface_mode']) ? $r['interface_mode'] : "beginner"; //Default beginner
-                $users->interface_language = isset($r['interface_language']) ? $r['interface_language'] : "pl"; //Default polish interface
-                $users->token = 'Bearer '.bcrypt($r['name']);
-                $users->sub_language = isset($r['sub_language']) ? $r['sub_language'] : "pl"; //Default polish subtitles
-                $users->audio_language = isset($r['audio_language']) ? $r['audio_language'] : "NN"; //Default NN or All Languages
-                $users->save();
-            
-            } catch(QueryException $e) {
-                return AppBaseController::sendError($e->getMessage());
-            }
+        $input = $request->all();
+
+
+        $validator = Validator::make($input, [
+            'interface_mode' => 'required',
+            'interface_language' => 'required',
+            'sub_language' => 'required',
+            'audio_language' => 'required'
+        ]);
+
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        return AppBaseController::sendResponse($users, "User account created correctly.");
+
+        $user->audio_language = $request['audio_language'];     
+        $user->interface_mode = $request['interface_mode']; 
+        $user->interface_language = $request['interface_language']; 
+        $user->sub_language = $request['sub_language']; 
+        $user->save();
+
+
+        return $this->sendResponse($user->toArray(), 'User updated successfully.');
     }
 
-    
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+
+        return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
+    }
 
     /**
      * Update user
@@ -81,36 +91,47 @@ class UserController extends AppBaseController
      *
      * Requires user token - header 'Authorization'
      */
-    public function update(Request $request)
-    {
-        $user = UserAccount::where('token', '=' ,$request->header('Authorization'))
-                ->first();
+    // public function update(Request $request)
+    // {
+    //     $user = UserAccount::where('token', '=' ,$request->header('Authorization'))
+    //             ->first();
 
-        if($user !== null)
-        {
-            try {
-                if(isset($request['audio_language']))
-                    $user->audio_language = $request['audio_language']; 
+    //     if($user !== null)
+    //     {
+    //         try {
+    //             if(isset($request['audio_language']))
+    //                 $user->audio_language = $request['audio_language']; 
                 
-                if(isset($request['interface_mode']))
-                    $user->interface_mode = $request['interface_mode']; 
+    //             if(isset($request['interface_mode']))
+    //                 $user->interface_mode = $request['interface_mode']; 
 
-                if(isset($request['interface_language']))
-                    $user->interface_language = $request['interface_language']; 
+    //             if(isset($request['interface_language']))
+    //                 $user->interface_language = $request['interface_language']; 
 
-                if(isset($request['sub_language']))
-                    $user->sub_language = $request['sub_language']; 
+    //             if(isset($request['sub_language']))
+    //                 $user->sub_language = $request['sub_language']; 
                 
 
-                $user->save();
+    //             $user->save();
 
-                return AppBaseController::sendResponse($user, "User account updated correctly.");
+    //             return AppBaseController::sendResponse($user, "User account updated correctly.");
             
-            } catch(QueryException $e) {
-                    return AppBaseController::sendError($e->getMessage());
-            }
-        }
-        else
-            return AppBaseController::sendError("User not found.");
+    //         } catch(QueryException $e) {
+    //                 return AppBaseController::sendError($e->getMessage());
+    //         }
+    //     }
+    //     else
+    //         return AppBaseController::sendError("User not found.");
+    // }
+
+
+    /**
+     * Returns Authenticated User Details
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function details()
+    {
+        return return $this->sendResponse(['user' => auth()->user()], 'User details');
     }
 }

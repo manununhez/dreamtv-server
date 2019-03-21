@@ -45,8 +45,9 @@ Route::post('login', 'API\LoginController@login');
 Route::post('register', 'API\RegisterController@register');
  
 Route::middleware('auth:api')->group(function () {
-    Route::get('user', 'PassportController@details');
- 
+    Route::get('user', 'UserController@details');
+    Route::put('user', 'UserController@update');
+    Route::post('user', 'UserController@index');
     Route::resource('products', 'ProductController');
 });
 
