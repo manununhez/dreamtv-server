@@ -81,7 +81,7 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, VideoTest $videoTest)
+    public function update(Request $request, $id)
     {
         $input = $request->all();
 
@@ -96,7 +96,8 @@ class VideoTestController extends BaseController
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-
+	
+	$videoTest = VideoTest::find($id);
         $videoTest->video_id =  $input['video_id'];
         $videoTest->subtitle_version =  $input['subtitle_version'];
         $videoTest->language_code =  $input['language_code'];
@@ -114,8 +115,9 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(VideoTest $videoTest)
+    public function destroy($id)
     {
+	$videoTest = VideoTest::find($id);
         $videoTest->delete();
 
 

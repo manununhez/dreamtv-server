@@ -99,7 +99,7 @@ class ErrorReasonController extends BaseController
         $errorReason = ErrorReason::find($code);
         $errorReason->name =  $input['name'];
         $errorReason->language =  $input['language'];
-        $errorReason->description =  $input['description'];
+        $errorReason->description = isset($input['description']) ? $input['description'] : null;
         
         $errorReason->save();
 
