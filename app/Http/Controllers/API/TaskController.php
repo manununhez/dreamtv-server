@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\VideoTest;
+use App\Task;
 use Validator;
 
 
-class VideoTestController extends BaseController
+class TaskController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +17,10 @@ class VideoTestController extends BaseController
      */
     public function index()
     {
-        $videoTests = VideoTest::all();
+        $tasks = Task::all();
 
 
-        return $this->sendResponse($videoTests->toArray(), 'VideoTests retrieved successfully.');
+        return $this->sendResponse($tasks->toArray(), 'Tasks retrieved successfully.');
     }
 
 
@@ -36,21 +36,23 @@ class VideoTestController extends BaseController
 
 
         $validator = Validator::make($input, [
+            'task_id' => 'required',
             'video_id' => 'required',
-            'subtitle_version' => 'required',
-            'language_code' => 'required'
+            'language' => 'required',
+            'type' => 'required',
+            'created' => 'required',
+            'modified' => 'required'
         ]);
-
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
 
-        $videoTest = VideoTest::create($input);
+        $task = Task::create($input);
 
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest created successfully.');
+        return $this->sendResponse($task->toArray(), 'Task created successfully.');
     }
 
 
@@ -60,17 +62,17 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($task_id)
     {
-        $videoTest = VideoTest::find($id);
+        $task = Task::find($task_id);
 
 
-        if (is_null($videoTest)) {
-            return $this->sendError('VideoTest not found.');
+        if (is_null($task)) {
+            return $this->sendError('Task not found.');
         }
 
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest retrieved successfully.');
+        return $this->sendResponse($task->toArray(), 'Task retrieved successfully.');
     }
 
 
@@ -81,31 +83,35 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
         $input = $request->all();
 
 
         $validator = Validator::make($input, [
             'video_id' => 'required',
-            'subtitle_version' => 'required',
-            'language_code' => 'required'
+            'language' => 'required',
+            'type' => 'required',
+            'created' => 'required',
+            'modified' => 'required'
         ]);
 
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-	
-        $videoTest = VideoTest::find($id);
-        $videoTest->video_id =  $input['video_id'];
-        $videoTest->subtitle_version =  $input['subtitle_version'];
-        $videoTest->language_code =  $input['language_code'];
 
-        $videoTest->save();
+        $task->video_id =  $input['video_id'];
+        $task->language =  $input['language'];
+        $task->type =  $input['type'];
+        $task->created =  $input['created'];
+        $task->modified =  $input['modified'];
+        $task->completed = isset($input['completed']) ? $input['completed'] : null;
+        
+        $task->save();
 
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest updated successfully.');
+        return $this->sendResponse($task->toArray(), 'Task updated successfully.');
     }
 
 
@@ -115,12 +121,11 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-	$videoTest = VideoTest::find($id);
-        $videoTest->delete();
+        $task->delete();
 
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest deleted successfully.');
+        return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
     }
 }
