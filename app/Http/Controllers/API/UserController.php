@@ -57,6 +57,7 @@ class UserController extends BaseController
      */
     public function details()
     {
-        return $this->sendResponse(['user' => auth()->user()], 'User details');
+        $user = auth()->user();
+        return $this->sendResponse($user->toArray(), 'User details');
     }
 }

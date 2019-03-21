@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use App\AmaraAPI;
 use App\Http\Controllers;
 
-Route::apiResource('videotests','VideoTestsController');
 
 // ReasonController
 Route::get('/reasons', 'ReasonController@index');
@@ -43,7 +42,7 @@ Route::post('login', 'API\LoginController@login');
 Route::post('register', 'API\RegisterController@register');
 
 // LanguageController
-Route::get('/languages', 'API\Amara\LanguageAmaraController@index');
+Route::get('amara/languages', 'API\Amara\LanguageAmaraController@index');
 
 // VideoApiController
 Route::get('amara/videos', 'API\Amara\VideoAmaraController@index');
@@ -54,5 +53,9 @@ Route::middleware('auth:api')->group(function () {
     Route::put('user', 'API\UserController@update');
     Route::resource('products', 'API\ProductController');
     Route::resource('videos', 'API\VideoController');
+    Route::resource('videotests','API\VideoTestController');
+    Route::resource('errors','API\ErrorReasonController');
+
+
 });
 

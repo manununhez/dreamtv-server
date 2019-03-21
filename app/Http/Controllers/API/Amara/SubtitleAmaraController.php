@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API\Amara;
 
 use Illuminate\Http\Request;
 Use App\AmaraAPI;
