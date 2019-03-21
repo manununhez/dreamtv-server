@@ -60,9 +60,9 @@ class ErrorReasonController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($code)
     {
-        $errorReason = ErrorReason::find($id);
+        $errorReason = ErrorReason::find($code);
 
 
         if (is_null($errorReason)) {
@@ -81,7 +81,7 @@ class ErrorReasonController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ErrorReason $errorReason)
+    public function update(Request $request, $code)
     {
         $input = $request->all();
 
@@ -96,15 +96,15 @@ class ErrorReasonController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
+        $errorReason = ErrorReason::find($code);
         $errorReason->name =  $input['name'];
         $errorReason->language =  $input['language'];
         $errorReason->description =  $input['description'];
         
-
         $errorReason->save();
 
 
-        return $this->sendResponse($errorReason->toArray(), 'Error Reason updated successfully.');
+        return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
     }
 
 
@@ -114,11 +114,12 @@ class ErrorReasonController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ErrorReason $errorReason)
+    public function destroy($code)
     {
+        $errorReason = ErrorReason::find($code);
         $errorReason->delete();
 
 
-        return $this->sendResponse($errorReason->toArray(), 'Error reason deleted successfully.');
+        return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'deleted successfully.');
     }
 }

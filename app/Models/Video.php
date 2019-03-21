@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-
 	// Eloquent will also assume that each table has a primary key column named id. You may define a protected $primaryKey property to override this convention.
 	protected $primaryKey = 'video_id'; // or null
     
