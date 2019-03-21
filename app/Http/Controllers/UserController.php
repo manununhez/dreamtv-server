@@ -16,30 +16,13 @@ use Validator;
  */
 class UserController extends BaseController
 {
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $users = User::all();
-
-
-        return $this->sendResponse($users->toArray(), 'Users retrieved successfully.');
-    }
-
-
-
-    /**
-     * Update the specified resource in storage.
-     *
+    /*
+     * Update authenticated user.
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
         $input = $request->all();
 
@@ -56,7 +39,7 @@ class UserController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-
+	$user = auth()->user();
         $user->audio_language = $request['audio_language'];     
         $user->interface_mode = $request['interface_mode']; 
         $user->interface_language = $request['interface_language']; 
@@ -67,64 +50,6 @@ class UserController extends BaseController
         return $this->sendResponse($user->toArray(), 'User updated successfully.');
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-        $product->delete();
-
-
-        return $this->sendResponse($product->toArray(), 'Product deleted successfully.');
-    }
-
-    /**
-     * Update user
-     *
-     * Update the specified resource in storage.
-     *
-     * Parameters => audio_language (text, nullable), interface_mode (text, nullable), interface_language (text, nullable), sub_language (text, nullable)
-     *
-     * Requires user token - header 'Authorization'
-     */
-    // public function update(Request $request)
-    // {
-    //     $user = UserAccount::where('token', '=' ,$request->header('Authorization'))
-    //             ->first();
-
-    //     if($user !== null)
-    //     {
-    //         try {
-    //             if(isset($request['audio_language']))
-    //                 $user->audio_language = $request['audio_language']; 
-                
-    //             if(isset($request['interface_mode']))
-    //                 $user->interface_mode = $request['interface_mode']; 
-
-    //             if(isset($request['interface_language']))
-    //                 $user->interface_language = $request['interface_language']; 
-
-    //             if(isset($request['sub_language']))
-    //                 $user->sub_language = $request['sub_language']; 
-                
-
-    //             $user->save();
-
-    //             return AppBaseController::sendResponse($user, "User account updated correctly.");
-            
-    //         } catch(QueryException $e) {
-    //                 return AppBaseController::sendError($e->getMessage());
-    //         }
-    //     }
-    //     else
-    //         return AppBaseController::sendError("User not found.");
-    // }
-
-
     /**
      * Returns Authenticated User Details
      *
@@ -132,6 +57,6 @@ class UserController extends BaseController
      */
     public function details()
     {
-        return return $this->sendResponse(['user' => auth()->user()], 'User details');
+        return $this->sendResponse(['user' => auth()->user()], 'User details');
     }
 }
