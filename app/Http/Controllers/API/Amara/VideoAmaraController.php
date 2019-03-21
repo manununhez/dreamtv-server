@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\API\BaseController as BaseController;
 Use App\AmaraAPI;
 
 
@@ -11,7 +12,7 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving videos
  */
-class VideoController extends AppBaseController
+class VideoController extends BaseController
 {
 
    /**
@@ -34,8 +35,8 @@ class VideoController extends AppBaseController
         $API = new AmaraAPI();
         $r = $request->all();
         $videos = $API->getVideos($r);
-        return AppBaseController::sendResponse($videos, ""); 
-        //return response()->json($response);
+
+        return $this->sendResponse($videos->toArray(), 'List of videos from Amara'); 
     }
 
     /**
@@ -51,8 +52,8 @@ class VideoController extends AppBaseController
         $API = new AmaraAPI();
         $r = $request->all();
         $video = $API->getVideoInfo($r);
-        //return response()->json($response);
-        return AppBaseController::sendResponse($video, ""); 
+
+        return $this->sendResponse($video->toArray(), 'Video details from Amara'); 
 
     }
 

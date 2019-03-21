@@ -39,7 +39,7 @@ class UserController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-	$user = auth()->user();
+	    $user = auth()->user();
         $user->audio_language = $request['audio_language'];     
         $user->interface_mode = $request['interface_mode']; 
         $user->interface_language = $request['interface_language']; 
