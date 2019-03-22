@@ -22,4 +22,8 @@ class Task extends Model
     public function userTasksErrors(){
         return $this->hasMany(UserTasksError::class);
     }
+
+    public function videos(){
+        return $this->belongsTo(Video::class);
+    }
 }

@@ -185,23 +185,24 @@ class TaskController extends BaseController
                             ->pluck('task_id')
                             ->all();
 
-        if($user->audio_language != 'NN') {
-            //We only shows tasks not finished yet by the user
-            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
-                        ->select('tasks.*', 'videos.*')
-                        ->whereNotIn('tasks.task_id', $userTasksError)
-                        ->where('tasks.language','=', $user->sub_language)
-                        ->where('videos.primary_audio_language_code','=', $user->audio_language)
-                        ->paginate(16);
+        $tasks = Task::find(1)->videos()->where('language', $user->sub_language)->paginate(16);
+        // if($user->audio_language != 'NN') {
+        //     //We only shows tasks not finished yet by the user
+        //     $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
+        //                 ->select('tasks.*', 'videos.*')
+        //                 ->whereNotIn('tasks.task_id', $userTasksError)
+        //                 ->where('tasks.language','=', $user->sub_language)
+        //                 ->where('videos.primary_audio_language_code','=', $user->audio_language)
+        //                 ->paginate(16);
         
-        } else {           
-            //We only shows tasks not finished yet by the user
-            $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
-                        ->select('tasks.*', 'videos.*')
-                        ->whereNotIn('tasks.task_id', $userTasksError)
-                        ->where('tasks.language','=', $user->sub_language)
-                        ->paginate(16);
-        } 
+        // } else {           
+        //     //We only shows tasks not finished yet by the user
+        //     $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
+        //                 ->select('tasks.*', 'videos.*')
+        //                 ->whereNotIn('tasks.task_id', $userTasksError)
+        //                 ->where('tasks.language','=', $user->sub_language)
+        //                 ->paginate(16);
+        // } 
         
         return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
     }
