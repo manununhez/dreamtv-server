@@ -157,13 +157,13 @@ class TaskController extends BaseController
                 //break;
             case "finished":
                 //getAlreadyDoneTasks();
-                break;
+                //break;
             case "test":
                 //echo "getTestTasks!";
                 return $this->getTestTasks($request);
                 //break;
             default:
-                //echo "getAllTasks!";
+                //echo "by default getAllTasks!";
                 return $this->getAllTasks($request);
 
         }
@@ -182,9 +182,9 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasksError = UserTasksError::where('userTasks.user_id', '=', $user->id)
-                            ->groupBy('userTasks.task_id')
-                            ->pluck('userTasks.task_id')
+        $userTasksError = UserTasksError::where('user_id', '=', $user->id)
+                            ->groupBy('task_id')
+                            ->pluck('task_id')
                             ->all();
 
         if($user->audio_language != 'NN') {
@@ -239,9 +239,9 @@ class TaskController extends BaseController
         $user = auth()->user();
 
         //We get all the videos already seen by the user
-        $userTasksError = UserTasksError::where('userTasks.user_id', '=', $user->id) //DB::table('userTasks')
-                            ->groupBy('userTasks.task_id')
-                            ->pluck('userTasks.task_id')
+        $userTasksError = UserTasksError::where('user_id', '=', $user->id) //DB::table('userTasks')
+                            ->groupBy('task_id')
+                            ->pluck('task_id')
                             ->all();
 
         $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
