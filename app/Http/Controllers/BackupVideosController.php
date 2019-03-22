@@ -153,7 +153,7 @@ class BackupVideosController extends AppBaseController
 
 
     /**
-     * Save tasks from Amara
+     * Save tasks from Amara (get only Review Tasks)
      *
      * Display a listing of the resource.
      *
@@ -165,7 +165,8 @@ class BackupVideosController extends AppBaseController
         $tasks = array();
         $offset = 0;
         $limit = 40;
-
+        $Review = 'Review';
+        
         do{
             $resultChunk = $API->getTasks(array(
                     'team' => 'ted',
@@ -173,6 +174,7 @@ class BackupVideosController extends AppBaseController
                     'order_by'=> '-created',
                     'limit'=> $limit,
                     'offset'=>$offset,
+                    'type' => $Review,
                     ));
             
             $offset += $limit;

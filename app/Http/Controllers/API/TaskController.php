@@ -133,8 +133,6 @@ class TaskController extends BaseController
 
 
 
-
-
     /**
      * List of tasks
      *
@@ -172,7 +170,7 @@ class TaskController extends BaseController
 
    
     /**
-     * Retrieve all tasks
+     * Retrieve all review tasks
      *
      * Display a listing of the resource.
      *
@@ -188,47 +186,29 @@ class TaskController extends BaseController
                             ->all();
 
         if($user->audio_language != 'NN') {
-
             //We only shows tasks not finished yet by the user
             $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
                         ->whereNotIn('tasks.task_id', $userTasksError)
-                        // ->where('videos.project','=','tedtalks') //--------------><
-                        // ->where(function ($query) {
-                        //     $query->where('tasks.type', 'Review')
-                        //           ->orWhere('tasks.type', 'Approve');
-                        //     })
-                        ->where('tasks.type', 'Review')
                         ->where('tasks.language','=', $user->sub_language)
                         ->where('videos.primary_audio_language_code','=', $user->audio_language)
-                        // ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(16);
         
-        } else {
-                            
+        } else {           
             //We only shows tasks not finished yet by the user
             $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')
                         ->select('tasks.*', 'videos.*')
                         ->whereNotIn('tasks.task_id', $userTasksError)
-                        // ->where('videos.project','=','tedtalks') //--------------><
-                        // ->where(function ($query) {
-                        //     $query->where('tasks.type', 'Review')
-                        //           ->orWhere('tasks.type', 'Approve');
-                        //     })
-                        ->where('tasks.type', 'Review')
                         ->where('tasks.language','=', $user->sub_language)
-                        // ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                         ->paginate(16);
         } 
         
         return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
-        
-
     }
 
     
     /**
-     * Retrieve all tasks to continue
+     * Retrieve all review tasks to continue
      *
      * Display a listing of the resource.
      *
@@ -247,13 +227,6 @@ class TaskController extends BaseController
         $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                     ->select('tasks.*', 'videos.*')
                     ->whereIn('tasks.task_id', $userTasksError)
-                    // ->where('videos.project','=','tedtalks') //--------------><
-                    // ->where(function ($query) {
-                    //     $query->where('tasks.type', 'Review')
-                    //           ->orWhere('tasks.type', 'Approve');
-                    //     })
-                    ->where('tasks.type', 'Review')
-                    // ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                     ->paginate(50);
         
         return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
@@ -280,18 +253,14 @@ class TaskController extends BaseController
                     ->select('tasks.*', 'videos.*')
                     ->where('tasks.language','=', $user->sub_language)
                     ->where('videos.primary_audio_language_code','=', $user->audio_language)
-                    // ->where('tasks.type', $Translate)
                     ->whereIn('videos.video_id', $videoIdArray)
-                    // ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                     ->paginate(50);
           
         } else {
             $tasks = Task::join('videos', 'tasks.video_id', '=', 'videos.video_id')//DB::table('tasks')
                     ->select('tasks.*', 'videos.*')
                     ->where('tasks.language','=', $user->sub_language)
-                    // ->where('tasks.type', $Translate)
                     ->whereIn('videos.video_id', $videoIdArray)
-                    // ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
                     ->paginate(50);
        
         }
