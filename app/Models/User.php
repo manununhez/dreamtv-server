@@ -40,6 +40,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function userTasksErrors(){
-        return $this->hasManu(userTasksError::class);
+        return $this->hasMany(UserTasksError::class);
     }
 }

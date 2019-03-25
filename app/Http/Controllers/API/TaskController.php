@@ -179,10 +179,11 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasksError = UserTasksError::where('user_id', '=', $user->id)
-                            ->groupBy('task_id')
-                            ->pluck('task_id')
-                            ->all();
+        // $userTasksError = UserTasksError::where('user_id', '=', $user->id)
+        //                     ->groupBy('task_id')
+        //                     ->pluck('task_id')
+        //                     ->all();
+        $userTasksError = $user->userTasksErrors()->groupBy('task_id')->pluck('task_id');
 
 	   if($user->audio_language != 'NN') {
         //     //We only shows tasks not finished yet by the user
