@@ -187,8 +187,7 @@ class TaskController extends BaseController
 
 	   if($user->audio_language != 'NN') {
         //     //We only shows tasks not finished yet by the user
-            $tasks = Task::with('videos')
-            			->whereHas('videos', function($query) use ($user){
+            $tasks = Task::with('videos')->whereHas('videos', function($query) use ($user){
             				$query->where('primary_audio_language_code', $user->audio_language);
             			})
             			->whereNotIn('task_id',$userTasksError)
