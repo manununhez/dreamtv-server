@@ -1,21 +1,5 @@
 <?php
 
-// use Illuminate\Http\Request;
-// use App\AmaraAPI;
-// use App\Http\Controllers;
-
-
-// ReasonController
-// Route::get('/reasons', 'ReasonController@index');
-// Route::post('/reasons', 'ReasonController@store');
-
-
-
-// // UserAccountController
-// Route::get('/users', 'UserAccountController@index');
-// Route::post('/users', 'UserAccountController@store');
-// Route::put('/users', 'UserAccountController@update');
-
 // UserVideosListApiController
 Route::get('/users/videos', 'UserVideosListController@index');
 Route::post('/users/videos', 'UserVideosListController@store');
@@ -27,19 +11,17 @@ Route::get('/users/video', 'UserVideosListController@show');
 Route::get('/users/task', 'UserTaskController@index');
 Route::post('/users/task', 'UserTaskController@store');
 
-// TaskApiController
-// Route::get('/tasks', 'TaskController@index');
-Route::get('backup','BackupVideosController@saveTasksFromAmara');
-Route::get('backup/test','BackupVideosController@saveTestTasksFromAmara');
-
 //-----------------------------------------------------------
 // AMARA
 Route::get('amara/languages', 'API\Amara\LanguageAmaraController@index');
-
 Route::get('amara/videos', 'API\Amara\VideoAmaraController@index');
 Route::get('amara/video', 'API\Amara\VideoAmaraController@show');
-
 Route::get('amara/subtitle', 'API\Amara\SubtitleAmaraController@show');
+
+
+// Backup
+Route::get('backup','BackupVideosController@saveTasksFromAmara');
+Route::get('backup/test','BackupVideosController@saveTestTasksFromAmara');
 
 
 // DREAM SERVER
@@ -55,5 +37,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('errors','API\ErrorReasonController');
 	Route::resource('tasks','API\TaskController');
 	Route::get('task/categories','API\TaskController@tasksByCategories');
+	Route::resource('user/videos', 'UserVideoController');
 });
 

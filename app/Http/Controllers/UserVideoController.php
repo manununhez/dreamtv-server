@@ -1,19 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use App\Models\UserVideo;
-use App\Models\User;
+use App\Http\Controllers\API\BaseController as BaseController;
+use App\UserVideo;
+use Validator;
 
-/**
- * @group UservVideosList
- *
- * APIs for retrieving users videos list
- */
-class UserVideoController extends Controller
+
+class UserVideoController extends BaseController
 {
     /**
      * Get all videos from user list.
@@ -25,33 +20,24 @@ class UserVideoController extends Controller
      * 
      * Requires user token - header 'Authorization'
      */
-    public function index(Request $request)
+    public function index()
     {
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
-                ->where('token', '=' ,$request->header('Authorization'))
-                ->first();
+        //$userVideos = UserVideo::all();
 
-        if($user !== null)
-        {
-            $userVideosLists = DB::table('userVideosLists')
-                                ->where('userVideosLists.user_id', '=', $user->id)
-                                ->groupBy('userVideosLists.video_id')
-                                ->pluck('userVideosLists.video_id') //return an array of video_id
-                                ->all();
+        $user = auth()->user();
 
-            $tasks = DB::table('tasks')
-                            ->join('videos', 'tasks.video_id', '=', 'videos.video_id')
-                            ->select('tasks.*', 'videos.*')
-                            ->whereIn('tasks.video_id', $userVideosLists)
-                            ->groupBy('tasks.video_id','tasks.id','tasks.task_id', 'tasks.language','tasks.type', 'tasks.priority', 'tasks.created', 'tasks.modified', 'tasks.completed', 'tasks.created_at', 'tasks.updated_at', 'videos.id','videos.video_id','videos.primary_audio_language_code','videos.original_language','videos.title','videos.description','videos.duration', 'videos.thumbnail', 'videos.team','videos.project','video_url','videos.created_at', 'videos.updated_at')
-                            ->paginate(50);
+        $userVideos = UserVideo::where('user_id', '=', $user->id)
+                            ->groupBy('video_id')
+                            ->pluck('video_id') //return an array of video_id
+                            ->all();
 
-            return AppBaseController::sendResponse($tasks, "");
 
-        }
-        else
-            return AppBaseController::sendError("User not found.");
+        $tasks = Task::with('videos')
+                ->whereIn('task_id', $userVideos)
+                ->paginate(50);
+
+
+        return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
     }
 
 
@@ -62,35 +48,38 @@ class UserVideoController extends Controller
      * Parameters => video_id (text, mandatory)
      *
      * Requires user token - header 'Authorization'
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
-                ->where('token', '=' ,$request->header('Authorization'))
-                ->first();
+        $input = $request->all();
 
-        if($user !== null)
-        {
-            try {
-                $userList = new UserVideosList();
-                $userList->user_id = $user->id;
-                $userList->video_id = $request['video_id'];
-                $userList->original_language = $request['original_language'];
-                $userList->primary_audio_language_code = $request['primary_audio_language_code'];
-                $userList->save();
 
-                return AppBaseController::sendResponse($userList, "Video added to user list correctly.");
-            } catch(QueryException $e) {
-                    return AppBaseController::sendError($e->getMessage());
-            }
+        $validator = Validator::make($input, [
+            'user_id' => 'required',
+            'video_id' => 'required',
+            'sub_language_config' => 'required',
+            'audio_language_config' => 'required'
+        ]);
+
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
         }
-        else
-            return AppBaseController::sendError("User not found.");
 
+
+        $userVideo = UserVideo::create($input);
+
+
+        return $this->sendResponse($userVideo->toArray(), 'User video created successfully.');
     }
 
+
     /**
+     * Display the specified resource.
+     *
      * Show User Video Info
      *
      * Display the specified resource.
@@ -98,55 +87,81 @@ class UserVideoController extends Controller
      * Parameters => video_id (text, mandatory)
      *
      * Requires user token - header 'Authorization'
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($video_id)
     {
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
-                ->where('token', '=' ,$request->header('Authorization'))
-                ->first();
+        $user = auth()->user();
 
-        if($user !== null)
-        {
-            $userVideosLists = DB::table('userVideosLists')
-                            ->where('userVideosLists.user_id', '=', $user->id)
-                            ->where('userVideosLists.video_id', '=', $request['video_id'])
+        $userVideos = UserVideo::where('user_id', '=', $user->id)
+                            ->where('video_id', $video_id)
                             ->get();
 
-            return AppBaseController::sendResponse($userVideosLists, "");
+
+        if (is_null($userVideos)) {
+            return $this->sendError('ErrorReason not found.');
         }
-        else
-            return AppBaseController::sendError("User not found.");
+
+
+        return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
     }
 
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $code)
+    {
+        // $input = $request->all();
+
+
+        // $validator = Validator::make($input, [
+        //     'name' => 'required',
+        //     'language' => 'required'
+        // ]);
+
+
+        // if($validator->fails()){
+        //     return $this->sendError('Validation Error.', $validator->errors());       
+        // }
+
+        // $errorReason = ErrorReason::find($code);
+        // $errorReason->name =  $input['name'];
+        // $errorReason->language =  $input['language'];
+        // $errorReason->description = isset($input['description']) ? $input['description'] : null;
+        
+        // $errorReason->save();
+
+
+        // return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
      * Remove Video from UserVideoList
      *
      * Parameters => video_id (text, mandatory)
      *
-     * Requires user token - header 'Authorization'
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($video_id)
     {
-        $user = DB::table('userAccounts')
-                ->select('userAccounts.*')
-                ->where('token', '=' ,$request->header('Authorization'))
-                ->first();
+        $user = auth()->user();
 
-        if($user !== null)
-        {
-            try {
-                $matchThese = ['video_id' => $request['video_id'], 'user_id' => $user->id];
+        $matchThese = ['video_id' => $video_id, 'user_id' => $user->id];
 
-                $userVideosList = UserVideosList::where($matchThese)->delete();
-                
-                return AppBaseController::sendResponse($userVideosList, $request['video_id'], $user->id, "Video removed to user list correctly.");            
-            } catch(QueryException $e) {
-                    return AppBaseController::sendError($e->getMessage());
-            }
-        }
-        else
-            return AppBaseController::sendError("User not found.");
+        $userVideos = UserVideo::where($matchThese)->delete();
+
+        return $this->sendResponse($userVideos->toArray(), 'User video '.$video_id.' deleted successfully.');
     }
+
 }
+
+
