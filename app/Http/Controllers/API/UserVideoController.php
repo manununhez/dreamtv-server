@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\UserVideo;
+use App\Task;
 use Validator;
 
 
@@ -22,19 +23,22 @@ class UserVideoController extends BaseController
      */
     public function index()
     {
-        //$userVideos = UserVideo::all();
+        $userVideos = UserVideo::all();
 
-        $user = auth()->user();
+        //$user = auth()->user();
 
-        $userVideos = UserVideo::where('user_id', '=', $user->id)
-                            ->groupBy('video_id')
-                            ->pluck('video_id') //return an array of video_id
-                            ->all();
+	//$userVideos = UserVideo::where('user_id', $user->id)->find(1);
+        //$userVideosIdArray = $userVideos->groupBy('video_id')->pluck('video_id'); //return an array of video_id
+                          
 
 
-        $tasks = Task::with('videos')
-                ->whereIn('task_id', $userVideos)
-                ->paginate(50);
+//        $tasks = Task::with('videos')
+//                ->whereHas('videos', function($query) use ($userVideos, $userVideosIdArray){
+//			$query->where('primary_audio_language_code', 'en');
+//			$query->whereIn('video_id',$userVideosIdArray);
+//		})
+//		->where('language', 'en')//$userVideos->sub_language_config)
+  //              ->paginate(50);
 
 
         return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
@@ -58,7 +62,6 @@ class UserVideoController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'user_id' => 'required',
             'video_id' => 'required',
             'sub_language_config' => 'required',
             'audio_language_config' => 'required'
@@ -70,6 +73,7 @@ class UserVideoController extends BaseController
         }
 
 
+	$input['user_id'] = auth()->user()->id;
         $userVideo = UserVideo::create($input);
 
 
@@ -90,13 +94,10 @@ class UserVideoController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($video_id)
+    public function show($id)
     {
-        $user = auth()->user();
 
-        $userVideos = UserVideo::where('user_id', '=', $user->id)
-                            ->where('video_id', $video_id)
-                            ->get();
+        $userVideos = UserVideo::find($id);
 
 
         if (is_null($userVideos)) {
@@ -115,20 +116,27 @@ class UserVideoController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $code)
+    public function update(Request $request, $id)
     {
-        // $input = $request->all();
+        $input = $request->all();
 
 
-        // $validator = Validator::make($input, [
-        //     'name' => 'required',
-        //     'language' => 'required'
-        // ]);
+        $validator = Validator::make($input, [
+		'video_id' => 'required',
+		'sub_language_config' => 'required',
+		'audio_language_config' => 'required'
+        ]);
 
 
-        // if($validator->fails()){
-        //     return $this->sendError('Validation Error.', $validator->errors());       
-        // }
+         if($validator->fails()){
+             return $this->sendError('Validation Error.', $validator->errors());       
+         }
+
+	$userVideo = UserVideo::find($id);
+	$userVideo->video_id = $input['video_id'];
+	$userVideo->sub_language_config = $input['sub_language_config'];
+	$userVideo->audio_language_config = $input['audio_language_config'];
+	$userVideo->save();
 
         // $errorReason = ErrorReason::find($code);
         // $errorReason->name =  $input['name'];
@@ -138,7 +146,7 @@ class UserVideoController extends BaseController
         // $errorReason->save();
 
 
-        // return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
+	return $this->sendResponse($userVideo->toArray(), 'UserVideo updated successfully.');
     }
 
 
@@ -151,15 +159,12 @@ class UserVideoController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($video_id)
+    public function destroy($id)
     {
-        $user = auth()->user();
+	$userVideo = UserVideo::find($id);
+	$userVideo->delete();
 
-        $matchThese = ['video_id' => $video_id, 'user_id' => $user->id];
-
-        $userVideos = UserVideo::where($matchThese)->delete();
-
-        return $this->sendResponse($userVideos->toArray(), 'User video '.$video_id.' deleted successfully.');
+        return $this->sendResponse($userVideo->toArray(), 'User video deleted successfully.');
     }
 
 }

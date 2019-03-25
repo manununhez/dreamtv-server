@@ -37,6 +37,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('errors','API\ErrorReasonController');
 	Route::resource('tasks','API\TaskController');
 	Route::get('task/categories','API\TaskController@tasksByCategories');
-	Route::resource('user/videos', 'UserVideoController');
+	Route::resource('user/videos', 'API\UserVideoController');
 });
 

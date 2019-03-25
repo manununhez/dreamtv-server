@@ -14,15 +14,15 @@ class CreateUserVideosTable extends Migration
     public function up()
     {
         Schema::create('user_videos', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->string('video_id');
-            $table->primary(['user_id', 'video_id'], 'pk_user_video');
-            $table->string('sub_language_config');
-            $table->string('audio_language_config');
-            $table->timestamps();
-
-            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+		$table->increments('id');
+		$table->integer('user_id')->unsigned();
+		$table->string('video_id');
+		$table->string('sub_language_config');
+		$table->string('audio_language_config');
+		$table->timestamps();
+		$table->unique(['user_id', 'video_id'], 'un_user_videos');
+		$table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
+		$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
