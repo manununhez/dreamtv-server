@@ -30,16 +30,11 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 
-
-    public function products(){
-        return $this->hasMany(Product::class);
+    public function userListTasks(){
+        return $this->hasMany(UserListTask::class);
     }
 
-    public function userVideos(){
-        return $this->hasMany(UserVideo::class);
-    }
-
-    public function userTasksErrors(){
-        return $this->hasMany(UserTasksError::class);
+    public function userTasks(){
+        return $this->hasMany(UserTask::class);
     }
 }

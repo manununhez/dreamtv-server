@@ -36,7 +36,7 @@ class ErrorReasonController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'code' => 'required',
+            'reason_code' => 'required',
             'name' => 'required',
             'language' => 'required'
         ]);

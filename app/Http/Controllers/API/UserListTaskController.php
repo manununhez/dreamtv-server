@@ -4,12 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\UserVideo;
+use App\UserListTask;
 use App\Task;
 use Validator;
 
 
-class UserVideoController extends BaseController
+class UserListTaskController extends BaseController
 {
     /**
      * Get all videos from user list.
@@ -23,9 +23,9 @@ class UserVideoController extends BaseController
      */
     public function index()
     {
-        $userVideos = UserVideo::all();
+        $userListTask = UserListTask::all();
 
-        return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
+        return $this->sendResponse($userListTask->toArray(), 'List of user tasks retrieved successfully.');
     }
 
 
@@ -46,9 +46,9 @@ class UserVideoController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'video_id' => 'required',
-            'sub_language_config' => 'required',
-            'audio_language_config' => 'required'
+            'task_id' => 'required|integer',
+            'sub_language_config' => 'required|string',
+            'audio_language_config' => 'required|string'
         ]);
 
 
@@ -58,10 +58,10 @@ class UserVideoController extends BaseController
 
 
         $input['user_id'] = auth()->user()->id;
-        $userVideo = UserVideo::create($input);
+        $userListTask = UserListTask::create($input);
 
 
-        return $this->sendResponse($userVideo->toArray(), 'User video created successfully.');
+        return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
     }
 
 
@@ -81,15 +81,15 @@ class UserVideoController extends BaseController
     public function show($id)
     {
 
-        $userVideos = UserVideo::find($id);
+        $userListTask = UserListTask::find($id);
 
 
-        if (is_null($userVideos)) {
-            return $this->sendError('User Video not found.');
+        if (is_null($userListTask)) {
+            return $this->sendError('User taks list not found.');
         }
 
 
-        return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
+        return $this->sendResponse($userListTask->toArray(), 'List of user tasks retrieved successfully.');
     }
 
 
@@ -106,9 +106,9 @@ class UserVideoController extends BaseController
 
 
         $validator = Validator::make($input, [
-		'video_id' => 'required',
-		'sub_language_config' => 'required',
-		'audio_language_config' => 'required'
+            'task_id' => 'required|integer',
+            'sub_language_config' => 'required|string',
+            'audio_language_config' => 'required|string'
         ]);
 
 
@@ -116,14 +116,14 @@ class UserVideoController extends BaseController
              return $this->sendError('Validation Error.', $validator->errors());       
          }
 
-    	$userVideo = UserVideo::find($id);
-    	$userVideo->video_id = $input['video_id'];
-    	$userVideo->sub_language_config = $input['sub_language_config'];
-    	$userVideo->audio_language_config = $input['audio_language_config'];
-    	$userVideo->save();
+    	$userListTask = UserListTask::find($id);
+    	$userListTask->task_id = $input['task_id'];
+    	$userListTask->sub_language_config = $input['sub_language_config'];
+    	$userListTask->audio_language_config = $input['audio_language_config'];
+    	$userListTask->save();
 
 
-	   return $this->sendResponse($userVideo->toArray(), 'UserVideo updated successfully.');
+	   return $this->sendResponse($userListTask->toArray(), 'Task from user list updated successfully.');
     }
 
 
@@ -138,10 +138,10 @@ class UserVideoController extends BaseController
      */
     public function destroy($id)
     {
-    	$userVideo = UserVideo::find($id);
-    	$userVideo->delete();
+    	$userListTask = UserListTask::find($id);
+    	$userListTask->delete();
 
-        return $this->sendResponse($userVideo->toArray(), 'User video deleted successfully.');
+        return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
     }
 
 }

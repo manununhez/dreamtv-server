@@ -14,7 +14,7 @@ class CreateErrorReasonsTable extends Migration
     public function up()
     {
         Schema::create('error_reasons', function (Blueprint $table) {
-            $table->string('code')->primary();
+            $table->string('reason_code')->primary();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('language');

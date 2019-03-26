@@ -17,9 +17,6 @@ class Video extends Model
 
     protected $fillable = ['video_id','primary_audio_language_code', 'original_language', 'title', 'description', 'duration', 'thumbnail', 'team', 'project', 'video_url'];  
 
-    public function userVideos(){
-        return $this->hasMany(UserVideo::class);
-    }
 
     public function tasks(){
     	return $this->hasMany(Task::class);

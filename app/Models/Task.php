@@ -19,8 +19,12 @@ class Task extends Model
     	'task_id', 'video_id','language', 'type', 'created', 'completed', 'modified'
     ];  
 
-    public function userTasksErrors(){
-        return $this->hasMany(UserTasksError::class);
+    public function userTasks(){
+        return $this->hasMany(UserTask::class);
+    }
+
+     public function userListTasks(){
+        return $this->hasMany(UserListTask::class);
     }
 
     public function videos(){

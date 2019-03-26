@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\UserTasksError;
+use App\UserTask;
 use Validator;
 
 
@@ -13,7 +13,7 @@ use Validator;
  *
  * APIs for retrieving user tasks
  */
-class UserTasksErrorController extends BaseController
+class UserTaskController extends BaseController
 {
 
     /**
@@ -23,10 +23,10 @@ class UserTasksErrorController extends BaseController
      */
     public function index()
     {
-        $userTasksError = UserTasksError::all();
+        $userTasks = UserTask::all();
 
-        return $this->sendResponse($userTasksError->toArray(), 'UserTasksError retrieved successfully.');
-    }
+        return $this->sendResponse($userTasks->toArray(), 'UserTask retrieved successfully.');
+    
     }
 
      /**
@@ -46,7 +46,6 @@ class UserTasksErrorController extends BaseController
             'task_id' => 'required',
             'subtitle_version' => 'required',
             'subtitle_position' => 'required',
-            'reason_code' => 'required',
             ]);
 
         if($validator->fails()){
@@ -54,10 +53,10 @@ class UserTasksErrorController extends BaseController
         }
 
         $input['user_id'] = auth()->user()->id;
-        $userTasksError = UserTasksError::create($input);
+        $userTask = UserTask::create($input);
 
 
-        return $this->sendResponse($userTasksError->toArray(), 'UserTasksError created successfully.');
+        return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
     }
 
 
@@ -69,15 +68,15 @@ class UserTasksErrorController extends BaseController
      */
     public function show($id)
     {
-        $userTasksErrors = UserTasksError::find($id);
+        $userTask = UserTask::find($id);
 
 
-        if (is_null($userTasksErrors)) {
-            return $this->sendError('UserTasksErrors not found.');
+        if (is_null($userTask)) {
+            return $this->sendError('UserTask not found.');
         }
 
 
-        return $this->sendResponse($userVideos->toArray(), 'User Tasks Errors retrieved successfully.');
+        return $this->sendResponse($userTask->toArray(), 'User Task retrieved successfully.');
     }
 
 
@@ -97,8 +96,7 @@ class UserTasksErrorController extends BaseController
             'task_id' => 'required',
             'subtitle_version' => 'required',
             'subtitle_position' => 'required',
-            'reason_code' => 'required',
-            'video_watched_time' => 'required'
+            'time_watched' => 'required'
         ]);
 
 
@@ -106,19 +104,20 @@ class UserTasksErrorController extends BaseController
              return $this->sendError('Validation Error.', $validator->errors());       
          }
 
-        $userTasksError = UserTasksError::where('task_id', $input['task_id'])
-                                    ->where('user_id', auth()->user()->id)
-                                    ->where('subtitle_version', $input['subtitle_version'])
-                                    ->where('subtitle_position', $input['subtitle_position'])
-                                    ->where('reason_code', $input['reason_code'])
-                                    ->get();
+        $userTask = UserTask::where('task_id', $input['task_id'])
+                            ->where('user_id', auth()->user()->id)
+                            ->where('subtitle_version', $input['subtitle_version'])
+                            ->where('subtitle_position', $input['subtitle_position'])
+                            ->get();
         
-        $userTasksError->comments = $input['comments'];
-        $userTasksError->video_watched_time = $input['video_watched_time'];
-        $userTasksError->save();
+        $userTask->comments = $input['comments'];
+        $userTask->completed = $input['completed'];
+        $userTask->rating = $input['rating'];
+        $userTask->time_watched = $input['time_watched'];
+        $userTask->save();
 
 
-       return $this->sendResponse($userVideo->toArray(), 'UserVideo updated successfully.');
+       return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
     }
 
     /**
@@ -174,7 +173,7 @@ class UserTasksErrorController extends BaseController
     {
         $user = auth()->user();
    
-        $userTask = UserTasksError::where('user_id', $user->id)
+        $userTask = UserTask::where('user_id', $user->id)
                     ->where('task_id', $request['task_id'])
                     ->orderBy('subtitle_position', 'ASC')
                     ->get();
