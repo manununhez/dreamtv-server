@@ -19,6 +19,6 @@ class ErrorReason extends Model
 
 
     public function userTasksError(){
-        return $this->hasMany(UserTasksError::class);
+        return $this->hasMany(UserTasksError::class, 'code');
     } 
 }

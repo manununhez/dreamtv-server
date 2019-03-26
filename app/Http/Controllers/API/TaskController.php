@@ -146,22 +146,24 @@ class TaskController extends BaseController
         switch ($task_type) {
             case "all":
                 //echo "getAllTasks!";
-                return $this->getAllTasks($request);
+                return $this->getAllTasksForCurrentUser($request);
                 //break;
             case "continue":
                 //echo "getContinueTasks!";
-                return $this->getContinueTasks($request);
+                return $this->getContinueTasksForCurrentUser($request);
                 //break;
             case "finished":
                 //getAlreadyDoneTasks();
                 //break;
+            case "myList":
+                return $this->getCurrentUserTaskList($request);
             case "test":
                 //echo "getTestTasks!";
-                return $this->getTestTasks($request);
+                return $this->getTestTasksForCurrentUser($request);
                 //break;
             default:
                 //echo "by default getAllTasks!";
-                return $this->getAllTasks($request);
+                return $this->getAllTasksForCurrentUser($request);
 
         }
     }
@@ -175,7 +177,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getAllTasks(Request $request)
+    private function getAllTasksForCurrentUser(Request $request)
     {
         $user = auth()->user();
 
@@ -187,7 +189,8 @@ class TaskController extends BaseController
 
 	   if($user->audio_language != 'NN') {
         //     //We only shows tasks not finished yet by the user
-            $tasks = Task::with('videos')->whereHas('videos', function($query) use ($user){
+            $tasks = Task::with('videos')
+                        ->whereHas('videos', function($query) use ($user){
             				$query->where('primary_audio_language_code', $user->audio_language);
             			})
             			->whereNotIn('task_id',$userTasksError)
@@ -206,6 +209,25 @@ class TaskController extends BaseController
         return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
     }
 
+
+    private function getCurrentUserTaskList(Request $request)
+    {
+        $user = auth()->user();
+
+        $userVideos = UserVideo::where('user_id', $user->id)->get();
+        
+        $userVideosIdArray = $userVideos->groupBy('video_id')->pluck('video_id');                          
+        
+        $tasks = Task::with('videos')
+                ->whereHas('videos', function($query) use ($userVideos, $userVideosIdArray){
+                    $query->where('primary_audio_language_code', $userVideos->audio_language_config);
+                    $query->whereIn('video_id',$userVideosIdArray);
+                })
+                ->where('language', $userVideos->sub_language_config)
+                ->paginate(50);
+
+        return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
+    }
     
     /**
      * Retrieve all review tasks to continue
@@ -214,15 +236,18 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getContinueTasks(Request $request)
+    private function getContinueTasksForCurrentUser(Request $request)
     {
         $user = auth()->user();
 
         //We get all the videos already seen by the user
-        $userTasksError = UserTasksError::where('user_id', '=', $user->id) //DB::table('userTasks')
-                            ->groupBy('task_id')
-                            ->pluck('task_id')
-                            ->all();
+        // $userTasksError = UserTasksError::where('user_id', '=', $user->id) //DB::table('userTasks')
+        //                     ->groupBy('task_id')
+        //                     ->pluck('task_id')
+        //                     ->all();
+
+        $userTasksError = $user->userTasksErrors()->groupBy('task_id')->pluck('task_id');
+
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasksError)
@@ -241,7 +266,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getTestTasks(Request $request)
+    private function getTestTasksForCurrentUser(Request $request)
     {
         $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
         

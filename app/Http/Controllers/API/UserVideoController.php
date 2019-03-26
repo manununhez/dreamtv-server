@@ -25,22 +25,6 @@ class UserVideoController extends BaseController
     {
         $userVideos = UserVideo::all();
 
-        //$user = auth()->user();
-
-	//$userVideos = UserVideo::where('user_id', $user->id)->find(1);
-        //$userVideosIdArray = $userVideos->groupBy('video_id')->pluck('video_id'); //return an array of video_id
-                          
-
-
-//        $tasks = Task::with('videos')
-//                ->whereHas('videos', function($query) use ($userVideos, $userVideosIdArray){
-//			$query->where('primary_audio_language_code', 'en');
-//			$query->whereIn('video_id',$userVideosIdArray);
-//		})
-//		->where('language', 'en')//$userVideos->sub_language_config)
-  //              ->paginate(50);
-
-
         return $this->sendResponse($userVideos->toArray(), 'User videos retrieved successfully.');
     }
 
@@ -73,7 +57,7 @@ class UserVideoController extends BaseController
         }
 
 
-	$input['user_id'] = auth()->user()->id;
+        $input['user_id'] = auth()->user()->id;
         $userVideo = UserVideo::create($input);
 
 
@@ -101,7 +85,7 @@ class UserVideoController extends BaseController
 
 
         if (is_null($userVideos)) {
-            return $this->sendError('ErrorReason not found.');
+            return $this->sendError('User Video not found.');
         }
 
 
@@ -132,21 +116,14 @@ class UserVideoController extends BaseController
              return $this->sendError('Validation Error.', $validator->errors());       
          }
 
-	$userVideo = UserVideo::find($id);
-	$userVideo->video_id = $input['video_id'];
-	$userVideo->sub_language_config = $input['sub_language_config'];
-	$userVideo->audio_language_config = $input['audio_language_config'];
-	$userVideo->save();
-
-        // $errorReason = ErrorReason::find($code);
-        // $errorReason->name =  $input['name'];
-        // $errorReason->language =  $input['language'];
-        // $errorReason->description = isset($input['description']) ? $input['description'] : null;
-        
-        // $errorReason->save();
+    	$userVideo = UserVideo::find($id);
+    	$userVideo->video_id = $input['video_id'];
+    	$userVideo->sub_language_config = $input['sub_language_config'];
+    	$userVideo->audio_language_config = $input['audio_language_config'];
+    	$userVideo->save();
 
 
-	return $this->sendResponse($userVideo->toArray(), 'UserVideo updated successfully.');
+	   return $this->sendResponse($userVideo->toArray(), 'UserVideo updated successfully.');
     }
 
 
@@ -161,8 +138,8 @@ class UserVideoController extends BaseController
      */
     public function destroy($id)
     {
-	$userVideo = UserVideo::find($id);
-	$userVideo->delete();
+    	$userVideo = UserVideo::find($id);
+    	$userVideo->delete();
 
         return $this->sendResponse($userVideo->toArray(), 'User video deleted successfully.');
     }

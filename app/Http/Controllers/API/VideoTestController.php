@@ -36,9 +36,9 @@ class VideoTestController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'video_id' => 'required',
-            'subtitle_version' => 'required',
-            'language_code' => 'required'
+            'video_id' => 'required|string',
+            'subtitle_version' => 'required|integer',
+            'language_code' => 'required|string'
         ]);
 
 
@@ -49,8 +49,10 @@ class VideoTestController extends BaseController
 
         $videoTest = VideoTest::create($input);
 
-
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest created successfully.');
+        if(is_null($videoTest))
+            return $this->sendError('VideoTest could not be created');
+        else
+            return $this->sendResponse($videoTest->toArray(), 'VideoTest created successfully.');
     }
 
 
@@ -65,12 +67,12 @@ class VideoTestController extends BaseController
         $videoTest = VideoTest::find($id);
 
 
-        if (is_null($videoTest)) {
-            return $this->sendError('VideoTest not found.');
+        if (!$videoTest) {
+            return $this->sendError('VideoTest with id = '.$id.' not found.');
         }
 
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest retrieved successfully.');
+        return $this->sendResponse($videoTest->toArray(), 'VideoTest with id = '.$id.' retrieved successfully.');
     }
 
 
@@ -87,9 +89,9 @@ class VideoTestController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'video_id' => 'required',
-            'subtitle_version' => 'required',
-            'language_code' => 'required'
+            'video_id' => 'required|string',
+            'subtitle_version' => 'required|integer',
+            'language_code' => 'required|string'
         ]);
 
 
@@ -98,14 +100,23 @@ class VideoTestController extends BaseController
         }
 	
         $videoTest = VideoTest::find($id);
+
+         if (!$videoTest) {
+            return $this->sendError('VideoTest with id = '.$id.' not found.');
+        }
+
+        // $updated = $product->fill($request->all())->save();
+        
         $videoTest->video_id =  $input['video_id'];
         $videoTest->subtitle_version =  $input['subtitle_version'];
         $videoTest->language_code =  $input['language_code'];
 
-        $videoTest->save();
+        $updated = $videoTest->save();
 
-
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest updated successfully.');
+        if($updated)
+            return $this->sendResponse($videoTest->toArray(), 'VideoTest updated successfully.');
+        else
+            return $this->sendError('VideoTest could not be updated');
     }
 
 
@@ -117,10 +128,17 @@ class VideoTestController extends BaseController
      */
     public function destroy($id)
     {
-	$videoTest = VideoTest::find($id);
-        $videoTest->delete();
+    	$videoTest = VideoTest::find($id);
 
+         if (!$videoTest) {
+            return $this->sendError('VideoTest with id = '.$id.' not found.');
+        }
 
-        return $this->sendResponse($videoTest->toArray(), 'VideoTest deleted successfully.');
+        $deleted = $videoTest->delete();
+
+        if($deleted)
+            return $this->sendResponse($videoTest->toArray(), 'VideoTest deleted successfully.');
+        else
+            return $this->sendError('VideoTest could not be deleted');
     }
 }
