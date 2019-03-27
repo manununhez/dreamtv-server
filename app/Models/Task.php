@@ -20,7 +20,7 @@ class Task extends Model
     ];  
 
     public function userTasks(){
-        return $this->hasMany(UserTask::class);
+        return $this->hasMany('App\UserTask');//UserTask::class);
     }
 
      public function userListTasks(){

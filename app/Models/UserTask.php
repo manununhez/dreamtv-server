@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserTask extends Model
 {
    //
-
+	protected $fillable = [
+		'task_id', 'user_id', 'subtitle_version', 'subtitle_position', 'comments', 'time_watched', 'completed', 'rating'
+	];
 	public function users(){
 	    return $this->belongsTo(User::class, 'user_id');
 	} 

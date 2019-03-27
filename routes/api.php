@@ -29,9 +29,9 @@ Route::middleware('auth:api')->group(function () {
 	Route::resource('tasks','API\TaskController');
 	Route::get('task/categories','API\TaskController@tasksByCategories');
 	
-	Route::resource('user/tasks/list', 'API\UserListTaskController');
+	Route::resource('user/task/list', 'API\UserListTaskController');
 	
 	Route::resource('user/tasks', 'API\UserTaskController');
-	Route::get('user/tasks/type','API\UserTaskController@userTasksErrorsByUserType');
+	Route::get('user/task/type','API\UserTaskController@userTasksErrorsByUserType');
 });
 

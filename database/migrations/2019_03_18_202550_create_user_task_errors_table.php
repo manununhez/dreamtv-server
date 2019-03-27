@@ -22,7 +22,7 @@ class CreateUserTaskErrorsTable extends Migration
             $table->unique(['user_tasks_id', 'reason_code'], 'un_user_task_errors');
 
             $table->foreign('user_tasks_id')->references('id')->on('user_tasks')->onDelete('cascade');
-            $table->foreign('reason_code')->references('code')->on('error_reasons')->onDelete('cascade');
+            $table->foreign('reason_code')->references('reason_code')->on('error_reasons')->onDelete('cascade');
         });
     }
 

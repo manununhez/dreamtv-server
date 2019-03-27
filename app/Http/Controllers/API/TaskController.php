@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Task;
-use App\UserTasksError;
+use App\UserTask;
 use App\VideoTest;
 use Validator;
 
@@ -181,11 +181,11 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        // $userTasksError = UserTasksError::where('user_id', '=', $user->id)
-        //                     ->groupBy('task_id')
+        // $userTasks = UserTask::where('user_id', '=', $user->id)
+         //                    ->groupBy('task_id')
         //                     ->pluck('task_id')
-        //                     ->all();
-        $userTasksError = $user->userTasksErrors()->groupBy('task_id')->pluck('task_id');
+          //                   ->all();
+        $userTasks = $user->userTasks->groupBy('task_id')->pluck('task_id');
 
 	   if($user->audio_language != 'NN') {
         //     //We only shows tasks not finished yet by the user
@@ -193,14 +193,14 @@ class TaskController extends BaseController
                         ->whereHas('videos', function($query) use ($user){
             				$query->where('primary_audio_language_code', $user->audio_language);
             			})
-            			->whereNotIn('task_id',$userTasksError)
+            			->whereNotIn('task_id',$userTasks)
             			->where('language', '=', $user->sub_language)
             			->paginate(16); 
         
         } else {           
         //     //We only shows tasks not finished yet by the user
        		$tasks = Task::with('videos')
-            			->whereNotIn('task_id',$userTasksError)
+            			->whereNotIn('task_id',$userTasks)
             			->where('language', '=', $user->sub_language)
             			->paginate(16);
 
@@ -214,18 +214,20 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userVideos = UserVideo::where('user_id', $user->id)->get();
+        $userListTask = $user->userListTasks()->get();
         
-        $userVideosIdArray = $userVideos->groupBy('video_id')->pluck('video_id');                          
-        
-        $tasks = Task::with('videos')
-                ->whereHas('videos', function($query) use ($userVideos, $userVideosIdArray){
-                    $query->where('primary_audio_language_code', $userVideos->audio_language_config);
-                    $query->whereIn('video_id',$userVideosIdArray);
+        $userTasksIdArray = $userListTask->groupBy('task_id')->pluck('task_id');                          
+       // $tasks = 
+//	$tasks = $userListTask->tasks->get();
+        $tasks = $userListTask->map(function($list){ 
+	//	return 'Testing: task_id'.$list->task_id;
+		return Task::with('videos')
+               ->whereHas('videos', function($query) use ($list){
+                    $query->where('primary_audio_language_code', $list->audio_language_config);
                 })
-                ->where('language', $userVideos->sub_language_config)
-                ->paginate(50);
-
+                ->where('language', $list->sub_language_config)
+               ->where('task_id', $list->task_id)->firstOrFail();
+		});
         return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
     }
     
@@ -246,11 +248,11 @@ class TaskController extends BaseController
         //                     ->pluck('task_id')
         //                     ->all();
 
-        $userTasksError = $user->userTasksErrors()->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->groupBy('task_id')->pluck('task_id');
 
 
         $tasks = Task::with('videos')
-                    ->whereIn('task_id', $userTasksError)
+                    ->whereIn('task_id', $userTasks)
                     ->paginate(50);
         
         return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");

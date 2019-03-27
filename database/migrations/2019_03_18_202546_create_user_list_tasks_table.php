@@ -16,7 +16,7 @@ class CreateUserListTasksTable extends Migration
         Schema::create('user_list_tasks', function (Blueprint $table) {
     		$table->increments('id');
     		$table->integer('user_id')->unsigned();
-    		$table->string('task_id');
+    		$table->integer('task_id');
     		$table->string('sub_language_config');
     		$table->string('audio_language_config');
     		$table->timestamps();

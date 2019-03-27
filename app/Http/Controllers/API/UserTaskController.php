@@ -128,7 +128,18 @@ class UserTaskController extends BaseController
      */
     public function destroy($id)
     {
-        //
+       $userTask = UserTask::find($id);
+
+	if(!$userTask)
+		return $this->sendError('User task with id = '.$id.' not found.');
+
+
+	$deleted = $userTask->delete();
+
+	if($deleted)
+		return $this->sendResponse($userTask->toArray(), 'UserTask deleted successfully.');
+	else
+		return $this->sendError('UserTask could not be deleted');
     }
 
 
