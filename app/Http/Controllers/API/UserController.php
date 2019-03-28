@@ -26,12 +26,11 @@ class UserController extends BaseController
     {
         $input = $request->all();
 
-
         $validator = Validator::make($input, [
-            'interface_mode' => 'required',
-            'interface_language' => 'required',
-            'sub_language' => 'required',
-            'audio_language' => 'required'
+            'interface_mode' => 'required|string',
+            'interface_language' => 'required|string',
+            'sub_language' => 'required|string',
+            'audio_language' => 'required|string'
         ]);
 
 
@@ -44,10 +43,12 @@ class UserController extends BaseController
         $user->interface_mode = $request['interface_mode']; 
         $user->interface_language = $request['interface_language']; 
         $user->sub_language = $request['sub_language']; 
-        $user->save();
+        $updated = $user->save();
 
-
-        return $this->sendResponse($user->toArray(), 'User updated successfully.');
+        if($updated)
+            return $this->sendResponse($user->toArray(), 'User updated successfully.');
+        else
+            return $this->sendError('User could not be updated.');
     }
 
     /**
@@ -58,6 +59,7 @@ class UserController extends BaseController
     public function details()
     {
         $user = auth()->user();
+
         return $this->sendResponse($user->toArray(), 'User details');
     }
 }

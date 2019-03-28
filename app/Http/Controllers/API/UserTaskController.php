@@ -43,9 +43,13 @@ class UserTaskController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'task_id' => 'required',
-            'subtitle_version' => 'required',
-            'subtitle_position' => 'required',
+            'task_id' => 'required|integer',
+            'subtitle_version' => 'required|string',
+            'subtitle_position' => 'required|integer',
+            'time_watched' => 'integer',
+            'comments' => 'nullable|string',
+            'completed' => 'boolean',
+            'rating' => 'integer'
             ]);
 
         if($validator->fails()){
@@ -55,8 +59,11 @@ class UserTaskController extends BaseController
         $input['user_id'] = auth()->user()->id;
         $userTask = UserTask::create($input);
 
+        if(is_null($userTask))
+            return $this->sendError('User tasks could not be created.');
+        else
+            return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
 
-        return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
     }
 
 
@@ -93,10 +100,13 @@ class UserTaskController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'task_id' => 'required',
-            'subtitle_version' => 'required',
-            'subtitle_position' => 'required',
-            'time_watched' => 'required'
+            'task_id' => 'required|integer',
+            'subtitle_version' => 'required|string',
+            'subtitle_position' => 'required|integer',
+            'time_watched' => 'required|integer',
+            'comments' => 'nullable|string',
+            'completed' => 'boolean',
+            'rating' => 'integer'
         ]);
 
 
@@ -114,10 +124,14 @@ class UserTaskController extends BaseController
         $userTask->completed = $input['completed'];
         $userTask->rating = $input['rating'];
         $userTask->time_watched = $input['time_watched'];
-        $userTask->save();
+        $updated = $userTask->save();
+
+        if($updated)
+            return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
+        else
+            return $this->sendError('UserTask could not be created');
 
 
-       return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
     }
 
     /**
@@ -128,92 +142,18 @@ class UserTaskController extends BaseController
      */
     public function destroy($id)
     {
-       $userTask = UserTask::find($id);
+        $userTask = UserTask::find($id);
 
-	if(!$userTask)
-		return $this->sendError('User task with id = '.$id.' not found.');
+    	if(!$userTask)
+    		return $this->sendError('User task with id = '.$id.' not found.');
 
 
-	$deleted = $userTask->delete();
+    	$deleted = $userTask->delete();
 
-	if($deleted)
-		return $this->sendResponse($userTask->toArray(), 'UserTask deleted successfully.');
-	else
-		return $this->sendError('UserTask could not be deleted');
+    	if($deleted)
+    		return $this->sendResponse($userTask->toArray(), 'UserTask deleted successfully.');
+    	else
+    		return $this->sendError('UserTask could not be deleted');
     }
 
-
-        /**
-     * List of user tasks
-     *
-     * Display a listing of the resource.
-     *
-     * Requires user token - header 'Authorization'
-     */
-    public function userTasksErrorsByUserType(Request $request) 
-    {
-
-        $task_type = $request['type'];
-        
-        switch ($task_type) {
-            case "current_user":
-                //echo "getUserTasks!";
-                return $this->getTaskDetailsForCurrentUser($request);
-                //break;
-            case "other_users":
-                //echo "getOtherUserTasks!";
-                return $this->getTaskDetailsForOtherUsers($request);
-                //break;
-            default:
-                //echo "getUserTasks!";
-                return $this->getTaskDetailsForCurrentUser($request);
-
-        }
-    }
-
-
-    /**
-    * Get user task
-    *
-    * Retrieves current user specific data about task (task_id).
-    * Order by subtitle_position ASC
-    * QueryParams => 'task_id':<task_id>  integer 
-    * Requires user token - header 'Authorization'
-    */
-    public function getTaskDetailsForCurrentUser(Request $request)
-    {
-        $user = auth()->user();
-   
-        $userTask = UserTask::where('user_id', $user->id)
-                    ->where('task_id', $request['task_id'])
-                    ->orderBy('subtitle_position', 'ASC')
-                    ->get();
-
-        return $this->sendResponse($userTask->toArray(), "User task description.");
-       
-    }
-
-
-    /**
-    * Get Other User Tasks
-    * 
-    * Retrieves all users data about task (task_id)
-    * excluding current user tasks. This option warns current user about
-    * other user choices in the same task. 
-    * 
-    * Order by subtitle_position ASC
-    * QueryParams => 'task_id':<task_id>  integer 
-    * Requires user token - header 'Authorization'
-    */
-    public function getTaskDetailsForOtherUsers(Request $request) 
-    {
-        $user = auth()->user();
-        
-        $userTask = UserTask::where('user_id', '!=', $user->id)
-                    ->where('task_id', $request['task_id'])
-                    ->orderBy('subtitle_position', 'ASC')
-                    ->get();
-
-        return $this->sendResponse($userTask->toArray(), "Other users task description.");
-    }
 }

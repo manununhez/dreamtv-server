@@ -36,9 +36,10 @@ class ErrorReasonController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'reason_code' => 'required',
-            'name' => 'required',
-            'language' => 'required'
+            'reason_code' => 'required|string',
+            'name' => 'required|string',
+            'language' => 'required|string',
+            'description' => 'nullable|string'
         ]);
 
 
@@ -49,8 +50,10 @@ class ErrorReasonController extends BaseController
 
         $errorReason = ErrorReason::create($input);
 
-
-        return $this->sendResponse($errorReason->toArray(), 'Error Reason created successfully.');
+        if(is_null($errorReason))
+            return $this->sendError('Error Reason could not be created');
+        else
+            return $this->sendResponse($errorReason->toArray(), 'Error Reason created successfully.');
     }
 
 
@@ -66,11 +69,11 @@ class ErrorReasonController extends BaseController
 
 
         if (is_null($errorReason)) {
-            return $this->sendError('ErrorReason not found.');
+            return $this->sendError('ErrorReason with code = '.$code.' not found.');
         }
 
 
-        return $this->sendResponse($errorReason->toArray(), 'ErrorReason retrieved successfully.');
+        return $this->sendResponse($errorReason->toArray(), 'ErrorReason with code = '.$code.' retrieved successfully.');
     }
 
 
@@ -87,8 +90,9 @@ class ErrorReasonController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'language' => 'required'
+            'name' => 'required|string',
+            'language' => 'required|string',
+            'description' => 'nullable|string'
         ]);
 
 
@@ -99,12 +103,15 @@ class ErrorReasonController extends BaseController
         $errorReason = ErrorReason::find($code);
         $errorReason->name =  $input['name'];
         $errorReason->language =  $input['language'];
-        $errorReason->description = isset($input['description']) ? $input['description'] : null;
+        $errorReason->description = $input['description'];//isset($input['description']) ? $input['description'] : null;
         
-        $errorReason->save();
+        $updated = $errorReason->save();
 
+        if($updated)
+            return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
+        else
+            return $this->sendError('Error reason could not be updated');
 
-        return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
     }
 
 
@@ -116,10 +123,19 @@ class ErrorReasonController extends BaseController
      */
     public function destroy($code)
     {
+
         $errorReason = ErrorReason::find($code);
-        $errorReason->delete();
+
+        if (!$errorReason) {
+            return $this->sendError('ErrorReason with id = '.$id.' not found.');
+        }
+
+        $deleted = $errorReason->delete();
 
 
-        return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'deleted successfully.');
+        if($deleted)
+            return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'deleted successfully.');
+        else
+            return $this->sendError('Error reason could not be deleted');
     }
 }

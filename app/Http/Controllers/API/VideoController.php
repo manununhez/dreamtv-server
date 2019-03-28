@@ -36,16 +36,16 @@ class VideoController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'video_id' => 'required',
-            'primary_audio_language_code' => 'required',
-            'original_language' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'duration' => 'required',
-            'thumbnail' => 'required',
-            'team' => 'required',
-            'project' => 'required',
-            'video_url' => 'required'
+            'video_id' => 'required|string',
+            'primary_audio_language_code' => 'required|string',
+            'original_language' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'required|string',
+            'duration' => 'required|integer',
+            'thumbnail' => 'required|string',
+            'team' => 'required|string',
+            'project' => 'required|string',
+            'video_url' => 'required|string'
         ]);
 
 
@@ -94,15 +94,15 @@ class VideoController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'primary_audio_language_code' => 'required',
-            'original_language' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'duration' => 'required',
-            'thumbnail' => 'required',
-            'team' => 'required',
-            'project' => 'required',
-            'video_url' => 'required'
+            'primary_audio_language_code' => 'required|string',
+            'original_language' => 'required|string',
+            'title' => 'required|string',
+            'description' => 'required|integer',
+            'duration' => 'required|string',
+            'thumbnail' => 'required|string',
+            'team' => 'required|string',
+            'project' => 'required|string',
+            'video_url' => 'required|string'
         ]);
 
 

@@ -60,8 +60,11 @@ class UserListTaskController extends BaseController
         $input['user_id'] = auth()->user()->id;
         $userListTask = UserListTask::create($input);
 
+        if(is_null($userListTask))
+            return $this->sendError('Task could not be added to user list.');
+        else
+            return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
 
-        return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
     }
 
 
@@ -87,7 +90,6 @@ class UserListTaskController extends BaseController
         if (is_null($userListTask)) {
             return $this->sendError('User taks list not found.');
         }
-
 
         return $this->sendResponse($userListTask->toArray(), 'List of user tasks retrieved successfully.');
     }
@@ -117,13 +119,21 @@ class UserListTaskController extends BaseController
          }
 
     	$userListTask = UserListTask::find($id);
+
+        if (is_null($userListTask)) {
+            return $this->sendError('User taks list not found.');
+        }
+
     	$userListTask->task_id = $input['task_id'];
     	$userListTask->sub_language_config = $input['sub_language_config'];
     	$userListTask->audio_language_config = $input['audio_language_config'];
-    	$userListTask->save();
+    	$updated = $userListTask->save();
 
+        if($updated)
+            return $this->sendResponse($userListTask->toArray(), 'Task from user list updated successfully.');
+        else
+            return $this->sendError('Task from user list could not be updated');
 
-	   return $this->sendResponse($userListTask->toArray(), 'Task from user list updated successfully.');
     }
 
 
@@ -139,9 +149,18 @@ class UserListTaskController extends BaseController
     public function destroy($id)
     {
     	$userListTask = UserListTask::find($id);
-    	$userListTask->delete();
 
-        return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
+        if (is_null($userListTask)) {
+            return $this->sendError('User taks list not found.');
+        }
+    	
+        $deleted = $userListTask->delete();
+
+        if($deleted)
+            return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
+        else
+            return $this->sendError('Task from user list could not be deleted');
+
     }
 
 }
