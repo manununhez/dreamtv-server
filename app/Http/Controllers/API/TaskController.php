@@ -112,7 +112,8 @@ class TaskController extends BaseController
         $task->type =  $input['type'];
         $task->created =  $input['created'];
         $task->modified =  $input['modified'];
-        $task->completed = $input['completed'];
+        if(isset($input['completed']))
+		$task->completed = $input['completed'];
         
         $updated = $task->save();
 
@@ -321,11 +322,10 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->where('completed', 1)->groupBy('task_id')->pluck('task_id');
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
-                    ->where('completed', true)
                     ->paginate(50);
         
         return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
