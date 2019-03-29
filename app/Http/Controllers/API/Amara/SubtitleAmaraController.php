@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\API\Amara;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\API\BaseController as BaseController;
 Use App\AmaraAPI;
+use Validator;
+
 
 /**
  * @group Subtitles
  *
  * APIs for retrieving subtitles
  */
-class SubtitleController extends AppBaseController
+class SubtitleController extends BaseController
 {
 
     /**
@@ -22,12 +25,24 @@ class SubtitleController extends AppBaseController
      */
     public function show(Request $request)
     {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'video_id' => 'required|string',
+            'language_code' => 'required|string',
+            'version' => 'required|integer',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
         $API = new AmaraAPI();
         $r = $request->all();
 
         $subtitle = $API->getSubtitle($r);
 
-        return AppBaseController::sendResponse($subtitle, "");             
+        return $this->sendResponse($subtitle, "Subtitle retrieved.");             
     }
 
 }

@@ -104,9 +104,9 @@ class UserTaskController extends BaseController
             'subtitle_version' => 'required|string',
             'subtitle_position' => 'required|integer',
             'time_watched' => 'required|integer',
-		'comments' => 'nullable|string',
-		'completed' => 'boolean',
-		'rating' => 'integer'
+    		'comments' => 'nullable|string',
+    		'completed' => 'boolean',
+    		'rating' => 'integer'
         ]);
 
 
@@ -120,19 +120,19 @@ class UserTaskController extends BaseController
                             ->where('subtitle_position', $input['subtitle_position'])
                             ->first();
 	
-	if(is_null($userTask))
-		return $this->sendError('UserTask not found.');
+    	if(is_null($userTask))
+    		return $this->sendError('UserTask not found.');
 
         if(isset($input['comments']))
-		$userTask->comments = $input['comments'];
+		  $userTask->comments = $input['comments'];
         
-	if(isset($input['completed']))
-		$userTask->completed = $input['completed'];
+    	if(isset($input['completed']))
+    		$userTask->completed = $input['completed'];
         
-	if(isset($input['rating']))
-		$userTask->rating = $input['rating'];
+    	if(isset($input['rating']))
+    		$userTask->rating = $input['rating'];
         
-	$userTask->time_watched = $input['time_watched'];
+        $userTask->time_watched = $input['time_watched'];
         $updated = $userTask->save();
 
         if($updated)

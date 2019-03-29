@@ -112,8 +112,9 @@ class TaskController extends BaseController
         $task->type =  $input['type'];
         $task->created =  $input['created'];
         $task->modified =  $input['modified'];
+        
         if(isset($input['completed']))
-		$task->completed = $input['completed'];
+		  $task->completed = $input['completed'];
         
         $updated = $task->save();
 
