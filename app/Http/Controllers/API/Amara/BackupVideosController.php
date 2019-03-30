@@ -150,7 +150,7 @@ class BackupVideosController extends BaseController
             } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
         }
         
-        return $this->sendResponse($tasks->toArray(), "Backup tests ended succesfully");
+        return $this->sendResponse($tasks, "Backup tests ended succesfully");
     }
 
 
