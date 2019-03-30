@@ -133,14 +133,14 @@ class BackupVideosController extends BaseController
                 						'video_url' => $v->all_urls[0],
                 					]);
                                 } catch(QueryException $e) {
-                                    Log::info($e->getMessage());
-                                //return AppBaseController::sendError($e->getMessage());
+                                    //Log::info($e->getMessage());
+                                    return $this->sendError($e->getMessage());
 
                                 }
                             }
                         } catch(QueryException $e) {
-                            Log::info($e->getMessage());
-                            //return AppBaseController::sendError($e->getMessage());
+                            //Log::info($e->getMessage());
+                            return $this->sendError($e->getMessage());
                         }
                     
                     }
@@ -148,7 +148,7 @@ class BackupVideosController extends BaseController
             } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
         }
         
-        return $this->sendResponse("", "Backup tests ended succesfully");
+        return $this->sendResponse($tasks->toArray(), "Backup tests ended succesfully");
     }
 
 
