@@ -98,51 +98,53 @@ class BackupVideosController extends BaseController
 
                 foreach ($tasks as $key => $value)
                 {
-                    $task = Task::find($value->id);
                     
+                    $video = Video::find($value->video_id);
 
-                    if(is_null($task)) { //we save a new task only if the task does not exist yet
-                        
-                        try{
-            				Task::create([
-            					'task_id' => $value->id,
-            					'video_id' => $value->video_id,
-            					'language' => $value->language,
-            					'type' => $value->type,
-            					'created' => $value ->created,
-            					'modified' => $value->modified,
-            					'completed' => $value->completed,
-            				]);
-                        
-                            $video = Video::find($value->video_id);
-
-                            if(is_null($video)) { //we save a new video only if the video does not exist yet
+                    if(is_null($video)) { //we save a new video only if the video does not exist yet
                                 try{
                                     $v = $API->getVideoInfo(array("video_id" => $value->video_id));
                         
                                     Video::create([
-                						'video_id' => $v->id,
-                						'primary_audio_language_code' => $v->primary_audio_language_code,
-                						'original_language' => $v->original_language,
-                						'title' => $v->title,
-                						'description' => $v->description,
-                						'duration' => $v->duration,
-                						'thumbnail' => $v->thumbnail,
-                						'team' => $v->team,
-                						'project' => $v->project,
-                						'video_url' => $v->all_urls[0],
-                					]);
+                                        'video_id' => $v->id,
+                                        'primary_audio_language_code' => $v->primary_audio_language_code,
+                                        'original_language' => $v->original_language,
+                                        'title' => $v->title,
+                                        'description' => $v->description,
+                                        'duration' => $v->duration,
+                                        'thumbnail' => $v->thumbnail,
+                                        'team' => $v->team,
+                                        'project' => $v->project,
+                                        'video_url' => $v->all_urls[0],
+                                    ]);
+
+                                    $task = Task::find($value->id);
+
+                                    if(is_null($task)) { //we save a new task only if the task does not exist yet
+                                        
+                                        try{
+                                            Task::create([
+                                                'task_id' => $value->id,
+                                                'video_id' => $value->video_id,
+                                                'language' => $value->language,
+                                                'type' => $value->type,
+                                                'created' => $value ->created,
+                                                'modified' => $value->modified,
+                                                'completed' => $value->completed,
+                                            ]);
+                                    
+                                            
+                                        } catch(QueryException $e) {
+                                            //Log::info($e->getMessage());
+                                            return $this->sendError($e->getMessage());
+                                        }
+                                    
+                                    }
                                 } catch(QueryException $e) {
                                     //Log::info($e->getMessage());
                                     return $this->sendError($e->getMessage());
 
                                 }
-                            }
-                        } catch(QueryException $e) {
-                            //Log::info($e->getMessage());
-                            return $this->sendError($e->getMessage());
-                        }
-                    
                     }
                 }
             } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
