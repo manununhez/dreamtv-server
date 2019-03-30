@@ -38,7 +38,6 @@ class VideoController extends BaseController
         $validator = Validator::make($input, [
             'video_id' => 'required|string',
             'primary_audio_language_code' => 'required|string',
-            'original_language' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
             'duration' => 'required|integer',
@@ -95,7 +94,6 @@ class VideoController extends BaseController
 
         $validator = Validator::make($input, [
             'primary_audio_language_code' => 'required|string',
-            'original_language' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
             'duration' => 'required|integer',
@@ -111,7 +109,6 @@ class VideoController extends BaseController
         }
 
         $video->primary_audio_language_code =  $input['primary_audio_language_code'];
-        $video->original_language =  $input['original_language'];
         $video->title =  $input['title'];
         $video->description =  $input['description'];
         $video->duration =  $input['duration'];

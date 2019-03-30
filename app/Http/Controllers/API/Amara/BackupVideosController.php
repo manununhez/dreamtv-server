@@ -26,8 +26,7 @@ class BackupVideosController extends BaseController
      *
      * Display a listing of the resource.
      *
-     * Requires user token - header 'Authorization'
-     */
+    */
     public function saveTestTasksFromAmara(Request $request)
     {
         $API = new AmaraAPI();
@@ -97,8 +96,7 @@ class BackupVideosController extends BaseController
                 $offset += $limit;
 
                 foreach ($tasks as $key => $value)
-                {
-                    
+                {     
                     $video = Video::find($value->video_id);
 
                     if(is_null($video)) { //we save a new video only if the video does not exist yet
@@ -157,9 +155,14 @@ class BackupVideosController extends BaseController
     /**
      * Save tasks from Amara (get only Review Tasks)
      *
+     * open (boolean) – Show only incomplete tasks
+     * -created Creation date (descending)
+     * type (string) – Show only tasks of a given type
+     * completed-before (integer) – Show only tasks completed before a given date (as a unix timestamp)
+     * completed-after (integer) – Show only tasks completed before a given date (as a unix timestamp)
      * Display a listing of the resource.
      *
-     * Requires user token - header 'Authorization'
+     * 1483228740 Is equivalent to: 12/31/2016 @ 11:59pm (UTC)
      */
     public function saveTasksFromAmara(Request $request)
     {
@@ -167,27 +170,37 @@ class BackupVideosController extends BaseController
         $tasks = array();
         $offset = 0;
         $limit = 40;
+        $order_by_date_creation_asc = 'created';
         $Review = 'Review';
+        $team = 'ted';
+        $show_incomplete_task = true;
+
+        $task = Task::orderBy('created', 'desc')->first();
         
+        if(is_null($task))
+            $completed_after = 1483228800; //default after 2016
+        else
+            $completed_after = strtotime($task->created); //after the last task inserted
+
         do{
             $resultChunk = $API->getTasks(array(
-                    'team' => 'ted',
-                    'open' => true,
-                    'order_by'=> '-created',
+                    'team' => $team,
+                    'open' => $show_incomplete_task,
+                    'order_by' => $order_by_date_creation_asc,
+                    'completed-after' => $completed_after,
+                    'type' => $Review,
                     'limit'=> $limit,
                     'offset'=>$offset,
-                    'type' => $Review,
                     ));
             
             $offset += $limit;
 
-            if(isset($resultChunk->objects)) {
+            if(isset($resultChunk->objects)) 
+            {
                 $tasks = $resultChunk->objects;
 
-
                 foreach ($tasks as $key => $value)
-                {
-                    
+                {   
                     $video = Video::find($value->video_id);
 
                     if(is_null($video)) { //we save a new video only if the video does not exist yet
@@ -197,7 +210,6 @@ class BackupVideosController extends BaseController
                             Video::create([
                                 'video_id' => $v->id,
                                 'primary_audio_language_code' => $v->primary_audio_language_code,
-                                'original_language' => $v->original_language,
                                 'title' => $v->title,
                                 'description' => $v->description,
                                 'duration' => $v->duration,
