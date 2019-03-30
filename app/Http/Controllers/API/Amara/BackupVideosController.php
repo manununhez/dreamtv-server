@@ -102,49 +102,49 @@ class BackupVideosController extends BaseController
                     $video = Video::find($value->video_id);
 
                     if(is_null($video)) { //we save a new video only if the video does not exist yet
+                        try{
+                            $v = $API->getVideoInfo(array("video_id" => $value->video_id));
+                
+                            Video::create([
+                                'video_id' => $v->id,
+                                'primary_audio_language_code' => $v->primary_audio_language_code,
+                                'original_language' => $v->original_language,
+                                'title' => $v->title,
+                                'description' => $v->description,
+                                'duration' => $v->duration,
+                                'thumbnail' => $v->thumbnail,
+                                'team' => $v->team,
+                                'project' => $v->project,
+                                'video_url' => $v->all_urls[0],
+                            ]);
+
+                            $task = Task::find($value->id);
+
+                            if(is_null($task)) { //we save a new task only if the task does not exist yet
+                                
                                 try{
-                                    $v = $API->getVideoInfo(array("video_id" => $value->video_id));
-                        
-                                    Video::create([
-                                        'video_id' => $v->id,
-                                        'primary_audio_language_code' => $v->primary_audio_language_code,
-                                        'original_language' => $v->original_language,
-                                        'title' => $v->title,
-                                        'description' => $v->description,
-                                        'duration' => $v->duration,
-                                        'thumbnail' => $v->thumbnail,
-                                        'team' => $v->team,
-                                        'project' => $v->project,
-                                        'video_url' => $v->all_urls[0],
+                                    Task::create([
+                                        'task_id' => $value->id,
+                                        'video_id' => $value->video_id,
+                                        'language' => $value->language,
+                                        'type' => $value->type,
+                                        'created' => $value ->created,
+                                        'modified' => $value->modified,
+                                        'completed' => $value->completed,
                                     ]);
-
-                                    $task = Task::find($value->id);
-
-                                    if(is_null($task)) { //we save a new task only if the task does not exist yet
-                                        
-                                        try{
-                                            Task::create([
-                                                'task_id' => $value->id,
-                                                'video_id' => $value->video_id,
-                                                'language' => $value->language,
-                                                'type' => $value->type,
-                                                'created' => $value ->created,
-                                                'modified' => $value->modified,
-                                                'completed' => $value->completed,
-                                            ]);
+                            
                                     
-                                            
-                                        } catch(QueryException $e) {
-                                            //Log::info($e->getMessage());
-                                            return $this->sendError($e->getMessage());
-                                        }
-                                    
-                                    }
                                 } catch(QueryException $e) {
                                     //Log::info($e->getMessage());
                                     return $this->sendError($e->getMessage());
-
                                 }
+                            
+                            }
+                        } catch(QueryException $e) {
+                            //Log::info($e->getMessage());
+                            return $this->sendError($e->getMessage());
+
+                        }
                     }
                 }
             } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
@@ -184,49 +184,55 @@ class BackupVideosController extends BaseController
             if(isset($resultChunk->objects)) {
                 $tasks = $resultChunk->objects;
 
-                foreach ($tasks as $key => $value){
-                    $objectTask = new Task();
-                    $task = Task::select('tasks.*')
-                            ->where('task_id', '=' ,$value->id)
-                            ->first();
-                    
-                    if($task === null) { //we save a new task only if the task does not exist yet
-                        try{
-                            $objectTask->task_id = $value->id;
-                            $objectTask->video_id = $value->video_id;
-                            $objectTask->language = $value->language;
-                            $objectTask->type = $value->type;
-                            $objectTask->priority = $value->priority;
-                            $objectTask->created = $value->created;
-                            $objectTask->modified = $value->modified;
-                            $objectTask->completed = $value->completed;
-                            $objectTask->save();
-                        
-                            $video = Video::select('videos.*')
-                                    ->where('video_id', '=' ,$value->video_id)
-                                    ->first();
 
-                            if($video === null) { //we save a new video only if the video does not exist yet
+                foreach ($tasks as $key => $value)
+                {
+                    
+                    $video = Video::find($value->video_id);
+
+                    if(is_null($video)) { //we save a new video only if the video does not exist yet
+                        try{
+                            $v = $API->getVideoInfo(array("video_id" => $value->video_id));
+                
+                            Video::create([
+                                'video_id' => $v->id,
+                                'primary_audio_language_code' => $v->primary_audio_language_code,
+                                'original_language' => $v->original_language,
+                                'title' => $v->title,
+                                'description' => $v->description,
+                                'duration' => $v->duration,
+                                'thumbnail' => $v->thumbnail,
+                                'team' => $v->team,
+                                'project' => $v->project,
+                                'video_url' => $v->all_urls[0],
+                            ]);
+
+                            $task = Task::find($value->id);
+
+                            if(is_null($task)) { //we save a new task only if the task does not exist yet
+                                
                                 try{
-                                    $v = $API->getVideoInfo(array("video_id" => $value->video_id));
-                                    $video = new Video();
-                                    $video->video_id = $v->id;
-                                    $video->primary_audio_language_code = $v->primary_audio_language_code === null ? "" : $v->primary_audio_language_code;
-                                    $video->original_language = $v->original_language === null ? "" : $v->original_language;
-                                    $video->title = $v->title === null ? "" : $v->title;
-                                    $video->description = $v->description === null ? "" : $v->description;
-                                    $video->duration = $v->duration;
-                                    $video->thumbnail= $v->thumbnail === null ? "" : $v->thumbnail;
-                                    $video->team = $v->team === null ? "" : $v->team;
-                                    $video->project = $v->project === null ? "" : $v->project; 
-                                    $video->video_url = $v->all_urls[0] === null ? "" : $v->all_urls[0];
-                                    $video->save();
+                                    Task::create([
+                                        'task_id' => $value->id,
+                                        'video_id' => $value->video_id,
+                                        'language' => $value->language,
+                                        'type' => $value->type,
+                                        'created' => $value ->created,
+                                        'modified' => $value->modified,
+                                        'completed' => $value->completed,
+                                    ]);
+                            
+                                    
                                 } catch(QueryException $e) {
-                            //return AppBaseController::sendError($e->getMessage());
+                                    //Log::info($e->getMessage());
+                                    return $this->sendError($e->getMessage());
                                 }
+                            
                             }
                         } catch(QueryException $e) {
-                            //return AppBaseController::sendError($e->getMessage());
+                            //Log::info($e->getMessage());
+                            return $this->sendError($e->getMessage());
+
                         }
                     }
                 }   
@@ -234,6 +240,7 @@ class BackupVideosController extends BaseController
 
         } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
 
-        return $this->sendResponse("", "Backup tests ended succesfully");
+        return $this->sendResponse($tasks, "Backup tests ended succesfully");
+
     }
 }
