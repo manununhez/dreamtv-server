@@ -7,8 +7,8 @@ Route::get('amara/video', 'API\Amara\VideoAmaraController@show');
 Route::get('amara/subtitle', 'API\Amara\SubtitleAmaraController@show');
 
 // Backup
-Route::get('backup','BackupVideosController@saveTasksFromAmara');
-Route::get('backup/test','BackupVideosController@saveTestTasksFromAmara');
+Route::get('backup','API\Amara\BackupVideosController@saveTasksFromAmara');
+Route::get('backup/test','API\Amara\BackupVideosController@saveTestTasksFromAmara');
 
 // DREAM SERVER
 Route::post('login', 'API\LoginController@login');

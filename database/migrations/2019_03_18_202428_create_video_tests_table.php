@@ -20,7 +20,7 @@ class CreateVideoTestsTable extends Migration
             $table->string("language_code");    
             $table->timestamps();
 
-            $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
+           // $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
             
         });
     }

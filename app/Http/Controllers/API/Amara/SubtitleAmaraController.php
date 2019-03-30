@@ -13,7 +13,7 @@ use Validator;
  *
  * APIs for retrieving subtitles
  */
-class SubtitleController extends BaseController
+class SubtitleAmaraController extends BaseController
 {
 
     /**

@@ -116,8 +116,16 @@ class BackupVideosController extends BaseController
                             // $objectTask->created = $value->created;
                             // $objectTask->modified = $value->modified;
                             // $objectTask->completed = $value->completed;
-                            // $objectTask->save();
-                            Task::create($value);
+				    // $objectTask->save();
+				Task::create([
+					'task_id' => $value->id,
+					'video_id' => $value->video_id,
+					'language' => $value->language,
+					'type' => $value->type,
+					'created' => $value ->created,
+					'modified' => $value->modified,
+					'completed' => $value->completed,
+				]);
                         
                             // $video = Video::select('videos.*')
                             //         ->where('video_id', '=' ,$value->video_id)
@@ -139,7 +147,18 @@ class BackupVideosController extends BaseController
                                     // $video->project = $v->project === null ? "" : $v->project; 
                                     // $video->video_url = $v->all_urls[0] === null ? "" : $v->all_urls[0];
                                     // $video->save();
-                                    Video::create($v);
+                                    Video::create([
+						'video_id' => $v->id,
+						'primary_audio_language_code' => $v->primary_audio_language_code,
+						'original_language' => $v->original_language,
+						'title' => $v->title,
+						'description' => $v->description,
+						'duration' => $v->duration,
+						'thumbnail' => $v->thumbnail,
+						'team' => $v->team,
+						'project' => $v->project,
+						'video_url' => $v->all_urls[0],
+					]);
                                 } catch(QueryException $e) {
                                 //return AppBaseController::sendError($e->getMessage());
                                 }
