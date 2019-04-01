@@ -46,7 +46,7 @@ class AmaraAPI {
      *
      * @since 0.1.0
     */
-    public $retries = 10;
+    public $retries = 20;
     public $limit = 10;
     public $verboseCurl = false;
 

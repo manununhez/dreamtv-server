@@ -19,7 +19,7 @@ class TaskController extends BaseController
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('task_id', 'desc')->get();
 
         return $this->sendResponse($tasks->toArray(), 'Tasks retrieved successfully.');
     }

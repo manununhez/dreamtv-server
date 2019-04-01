@@ -44,7 +44,7 @@ class BackupVideosController extends BaseController
         foreach ($videoIdArray as $videoId){
             
             $offset = 0;
-            $limit = 40;
+            $limit = 10;
                 
             do{
                 $resultChunk = $API->getTasks(array(
@@ -169,25 +169,25 @@ class BackupVideosController extends BaseController
         $API = new AmaraAPI();
         $tasks = array();
         $offset = 0;
-        $limit = 40;
-        $order_by_date_creation_asc = 'created';
+        $limit = 10;
+        $order_by_date_creation_asc = '-created';
         $Review = 'Review';
         $team = 'ted';
         $show_incomplete_task = true;
 
-        $task = Task::orderBy('created', 'desc')->first();
+        //$task = Task::orderBy('created', 'desc')->first();
         
-        if(is_null($task))
-            $completed_after = 1483228800; //default after 2016
-        else
-            $completed_after = strtotime($task->created); //after the last task inserted
+       // if(is_null($task))
+         //   $completed_after = 1483228800; //default after 2016
+        //else
+          //  $completed_after = strtotime($task->created); //after the last task inserted
 
         do{
             $resultChunk = $API->getTasks(array(
                     'team' => $team,
                     'open' => $show_incomplete_task,
                     'order_by' => $order_by_date_creation_asc,
-                    'completed-after' => $completed_after,
+                   // 'completed-after' => $completed_after,
                     'type' => $Review,
                     'limit'=> $limit,
                     'offset'=>$offset,
