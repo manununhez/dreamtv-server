@@ -12,7 +12,7 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving videos
  */
-class VideoController extends BaseController
+class VideoAmaraController extends BaseController
 {
 
    /**
