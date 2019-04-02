@@ -28,7 +28,7 @@ class LoginController extends BaseController
             $success['token'] =  auth()->user()->createToken('DreamTv')->accessToken;
             return $this->sendResponse(["token" => $success['token']], 'Login successfully.');
         } else {
-            return $this->sendError(['error' => 'UnAuthorised'], 401);
+            return $this->sendError('Error', 'UnAuthorised', 401);
         }
     }
 
