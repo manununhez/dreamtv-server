@@ -1,5 +1,6 @@
 <?php
 
+Route::group(['middleware' => ['json.response']], function () {
 // AMARA
 Route::get('amara/languages', 'API\Amara\LanguageAmaraController@index');
 Route::get('amara/videos', 'API\Amara\VideoAmaraController@index');
@@ -35,4 +36,4 @@ Route::middleware('auth:api')->group(function () {
 	Route::resource('user/task/errors','API\UserTaskErrorController');
 	Route::get('user/task/errors/type','API\UserTaskErrorController@userTasksErrorsByUserType');
 });
-
+});
