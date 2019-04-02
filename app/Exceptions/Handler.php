@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use League\OAuth2\Server\Exception\OAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -33,9 +34,23 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
+
     public function report(Exception $exception)
     {
         parent::report($exception);
+        if ($exception instanceof OAuthServerException) {
+            try {
+                $logger = $this->container->make(LoggerInterface::class);
+            } catch (Exception $e) {
+                throw $exception; // throw the original exception
+            }
+            $logger->error(
+                $exception->getMessage(),
+                ['exception' => $exception]
+            );
+        } else {
+            parent::report($exception);
+        }
     }
 
     /**
