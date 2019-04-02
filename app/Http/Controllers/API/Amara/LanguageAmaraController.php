@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Amara;
 
+use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
 Use App\AmaraAPI;
 
@@ -10,7 +11,7 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving languages
  */
-class LanguageController extends AppBaseController
+class LanguageController extends BaseController
 {
 
     /**
@@ -23,7 +24,7 @@ class LanguageController extends AppBaseController
         $API = new AmaraAPI();
         $languages = $API->getLanguages();
 
-        return AppBaseController::sendResponse($languages, "");
+        return $this->sendResponse($languages, "Languages retrieved correctly.");
 
     }
 
