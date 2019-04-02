@@ -41,7 +41,7 @@ class UserTaskErrorController extends BaseController
 
 
         $validator = Validator::make($input, [
-            'user_tasks_id' => 'required|integer'
+            'user_tasks_id' => 'required|integer',
             'reason_code' => 'required|string'
         ]);
 
