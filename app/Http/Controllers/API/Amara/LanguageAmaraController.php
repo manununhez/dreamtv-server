@@ -11,7 +11,7 @@ Use App\AmaraAPI;
  *
  * APIs for retrieving languages
  */
-class LanguageController extends BaseController
+class LanguageAmaraController extends BaseController
 {
 
     /**
