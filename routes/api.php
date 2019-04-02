@@ -18,9 +18,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('details', 'API\AuthController@details');
     
     Route::put('user', 'API\UserController@update');
-    
-    Route::resource('products', 'API\ProductController');
-    
+        
     Route::resource('videos', 'API\VideoController');
     
     Route::resource('videotests','API\VideoTestController');
