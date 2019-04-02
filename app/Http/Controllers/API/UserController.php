@@ -51,15 +51,5 @@ class UserController extends BaseController
             return $this->sendError('User could not be updated.');
     }
 
-    /**
-     * Returns Authenticated User Details
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function details()
-    {
-        $user = auth()->user();
 
-        return $this->sendResponse($user->toArray(), 'User details');
-    }
 }

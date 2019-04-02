@@ -11,11 +11,12 @@ Route::get('backup','API\Amara\BackupVideosController@saveTasksFromAmara');
 Route::get('backup/test','API\Amara\BackupVideosController@saveTestTasksFromAmara');
 
 // DREAM SERVER
-Route::post('login', 'API\LoginController@login');
-Route::post('register', 'API\RegisterController@register');
+Route::post('login', 'API\AuthController@login');
+Route::post('register', 'API\AuthController@register');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('user', 'API\UserController@details');
+    Route::get('details', 'API\AuthController@details');
+    
     Route::put('user', 'API\UserController@update');
     
     Route::resource('products', 'API\ProductController');
