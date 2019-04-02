@@ -47,14 +47,14 @@ class TaskController extends BaseController
         ]);
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
         $task = Task::create($input);
 
         if(is_null($task))
-            return $this->sendError('Task could not be created');
+            return $this->sendError('Task could not be created', 500);
         else
             return $this->sendResponse($task->toArray(), 'Task created successfully.');
 
@@ -73,7 +73,7 @@ class TaskController extends BaseController
 
 
         if (is_null($task)) {
-            return $this->sendError('Task with task_id = '.$task_id.' not found.');
+            return $this->sendError('Task with task_id = '.$task_id.' not found.', 400);
         }
 
 
@@ -104,7 +104,7 @@ class TaskController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         $task->video_id =  $input['video_id'];
@@ -122,7 +122,7 @@ class TaskController extends BaseController
         if($updated)
             return $this->sendResponse($task->toArray(), 'Task updated successfully.');
         else
-            return $this->sendError('Task could not be updated');
+            return $this->sendError('Task could not be updated', 500);
 
     }
 
@@ -140,7 +140,7 @@ class TaskController extends BaseController
         if($deleted)
             return $this->sendResponse($task->toArray(), 'Task deleted successfully.');
         else
-            return $this->sendError('Task could not be deleted');
+            return $this->sendError('Task could not be deleted', 500);
     }
 
 
@@ -164,7 +164,7 @@ class TaskController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
