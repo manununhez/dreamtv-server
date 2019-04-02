@@ -71,7 +71,7 @@ class AuthController extends BaseController
      */
     public function details()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         return $this->sendResponse($user->toArray(), 'User details');
     }
