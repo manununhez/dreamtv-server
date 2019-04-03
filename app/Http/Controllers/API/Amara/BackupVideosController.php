@@ -12,7 +12,7 @@ use App\Video;
 Use App\User;
 use App\VideoTest;
 use App\UserTasksError;  
-
+use Validator;
 /**
  * @group Backup videos
  *
@@ -172,16 +172,23 @@ class BackupVideosController extends BaseController
         $Review = 'Review';
         $team = 'ted';
         $show_incomplete_task = true;
-        $languages = ["zh", "en", "es", "ar", "fr", "pl"];
-
+        //$languages = ["zh", "en", "es", "ar", "fr", "pl"];
+	//$languages = ["pl", "es", "en"];
         //$task = Task::orderBy('created', 'desc')->first();
         
        // if(is_null($task))
          //   $completed_after = 1483228800; //default after 2016
         //else
           //  $completed_after = strtotime($task->created); //after the last task inserted
-        foreach ($languages as $language)
-        {
+        //foreach ($languages as $language)
+        //{
+	$input = $request->all();
+	$validator = Validator::make($input, [
+		'language' => 'required|string',
+	]);
+
+	if($validator->fails())
+		return $this->sendError('Validation errors', $validator->errors());
             $offset = 0;
             $limit = 10;
             $tasks = array();
@@ -193,7 +200,7 @@ class BackupVideosController extends BaseController
                         'order_by' => $order_by_date_creation_asc,
                        // 'completed-after' => $completed_after,
                         'type' => $Review,
-                        'language'=>$language,
+                        'language'=>$input['language'],
                         'limit'=> $limit,
                         'offset'=>$offset,
                         ));
@@ -222,7 +229,7 @@ class BackupVideosController extends BaseController
                                     'duration' => $v->duration,
                                     'thumbnail' => $v->thumbnail,
                                     'team' => $v->team,
-                                    'project' => $v->project,
+                                    'project' => $v->project == null ? "" : $v->project,
                                     'video_url' => $v->all_urls[0],
                                 ]);
 
@@ -258,9 +265,9 @@ class BackupVideosController extends BaseController
                         }
                     }   
                 }
-
+		//sleep(10);
             } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
-        }
+        //}
         return $this->sendResponse($tasks, "Backup tests ended succesfully");
 
     }
