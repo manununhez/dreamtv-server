@@ -167,13 +167,12 @@ class BackupVideosController extends BaseController
     public function saveTasksFromAmara(Request $request)
     {
         $API = new AmaraAPI();
-        $tasks = array();
-        $offset = 0;
-        $limit = 10;
+        
         $order_by_date_creation_asc = '-created';
         $Review = 'Review';
         $team = 'ted';
         $show_incomplete_task = true;
+        $languages = ["zh", "en", "es", "ar", "fr", "pl"];
 
         //$task = Task::orderBy('created', 'desc')->first();
         
@@ -181,77 +180,87 @@ class BackupVideosController extends BaseController
          //   $completed_after = 1483228800; //default after 2016
         //else
           //  $completed_after = strtotime($task->created); //after the last task inserted
-
-        do{
-            $resultChunk = $API->getTasks(array(
-                    'team' => $team,
-                    'open' => $show_incomplete_task,
-                    'order_by' => $order_by_date_creation_asc,
-                   // 'completed-after' => $completed_after,
-                    'type' => $Review,
-                    'limit'=> $limit,
-                    'offset'=>$offset,
-                    ));
-            
-            $offset += $limit;
-
-            if(isset($resultChunk->objects)) 
+        foreach ($languages as $language)
+        {
+            $offset = 0;
+            $limit = 10;
+            $tasks = array();
+            do
             {
-                $tasks = $resultChunk->objects;
-
-                foreach ($tasks as $key => $value)
-                {   
-                    $video = Video::find($value->video_id);
-
-                    if(is_null($video)) { //we save a new video only if the video does not exist yet
-                        try{
-                            $v = $API->getVideoInfo(array("video_id" => $value->video_id));
+                $resultChunk = $API->getTasks(array(
+                        'team' => $team,
+                        'open' => $show_incomplete_task,
+                        'order_by' => $order_by_date_creation_asc,
+                       // 'completed-after' => $completed_after,
+                        'type' => $Review,
+                        'language'=>$language,
+                        'limit'=> $limit,
+                        'offset'=>$offset,
+                        ));
                 
-                            Video::create([
-                                'video_id' => $v->id,
-                                'primary_audio_language_code' => $v->primary_audio_language_code,
-                                'title' => $v->title,
-                                'description' => $v->description,
-                                'duration' => $v->duration,
-                                'thumbnail' => $v->thumbnail,
-                                'team' => $v->team,
-                                'project' => $v->project,
-                                'video_url' => $v->all_urls[0],
-                            ]);
+                $offset += $limit;
 
-                            $task = Task::find($value->id);
+                if(isset($resultChunk->objects)) 
+                {
+                    $tasks = $resultChunk->objects;
 
-                            if(is_null($task)) { //we save a new task only if the task does not exist yet
-                                
-                                try{
-                                    Task::create([
-                                        'task_id' => $value->id,
-                                        'video_id' => $value->video_id,
-                                        'language' => $value->language,
-                                        'type' => $value->type,
-                                        'created' => $value ->created,
-                                        'modified' => $value->modified,
-                                        'completed' => $value->completed,
-                                    ]);
-                            
+                    foreach ($tasks as $key => $value)
+                    {   
+                        $video = Video::find($value->video_id);
+
+                        if(is_null($video))
+                        { //we save a new video only if the video does not exist yet
+                            try
+                            {
+                                $v = $API->getVideoInfo(array("video_id" => $value->video_id));
+                    
+                                Video::create([
+                                    'video_id' => $v->id,
+                                    'primary_audio_language_code' => $v->primary_audio_language_code,
+                                    'title' => $v->title,
+                                    'description' => $v->description,
+                                    'duration' => $v->duration,
+                                    'thumbnail' => $v->thumbnail,
+                                    'team' => $v->team,
+                                    'project' => $v->project,
+                                    'video_url' => $v->all_urls[0],
+                                ]);
+
+                                $task = Task::find($value->id);
+
+                                if(is_null($task))
+                                { //we save a new task only if the task does not exist yet
                                     
-                                } catch(QueryException $e) {
-                                    //Log::info($e->getMessage());
-                                    return $this->sendError($e->getMessage());
+                                    try
+                                    {
+                                        Task::create([
+                                            'task_id' => $value->id,
+                                            'video_id' => $value->video_id,
+                                            'language' => $value->language,
+                                            'type' => $value->type,
+                                            'created' => $value ->created,
+                                            'modified' => $value->modified,
+                                            'completed' => $value->completed,
+                                        ]);
+                                
+                                        
+                                    } catch(QueryException $e) {
+                                        //Log::info($e->getMessage());
+                                        return $this->sendError($e->getMessage());
+                                    }
+                                
                                 }
-                            
+                            } catch(QueryException $e) {
+                                //Log::info($e->getMessage());
+                                return $this->sendError($e->getMessage());
+
                             }
-                        } catch(QueryException $e) {
-                            //Log::info($e->getMessage());
-                            return $this->sendError($e->getMessage());
-
                         }
-                    }
-                }   
-            }
+                    }   
+                }
 
-        } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
-
+            } while($resultChunk->meta->next !== null && $resultChunk->meta->offset + $limit < $resultChunk->meta->total_count);
+        }
         return $this->sendResponse($tasks, "Backup tests ended succesfully");
 
     }

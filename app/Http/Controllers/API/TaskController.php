@@ -212,14 +212,14 @@ class TaskController extends BaseController
                         ->whereHas('videos', function($query) use ($user){
             				$query->where('primary_audio_language_code', $user->audio_language);
             			})
-            			->whereNotIn('task_id',$userTasks)
+            			//->whereNotIn('task_id',$userTasks)
             			->where('language', $user->sub_language)
             			->paginate(50); 
         
         } else {           
             //We only shows tasks not finished yet by the user
        		$tasks = Task::with('videos')
-            			->whereNotIn('task_id',$userTasks)
+            			//->whereNotIn('task_id',$userTasks)
             			->where('language', $user->sub_language)
             			->paginate(50);
 
@@ -269,7 +269,7 @@ class TaskController extends BaseController
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
-                    ->paginate(50);
+                    ->get();
         
         return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
        
@@ -297,7 +297,7 @@ class TaskController extends BaseController
 				            $query->whereIn('video_id', $videoIdArray);
 			             })
                         ->where('language', $user->sub_language)
-                        ->paginate(50);
+                        ->get();
           
         } else {
             $tasks = Task::with('videos')
@@ -305,7 +305,7 @@ class TaskController extends BaseController
 				            $query->whereIn('video_id', $videoIdArray);
                         })
                         ->where('language', $user->sub_language)
-                        ->paginate(50);
+                        ->get();
        
         }
         
@@ -327,7 +327,7 @@ class TaskController extends BaseController
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
-                    ->paginate(50);
+                    ->get();
         
         return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
     }
