@@ -14,6 +14,7 @@ Route::group(['middleware' => ['json.response']], function () {
 	// DREAM SERVER
 	Route::post('login', 'API\AuthController@login');
 	Route::post('register', 'API\AuthController@register');
+	Route::delete('remove', 'API\AuthController@destroy');
 
 	Route::middleware('auth:api')->group(function () {
 	    Route::get('details', 'API\AuthController@details');
@@ -34,6 +35,6 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::resource('user/tasks', 'API\UserTaskController');
 		
 		Route::resource('user/task/errors','API\UserTaskErrorController');
-		Route::get('user/task/errors/type','API\UserTaskErrorController@userTasksErrorsByUserType');
+		Route::get('user/task/errors/type','API\UserTaskErrorController@userTasksErrorsDetails');
 	});
 });

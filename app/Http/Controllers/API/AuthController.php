@@ -76,4 +76,29 @@ class AuthController extends BaseController
         return $this->sendResponse($user->toArray(), 'User details');
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->sendError('User with id = '.$id.' not found.');
+        }
+
+        $deleted = $user->delete();
+
+
+        if($deleted)
+            return $this->sendResponse($user->toArray(), 'User'. $id .'deleted successfully.');
+        else
+            return $this->sendError('User could not be deleted');
+    }
+
 }

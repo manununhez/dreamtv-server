@@ -149,13 +149,12 @@ class UserTaskErrorController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    public function userTasksErrorsByUserType(Request $request) 
+    public function userTasksErrorsDetails(Request $request) 
     {
         $input = $request->all();
 
 
         $validator = Validator::make($input, [
-            'type' => 'required|string',
             'task_id' => 'required|integer'
         ]);
 
@@ -164,64 +163,16 @@ class UserTaskErrorController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $task_type = $input['type'];
-        
-        switch ($task_type) {
-            case "current_user":
-                return $this->getTaskDetailsForCurrentUser($request);
-            
-            case "other_users":
-                return $this->getTaskDetailsForOtherUsers($request);
-            
-            default:
-                return $this->getTaskDetailsForCurrentUser($request);
-        }
-    }
-
-
-    /**
-    * Get user task
-    *
-    * Retrieves current user specific data about task (task_id).
-    * Order by subtitle_position ASC
-    * QueryParams => 'task_id':<task_id>  integer 
-    * Requires user token - header 'Authorization'
-    */
-    public function getTaskDetailsForCurrentUser(Request $request)
-    {
         $user = auth()->user();
    
         $userTask = UserTask::where('user_id', $user->id)
-                    ->where('task_id', $request['task_id'])
+                    ->where('task_id', $input['task_id'])
                     ->orderBy('subtitle_position', 'ASC')
                     ->get();
 
         return $this->sendResponse($userTask->toArray(), "User task description.");
-       
     }
 
 
-    /**
-    * Get Other User Tasks
-    * 
-    * Retrieves all users data about task (task_id)
-    * excluding current user tasks. This option warns current user about
-    * other user choices in the same task. 
-    * 
-    * Order by subtitle_position ASC
-    * QueryParams => 'task_id':<task_id>  integer 
-    * Requires user token - header 'Authorization'
-    */
-    public function getTaskDetailsForOtherUsers(Request $request) 
-    {
-        $user = auth()->user();
-        
-        $userTask = UserTask::where('user_id', '!=', $user->id)
-                    ->where('task_id', $request['task_id'])
-                    ->orderBy('subtitle_position', 'ASC')
-                    ->get();
-
-        return $this->sendResponse($userTask->toArray(), "Other users task description.");
-    }
 
 }
