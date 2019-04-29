@@ -9,7 +9,7 @@ class UserTaskError extends Model
    //
 
 	public function userTasks(){
-        return $this->belongsTo(UserTask::class, 'user_tasks_id');
+        return $this->belongsTo(UserTask::class);
     }
 
 }
