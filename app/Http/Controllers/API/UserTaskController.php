@@ -165,4 +165,40 @@ class UserTaskController extends BaseController
     		return $this->sendError('UserTask could not be deleted');
     }
 
+
+
+        /**
+     * List of user tasks
+     *
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
+     */
+    public function userTasksErrorsDetails(Request $request) 
+    {
+        $input = $request->all();
+
+
+        $validator = Validator::make($input, [
+            'task_id' => 'required|integer'
+        ]);
+
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $user = auth()->user();
+   
+        $userTask = UserTask::with('user_task_errors')
+                    ->where('user_id', $user->id)
+                    ->where('task_id', $input['task_id'])
+                    ->orderBy('subtitle_position', 'ASC')
+                    ->get();
+
+        return $this->sendResponse($userTask->toArray(), "User task description.");
+    }
+
+
+
 }

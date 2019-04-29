@@ -228,6 +228,43 @@ class TaskController extends BaseController
         return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
     }
 
+
+       /**
+     * Retrieve all test tasks
+     *
+     * Display a listing of the resource.
+     *
+     * Requires user token - header 'Authorization'
+     */
+    private function getTestTasksForCurrentUser(Request $request)
+    {
+        $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
+        
+        $user = auth()->user();
+   
+        if($user->audio_language != 'NN') {
+            $tasks = Task::with('videos')
+                        ->whereHas('videos', function($query) use ($user,$videoIdArray){
+                            $query->where('primary_audio_language_code', $user->audio_language);
+                            $query->whereIn('video_id', $videoIdArray);
+                         })
+                        ->where('language', $user->sub_language)
+                        ->get();
+          
+        } else {
+            $tasks = Task::with('videos')
+                        ->whereHas('videos', function($query) use ($videoIdArray){
+                            $query->whereIn('video_id', $videoIdArray);
+                        })
+                        ->where('language', $user->sub_language)
+                        ->get();
+       
+        }
+        
+        return $this->sendResponse($tasks->toArray(), "Test tasks retrieved.");
+       
+    }
+
     /**
     *
     *
@@ -265,51 +302,13 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->where('completed', 0)->groupBy('task_id')->pluck('task_id');//completed false
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
                     ->get();
         
         return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
-       
-    }
-
-    
-    
-    /**
-     * Retrieve all test tasks
-     *
-     * Display a listing of the resource.
-     *
-     * Requires user token - header 'Authorization'
-     */
-    private function getTestTasksForCurrentUser(Request $request)
-    {
-        $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
-        
-        $user = auth()->user();
-   
-        if($user->audio_language != 'NN') {
-            $tasks = Task::with('videos')
-                        ->whereHas('videos', function($query) use ($user,$videoIdArray){
-		    		        $query->where('primary_audio_language_code', $user->audio_language);
-				            $query->whereIn('video_id', $videoIdArray);
-			             })
-                        ->where('language', $user->sub_language)
-                        ->get();
-          
-        } else {
-            $tasks = Task::with('videos')
-                        ->whereHas('videos', function($query) use ($videoIdArray){
-				            $query->whereIn('video_id', $videoIdArray);
-                        })
-                        ->where('language', $user->sub_language)
-                        ->get();
-       
-        }
-        
-        return $this->sendResponse($tasks->toArray(), "Test tasks retrieved.");
        
     }
 
@@ -323,7 +322,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->where('completed', 1)->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->where('completed', 1)->groupBy('task_id')->pluck('task_id');//completed true
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
