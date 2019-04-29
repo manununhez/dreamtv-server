@@ -20,22 +20,25 @@ Route::group(['middleware' => ['json.response']], function () {
 	    Route::get('details', 'API\AuthController@details');
 	    
 	    Route::put('user', 'API\UserController@update');
-	        
-	    Route::resource('videos', 'API\VideoController');
+
+		Route::get('usertasks','API\UserTaskController@userTasksErrorsDetails');
+
+		Route::get('tasks','API\TaskController@tasksByCategories');
+
+		Route::resource('resource/videos', 'API\VideoController');
 	    
-	    Route::resource('videotests','API\VideoTestController');
+	    Route::resource('resource/videotests','API\VideoTestController');
 	    
-	    Route::resource('errors','API\ErrorReasonController');
+	    Route::resource('resource/errors','API\ErrorReasonController');
 		
-		Route::resource('tasks','API\TaskController');
-		Route::get('task/categories','API\TaskController@tasksByCategories');
+		Route::resource('resource/tasks','API\TaskController');
 		
-		Route::resource('user/task/list', 'API\UserListTaskController');
+		Route::resource('resource/usertask/list', 'API\UserListTaskController');
 		
-		Route::resource('user/tasks', 'API\UserTaskController');
-		Route::get('user/tasks/details','API\UserTaskController@userTasksErrorsDetails');
+		Route::resource('resource/usertasks', 'API\UserTaskController');
+		
+		Route::resource('resource/usertask/errors','API\UserTaskErrorController');
 
 		
-		Route::resource('user/task/errors','API\UserTaskErrorController');
 	});
 });
