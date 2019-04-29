@@ -20,6 +20,6 @@ class UserTask extends Model
 
 
     public function userTaskErrors(){
-    	return $this->hasMany(UserTaskError::class);
+    	return $this->hasMany(UserTaskError::class, 'user_tasks_id', 'id');
     }
 }
