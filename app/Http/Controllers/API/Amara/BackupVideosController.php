@@ -45,7 +45,7 @@ class BackupVideosController extends BaseController
             
             $offset = 0;
             $limit = 10;
-            $videoTest = VideoTest::where('video_id', $videoId);
+            $videoTest = VideoTest::where('video_id', $videoId)->first();
                 
             do{
                 $resultChunk = $API->getTasks(array(
