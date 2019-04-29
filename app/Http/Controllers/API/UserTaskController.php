@@ -190,7 +190,7 @@ class UserTaskController extends BaseController
 
         $user = auth()->user();
    
-        $userTask = UserTask::with('user_task_errors')
+        $userTask = UserTask::with('userTaskErrors')
                     ->where('user_id', $user->id)
                     ->where('task_id', $input['task_id'])
                     ->orderBy('subtitle_position', 'ASC')
