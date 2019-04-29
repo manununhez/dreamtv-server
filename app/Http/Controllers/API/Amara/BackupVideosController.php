@@ -45,13 +45,14 @@ class BackupVideosController extends BaseController
             
             $offset = 0;
             $limit = 10;
+            $videoTest = VideoTest::where('video_id', $videoId);
                 
             do{
                 $resultChunk = $API->getTasks(array(
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$language,
+                        'language'=>$videoTest->language_code,
                         //'assignee'=>'ted_Snai',
                         'type' => $Translate,
                         'limit'=> $limit,
@@ -106,7 +107,6 @@ class BackupVideosController extends BaseController
                             Video::create([
                                 'video_id' => $v->id,
                                 'primary_audio_language_code' => $v->primary_audio_language_code,
-                                'original_language' => $v->original_language,
                                 'title' => $v->title,
                                 'description' => $v->description,
                                 'duration' => $v->duration,
