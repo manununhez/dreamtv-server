@@ -31,10 +31,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     public function userListTasks(){
-        return $this->hasMany(UserListTask::class);
+        return $this->hasMany(UserListTask::class, "user_id", "id");
     }
 
     public function userTasks(){
-        return $this->hasMany(UserTask::class);
+        return $this->hasMany(UserTask::class, "user_id", "id");
     }
 }
