@@ -194,7 +194,7 @@ class UserTaskController extends BaseController
                     ->where('user_id', $user->id)
                     ->where('task_id', $input['task_id'])
                     ->orderBy('subtitle_position', 'ASC')
-                    ->get();
+                    ->firstOrFail();
 
         return $this->sendResponse($userTask->toArray(), "User task description.");
     }
