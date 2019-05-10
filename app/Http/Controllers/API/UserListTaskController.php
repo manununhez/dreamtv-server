@@ -171,8 +171,17 @@ class UserListTaskController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    public function deleteByTask($taskId)
+    public function deleteByTask(Request $request)
     {
+        $input = $request->all();
+
+
+        $validator = Validator::make($input, [
+            'task_id' => 'required|integer',
+        ]);
+
+        $taskId = $input['task_id'];
+    
         $userListTask = UserListTask::where("task_id", $taskId);
 
         if(!$userTask)
