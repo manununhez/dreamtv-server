@@ -30,7 +30,6 @@ class SubtitleAmaraController extends BaseController
         $validator = Validator::make($input, [
             'video_id' => 'required|string',
             'language_code' => 'required|string',
-            'version' => 'required|integer',
         ]);
 
         if($validator->fails()){
