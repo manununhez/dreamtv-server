@@ -180,6 +180,10 @@ class UserListTaskController extends BaseController
             'task_id' => 'required|integer',
         ]);
 
+        if($validator->fails()){
+             return $this->sendError('Validation Error.', $validator->errors());       
+         }
+
         $taskId = $input['task_id'];
     
         $userListTask = UserListTask::where("task_id", $taskId);
