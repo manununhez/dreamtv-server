@@ -191,7 +191,7 @@ class UserListTaskController extends BaseController
         $deleted = $userListTask->delete();
 
         if($deleted)
-            return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
+            return $this->sendResponse($userListTask, 'Task from user list deleted successfully.');
         else
             return $this->sendError('Task from user list could not be deleted');
     }
