@@ -191,12 +191,12 @@ class UserTaskController extends BaseController
         $user = auth()->user();
    
         $userTask = UserTask::with('userTaskErrors')
-                    ->where('user_id', $user->id)
+			->where('user_id', $user->id)
                     ->where('task_id', $input['task_id'])
                     ->orderBy('subtitle_position', 'ASC')
                     ->first();
 
-        return $this->sendResponse($userTask->toArray(), "User task description.");
+        return $this->sendResponse($userTask, "User task description.");
     }
 
 
