@@ -199,6 +199,4 @@ class UserTaskController extends BaseController
         return $this->sendResponse($userTask, "User task description.");
     }
 
-
-
 }

@@ -23,8 +23,11 @@ Route::group(['middleware' => ['json.response']], function () {
 
 		Route::get('usertasks','API\UserTaskController@userTasksErrorsDetails');
 
+		Route::delete('usertask/list','API\UserListTaskController@deleteByTask');
+
 		Route::get('tasks','API\TaskController@tasksByCategories');
 
+		
 		Route::resource('resource/videos', 'API\VideoController');
 	    
 	    Route::resource('resource/videotests','API\VideoTestController');

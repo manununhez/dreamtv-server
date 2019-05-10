@@ -163,6 +163,30 @@ class UserListTaskController extends BaseController
 
     }
 
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function deleteByTask($taskId)
+    {
+        $userListTask = UserListTask::where("task_id", $taskId);
+
+        if(!$userTask)
+            return $this->sendError('User task with taskId = '.$taskId.' not found in list.');
+
+
+        $deleted = $userListTask->delete();
+
+        if($deleted)
+            return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
+        else
+            return $this->sendError('Task from user list could not be deleted');
+    }
+
 }
 
 
