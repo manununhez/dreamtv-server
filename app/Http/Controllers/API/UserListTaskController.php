@@ -184,9 +184,9 @@ class UserListTaskController extends BaseController
     
         $userListTask = UserListTask::where("task_id", $taskId);
 
-        if(!$userTask)
-            return $this->sendError('User task with taskId = '.$taskId.' not found in list.');
-
+        if (is_null($userListTask)) {
+            return $this->sendError('User taks list not found.');
+        }
 
         $deleted = $userListTask->delete();
 
