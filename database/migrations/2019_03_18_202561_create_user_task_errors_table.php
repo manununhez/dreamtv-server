@@ -18,7 +18,7 @@ class CreateUserTaskErrorsTable extends Migration
             $table->integer('user_tasks_id')->unsigned();
             $table->string('reason_code');
             $table->integer('subtitle_position');
-            $table->integer('comment_id')->nullable();
+            $table->integer('comment_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->unique(['user_tasks_id', 'reason_code'], 'un_user_task_errors');
