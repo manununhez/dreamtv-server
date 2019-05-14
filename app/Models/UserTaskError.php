@@ -6,7 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTaskError extends Model
 {
-   protected $fillable = ['user_tasks_id','reason_code', 'subtitle_position', 'comment_id']; 
+		/**
+	 * primaryKey 
+	 * 
+	 * @var integer
+	 * @access protected
+	 */
+	protected $primaryKey = null;
+
+	/**
+	 * Indicates if the IDs are auto-incrementing.
+	 *
+	 * @var bool
+	 */
+	public $incrementing = false;
+
+   	protected $fillable = ['user_tasks_id','reason_code', 'subtitle_position', 'comment']; 
 
 	public function userTasks(){
         return $this->belongsTo(UserTask::class);

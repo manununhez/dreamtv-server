@@ -14,14 +14,13 @@ class CreateUserTaskErrorsTable extends Migration
     public function up()
     {
         Schema::create('user_task_errors', function (Blueprint $table) {
-            $table->increments('id');
             $table->integer('user_tasks_id')->unsigned();
             $table->string('reason_code');
             $table->integer('subtitle_position');
             $table->text('comment')->nullable();
             $table->timestamps();
 
-            $table->unique(['user_tasks_id', 'reason_code'], 'un_user_task_errors');
+            $table->unique(['user_tasks_id', 'reason_code', 'subtitle_position'], 'un_user_task_errors');
 
             $table->foreign('user_tasks_id')->references('id')->on('user_tasks')->onDelete('cascade');
             $table->foreign('reason_code')->references('reason_code')->on('error_reasons')->onDelete('cascade');
