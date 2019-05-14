@@ -37,12 +37,14 @@ class UserTaskErrorController extends BaseController
      */
     public function store(Request $request)
     {
+        
         $input = $request->all();
 
 
         $validator = Validator::make($input, [
-            'user_tasks_id' => 'required|integer',
-            'reason_code' => 'required|string'
+            'task_id' => 'required|integer',
+            'reason_code' => 'required|string',
+            'subtitle_position' => 'required|integer'
         ]);
 
 
@@ -50,7 +52,11 @@ class UserTaskErrorController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $userTaskError = UserTaskError::create($input);
+        #We obtain user_task ID
+        $userTaskId = obtainUserTaskId($input['task_id']);
+        #insert new values
+        $userTaskError = insertValuesFromJsonString($input, $userTaskId);
+
 
         if(is_null($userTaskError))
             return $this->sendError('UserTaskError could not be created');
@@ -86,35 +92,43 @@ class UserTaskErrorController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $input = $request->all();
 
 
         $validator = Validator::make($input, [
-            'user_tasks_id' => 'required|integer',
-            'reason_code' => 'required|string'
+            'task_id' => 'required|integer',
+            'reason_code' => 'required|string',
+            'subtitle_position' => 'required|integer'
         ]);
 
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-    
-        $userTaskError = UserTaskError::find($id);
 
-         if (!$userTaskError) {
-            return $this->sendError('UserTaskError with id = '.$id.' not found.');
+        #We obtain user_task ID
+        $userTaskId = obtainUserTaskId($input['task_id']);
+
+        # Delete old values
+        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+                                        ->where('subtitle_position', $input['subtitle_position'])
+                                        ->delete();
+
+         if (!$deleted) {
+            return $this->sendError('UserTaskError for task_id = '.$input['task_id'].' could not be updated/deleted.');
         }
-        
-        $userTaskError->user_tasks_id =  $input['user_tasks_id'];
-        $userTaskError->reason_code =  $input['reason_code'];
-        $updated = $userTaskError->save();
 
-        if($updated)
-            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError updated successfully.');
-        else
+
+        #insert new values
+        $userTaskError = insertValuesFromJsonString($input, $userTaskId);
+
+
+        if(is_null($userTaskError))
             return $this->sendError('UserTaskError could not be updated');
+        else
+            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError updated successfully.');
     }
 
 
@@ -124,21 +138,90 @@ class UserTaskErrorController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $userTaskError = UserTaskError::find($id);
+        $input = $request->all();
 
-         if (!$userTaskError) {
-            return $this->sendError('UserTaskError with id = '.$id.' not found.');
+
+        $validator = Validator::make($input, [
+            'task_id' => 'required|integer',
+            'subtitle_position' => 'required|integer'
+        ]);
+
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $deleted = $userTaskError->delete();
+        #We obtain user_task ID
+        $userTaskId = obtainUserTaskId($input['task_id']);
+
+        # Delete old values
+        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+                                        ->where('subtitle_position', $input['subtitle_position'])
+                                        ->delete();
 
         if($deleted)
-            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError deleted successfully.');
+            return $this->sendResponse('UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
         else
             return $this->sendError('UserTaskError could not be deleted');
     }
+
+
+
+    /**
+    *
+    *   Get userTask ID
+    */
+    private function obtainUserTaskId($taskId)
+    {
+        # We obtain the user_tasks_id
+        $userId = auth()->user()->id;
+
+        $userTask = UserTask::where('task_id', $taskId)
+                            ->where('user_id', $userId)
+                            ->first();
+
+
+        if(is_null($userTask))
+            return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.');
+
+
+        return $userTask->id;
+    }
+
+
+    /**
+    *
+    *   Decode JSON String of reason_code values and insert them in UserTaskError
+    */
+    private function insertValuesFromJsonString($input, $userTaskId)
+    {    
+
+        #Decoding the reason_code jsonString parameter. Array of reason_Codes
+        $errorsArray = json_decode($input['reason_code'], true);
+
+        // $input['reason_code'] -> JSON string
+        // '[{"name":"rc1","reason_code":"rc1"},{"name":"rc4","reason_code":"rc4"},{"name":"rc3","reason_code":"rc2"}]';
+
+        
+        #Create array of values to insert
+        foreach ($errorsArray as $key => $value) {
+            $multipleValuesToInsert[] = array(
+                                    "user_tasks_id" => $userTaskId,
+                                    "reason_code" => $value["reason_code"],
+                                    "subtitle_position" => $input['subtitle_position'],
+                                    "comment" => isset($input['comment']) ? $input['comment'] : null;
+                                );
+        }
+
+        #insert multiple values
+        $userTaskError = UserTaskError::create($multipleValuesToInsert);
+
+        return $userTaskError;
+    }
+
+
 
 
 }

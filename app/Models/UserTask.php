@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserTask extends Model
 {
-   //
-	protected $fillable = [
-		'task_id', 'user_id', 'subtitle_version', 'time_watched', 'completed', 'rating'
-	];
-	public function users(){
-	    return $this->belongsTo(User::class, 'user_id');
-	} 
+   
+  	protected $fillable = [
+  		'task_id', 'user_id', 'subtitle_version', 'time_watched', 'completed', 'rating'
+  	];
+  	public function users(){
+  	    return $this->belongsTo(User::class, 'user_id');
+  	} 
 
    	public function tasks(){
         return $this->belongsTo(Task::class, 'task_id');
