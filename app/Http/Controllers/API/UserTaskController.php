@@ -33,7 +33,7 @@ class UserTaskController extends BaseController
      * Save User task
      * Store a newly created resource in storage.
      *
-     * Parameters => task_id (mandatory, text), subtitle_version (mandatory, text), subtitle_position (mandatory, text)
+     * Parameters => task_id (mandatory, text), subtitle_version (mandatory, text)
      * Requires user token - header 'Authorization'
      */
      public function store(Request $request)
@@ -44,12 +44,7 @@ class UserTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'subtitle_version' => 'required|string',
-            'subtitle_position' => 'required|integer',
-            'time_watched' => 'integer',
-            'comments' => 'nullable|string',
-            'completed' => 'boolean',
-            'rating' => 'integer'
+            'subtitle_version' => 'required|string'
             ]);
 
         if($validator->fails()){
@@ -101,12 +96,7 @@ class UserTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'subtitle_version' => 'required|string',
-            'subtitle_position' => 'required|integer',
-            'time_watched' => 'required|integer',
-    		'comments' => 'nullable|string',
-    		'completed' => 'boolean',
-    		'rating' => 'integer'
+            'subtitle_version' => 'required|string'
         ]);
 
 
@@ -117,14 +107,13 @@ class UserTaskController extends BaseController
         $userTask = UserTask::where('task_id', $input['task_id'])
                             ->where('user_id', auth()->user()->id)
                             ->where('subtitle_version', $input['subtitle_version'])
-                            ->where('subtitle_position', $input['subtitle_position'])
                             ->first();
 	
     	if(is_null($userTask))
     		return $this->sendError('UserTask not found.');
 
-        if(isset($input['comments']))
-		  $userTask->comments = $input['comments'];
+        if(isset($input['time_watched']))
+		  $userTask->time_watched = $input['time_watched'];
         
     	if(isset($input['completed']))
     		$userTask->completed = $input['completed'];
@@ -132,7 +121,6 @@ class UserTaskController extends BaseController
     	if(isset($input['rating']))
     		$userTask->rating = $input['rating'];
         
-        $userTask->time_watched = $input['time_watched'];
         $updated = $userTask->save();
 
         if($updated)
@@ -188,12 +176,11 @@ class UserTaskController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
-        $user = auth()->user();
+        $userId = auth()->user()->id;
    
         $userTask = UserTask::with('userTaskErrors')
-			->where('user_id', $user->id)
+                    ->where('user_id', $userId)
                     ->where('task_id', $input['task_id'])
-                    ->orderBy('subtitle_position', 'ASC')
                     ->first();
 
         return $this->sendResponse($userTask, "User task description.");
