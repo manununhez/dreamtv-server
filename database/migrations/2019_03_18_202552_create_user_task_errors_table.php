@@ -17,12 +17,15 @@ class CreateUserTaskErrorsTable extends Migration
             $table->increments('id');
             $table->integer('user_tasks_id')->unsigned();
             $table->string('reason_code');
+            $table->integer('subtitle_position');
+            $table->integer('comment_id')->nullable();
             $table->timestamps();
 
             $table->unique(['user_tasks_id', 'reason_code'], 'un_user_task_errors');
 
             $table->foreign('user_tasks_id')->references('id')->on('user_tasks')->onDelete('cascade');
             $table->foreign('reason_code')->references('reason_code')->on('error_reasons')->onDelete('cascade');
+            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
         });
     }
 
