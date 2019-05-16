@@ -127,10 +127,10 @@ class UserTaskErrorController extends BaseController
         $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
 
 
-        if(is_null($userTaskError))
-            return $this->sendError('UserTaskError could not be updated');
+        if(!$userTaskError)
+            return $this->sendError('UserTaskError could not be created');
         else
-            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError updated successfully.');
+            return $this->sendResponse($userTaskError, 'UserTaskError updated successfully.');
     }
 
 
