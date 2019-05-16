@@ -66,7 +66,7 @@ class VideoController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $videoId
      * @return \Illuminate\Http\Response
      */
     public function show($videoId)
@@ -87,10 +87,10 @@ class VideoController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $videoId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Video $video)
+    public function update(Request $request, $videoId)
     {
         $input = $request->all();
 
@@ -109,6 +109,12 @@ class VideoController extends BaseController
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors(), 400);       
+        }
+
+        $video = Video::find($videoId);
+
+         if (!$video) {
+            return $this->sendError('Video with video_id = '.$videoId.' not found.', 400);
         }
 
         $video->primary_audio_language_code =  $input['primary_audio_language_code'];
@@ -134,11 +140,18 @@ class VideoController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $videoId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Video $video)
+    public function delete($videoId)
     {
+
+        $video = Video::find($videoId);
+
+         if (!$video) {
+            return $this->sendError('Video with video_id = '.$videoId.' not found.', 400);
+        }
+
         $deleted = $video->delete();
 
         if($deleted)

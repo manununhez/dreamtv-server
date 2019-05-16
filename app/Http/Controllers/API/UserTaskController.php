@@ -137,7 +137,7 @@ class UserTaskController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $userTask = UserTask::find($id);
 

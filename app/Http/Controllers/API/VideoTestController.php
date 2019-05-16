@@ -126,7 +126,7 @@ class VideoTestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
     	$videoTest = VideoTest::find($id);
 

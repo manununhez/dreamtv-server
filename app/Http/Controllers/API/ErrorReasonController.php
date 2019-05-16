@@ -69,11 +69,11 @@ class ErrorReasonController extends BaseController
 
 
         if (is_null($errorReason)) {
-            return $this->sendError('ErrorReason with code = '.$code.' not found.', 400);
+            return $this->sendError('ErrorReason with reason_code = '.$code.' not found.', 400);
         }
 
 
-        return $this->sendResponse($errorReason->toArray(), 'ErrorReason with code = '.$code.' retrieved successfully.');
+        return $this->sendResponse($errorReason->toArray(), 'ErrorReason with reason_code = '.$code.' retrieved successfully.');
     }
 
 
@@ -110,7 +110,7 @@ class ErrorReasonController extends BaseController
         $updated = $errorReason->save();
 
         if($updated)
-            return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
+            return $this->sendResponse($errorReason->toArray(), 'Error with reason_code ='. $code .' updated successfully.');
         else
             return $this->sendError('Error reason could not be updated', 500);
 
@@ -123,20 +123,20 @@ class ErrorReasonController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($code)
+    public function delete($code)
     {
 
         $errorReason = ErrorReason::find($code);
 
         if (!$errorReason) {
-            return $this->sendError('ErrorReason with code = '.$code.' not found.');
+            return $this->sendError('Error with reason_code ='. $code .' not found.');
         }
 
         $deleted = $errorReason->delete();
 
 
         if($deleted)
-            return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'deleted successfully.');
+            return $this->sendResponse($errorReason->toArray(), 'Error with reason_code ='. $code .' deleted successfully.');
         else
             return $this->sendError('Error reason could not be deleted', 500);
     }

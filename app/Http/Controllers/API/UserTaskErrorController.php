@@ -147,7 +147,7 @@ class UserTaskErrorController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function delete(Request $request)
     {
         $input = $request->all();
 

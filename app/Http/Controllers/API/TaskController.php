@@ -64,7 +64,7 @@ class TaskController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $taskId
      * @return \Illuminate\Http\Response
      */
     public function show($taskId)
@@ -73,11 +73,11 @@ class TaskController extends BaseController
 
 
         if (is_null($task)) {
-            return $this->sendError('Task with taskId = '.$taskId.' not found.', 400);
+            return $this->sendError('Task with task_id = '.$taskId.' not found.', 400);
         }
 
 
-        return $this->sendResponse($task->toArray(), 'Task with taskId = '.$taskId.' retrieved successfully.');
+        return $this->sendResponse($task->toArray(), 'Task with task_id = '.$taskId.' retrieved successfully.');
     }
 
 
@@ -85,10 +85,10 @@ class TaskController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $taskId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $taskId)
     {
         $input = $request->all();
 
@@ -105,6 +105,12 @@ class TaskController extends BaseController
 
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors(), 400);       
+        }
+
+        $task = Task::find($taskId);
+
+         if (!$task) {
+            return $this->sendError('Task with task_id = '.$taskId.' not found.', 400);
         }
 
         $task->video_id =  $input['video_id'];
@@ -130,11 +136,17 @@ class TaskController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $taskId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Task $task)
+    public function delete($taskId)
     {
+        $task = Task::find($taskId);
+
+         if (!$task) {
+            return $this->sendError('Task with task_id = '.$taskId.' not found.', 400);
+        }
+
         $deleted = $task->delete();
 
         if($deleted)
