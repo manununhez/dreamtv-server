@@ -208,11 +208,11 @@ class UserTaskErrorController extends BaseController
         #Create array of values to insert
         foreach ($errorsArray as $key => $value) {
             $multipleValuesToInsert[] = array(
-                                    "user_tasks_id" => $userTaskId,
-                                    "reason_code" => $value["reason_code"],
-                                    "subtitle_position" => $input['subtitle_position'],
-                                    "comment" => isset($input['comment']) ? $input['comment'] : null;
-                                );
+                                            "user_tasks_id" => $userTaskId,
+                                            "reason_code" => $value["reason_code"],
+                                            "subtitle_position" => $input['subtitle_position'],
+                                            "comment" => isset($input['comment']) ? $input['comment'] : null
+                                        );
         }
 
         #insert multiple values
