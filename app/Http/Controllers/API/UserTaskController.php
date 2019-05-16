@@ -54,12 +54,13 @@ class UserTaskController extends BaseController
         $input['user_id'] = auth()->user()->id;
         $userTask = UserTask::create($input);
 
-        if(is_null($userTask)){
+        if(is_null($userTask))
+        {
             return $this->sendError('User tasks could not be created.', 500);
         }
         else
         {
-            $userTask = $this->getUserTaskWithErrors($input['task_id']);
+            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['subtitle_version']);
             return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
         }
 
@@ -127,11 +128,14 @@ class UserTaskController extends BaseController
         
         $updated = $userTask->save();
 
-        if($updated){
-            $userTask = $this->getUserTaskWithErrors($input['task_id']);
+        if($updated)
+        {
+            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['subtitle_version']);
+
             return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
         }
-        else{
+        else
+        {
             return $this->sendError('UserTask could not be created', 500);
         }
 
@@ -193,15 +197,28 @@ class UserTaskController extends BaseController
         // }
     }
 
-
-    private function getUserTaskWithErrors($taskId){
+    /**
+    *
+    * Return the newest user task
+    */
+    private function getUserTaskWithErrors($taskId, $subtitleVersion = 0)
+    {
         $userId = auth()->user()->id;
-   
-        $userTask = UserTask::with('userTaskErrors')
+
+        if($subtitleVersion == 0) //the last subtitle version updated. We could have different version of subtitles, completelly differents from each other
+        {
+            $userTask = UserTask::with('userTaskErrors')
                     ->where('user_id', $userId)
                     ->where('task_id', $taskId)
+                    ->orderBy('subtitle_version', 'desc')
                     ->first();
-
+        } else { //specific subtitle version
+            $userTask = UserTask::with('userTaskErrors')
+                    ->where('user_id', $userId)
+                    ->where('task_id', $taskId)
+                    ->where('subtitle_version', $subtitleVersion)
+                    ->first();
+        }
 
         return $userTask;
     }
