@@ -58,7 +58,6 @@ class UserTaskErrorController extends BaseController
         #insert new values
         $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
 
-	//return $userTaskError;
 
         if(!$userTaskError)
             return $this->sendError('UserTaskError could not be created');
@@ -159,18 +158,12 @@ class UserTaskErrorController extends BaseController
         $userTaskId = $this->obtainUserTaskId($input['task_id']);
 
         # Delete old values
-        // $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
-        //                                 ->where('subtitle_position', $input['subtitle_position'])
-        //                                 ->delete();
-
-        $userTaskError = UserTaskError::where('user_tasks_id', $userTaskId)
+        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
                                         ->where('subtitle_position', $input['subtitle_position'])
-                                        ->get();
-
-        $deleted = $userTaskError->delete();
+                                        ->delete();
 
         if($deleted)
-            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
+            return $this->sendResponse($deleted, 'UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
         else
             return $this->sendError('UserTaskError could not be deleted');
     }
