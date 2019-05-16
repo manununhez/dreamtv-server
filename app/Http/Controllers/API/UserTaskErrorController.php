@@ -53,9 +53,9 @@ class UserTaskErrorController extends BaseController
         }
 
         #We obtain user_task ID
-        $userTaskId = obtainUserTaskId($input['task_id']);
+        $userTaskId = $this->obtainUserTaskId($input['task_id']);
         #insert new values
-        $userTaskError = insertValuesFromJsonString($input, $userTaskId);
+        $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
 
 
         if(is_null($userTaskError))
@@ -109,7 +109,7 @@ class UserTaskErrorController extends BaseController
         }
 
         #We obtain user_task ID
-        $userTaskId = obtainUserTaskId($input['task_id']);
+        $userTaskId = $this->obtainUserTaskId($input['task_id']);
 
         # Delete old values
         $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
@@ -122,7 +122,7 @@ class UserTaskErrorController extends BaseController
 
 
         #insert new values
-        $userTaskError = insertValuesFromJsonString($input, $userTaskId);
+        $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
 
 
         if(is_null($userTaskError))
@@ -154,7 +154,7 @@ class UserTaskErrorController extends BaseController
         }
 
         #We obtain user_task ID
-        $userTaskId = obtainUserTaskId($input['task_id']);
+        $userTaskId = $this->obtainUserTaskId($input['task_id']);
 
         # Delete old values
         $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
