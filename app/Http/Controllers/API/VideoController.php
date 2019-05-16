@@ -69,13 +69,13 @@ class VideoController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($video_id)
+    public function show($videoId)
     {
-        $video = Video::find($video_id);
+        $video = Video::find($videoId);
 
 
         if (is_null($video)) {
-            return $this->sendError('Video not found.', 400);
+            return $this->sendError('Video with id = '.$videoId.' not found.', 400);
         }
 
 

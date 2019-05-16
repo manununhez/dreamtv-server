@@ -67,17 +67,17 @@ class TaskController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($task_id)
+    public function show($taskId)
     {
-        $task = Task::find($task_id);
+        $task = Task::find($taskId);
 
 
         if (is_null($task)) {
-            return $this->sendError('Task with task_id = '.$task_id.' not found.', 400);
+            return $this->sendError('Task with taskId = '.$taskId.' not found.', 400);
         }
 
 
-        return $this->sendResponse($task->toArray(), 'Task with task_id = '.$task_id.' retrieved successfully.');
+        return $this->sendResponse($task->toArray(), 'Task with taskId = '.$taskId.' retrieved successfully.');
     }
 
 

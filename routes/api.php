@@ -21,32 +21,45 @@ Route::group(['middleware' => ['json.response']], function () {
 	    
 	    Route::put('user', 'API\UserController@update');
 
-		Route::get('usertasks','API\UserTaskController@userTasksErrorsDetails');
-
-		Route::delete('usertask/list','API\UserListTaskController@deleteByTask');
-
-		Route::get('tasks','API\TaskController@tasksByCategories');
-
+		# usertask/errors
 		Route::get('usertask/errors','API\UserTaskErrorController@index');
+		Route::get('usertask/errors/{id}','API\UserTaskErrorController@show');
 		Route::post('usertask/errors','API\UserTaskErrorController@store');
 		Route::put('usertask/errors','API\UserTaskErrorController@update');
 		Route::delete('usertask/errors','API\UserTaskErrorController@destroy');
+	
+		# usertasks
+		Route::get('usertasks/details','API\UserTaskController@userTasksErrorsDetails');
+		Route::get('usertasks','API\UserTaskController@index');
+		Route::get('usertasks/{id}','API\UserTaskController@show');
+		Route::post('usertasks','API\UserTaskController@store');
+		Route::put('usertasks','API\UserTaskController@update');
+		Route::delete('usertasks/{id}','API\UserTaskController@destroy');
 
-		
-		Route::resource('resource/videos', 'API\VideoController');
+		#Videos
+		Route::resource('videos', 'API\VideoController');
 	    
-	    Route::resource('resource/videotests','API\VideoTestController');
+	    #VideoTests
+	    Route::resource('videotests','API\VideoTestController');
 	    
-	    Route::resource('resource/errors','API\ErrorReasonController');
-		
-		Route::resource('resource/tasks','API\TaskController');
-		
-		Route::resource('resource/usertask/list', 'API\UserListTaskController');
-		
-		Route::resource('resource/usertasks', 'API\UserTaskController');
-		
-		Route::resource('resource/usertask/errors','API\UserTaskErrorController');
+	    #Errors
+	    Route::resource('errors','API\ErrorReasonController');
 
+
+	    # usertask/list
+		Route::get('usertask/list','API\UserListTaskController@index');
+		Route::get('usertask/list/{id}','API\UserListTaskController@show');
+		Route::post('usertask/list','API\UserListTaskController@store');
+		Route::put('usertask/list','API\UserListTaskController@update');
+		Route::delete('usertask/list','API\UserListTaskController@destroy');
+
+		#tasks
+		Route::get('tasks/categories','API\TaskController@tasksByCategories');
+		Route::get('tasks','API\TaskController@index');
+		Route::get('tasks/{id}','API\TaskController@show');
+		Route::post('tasks','API\TaskController@store');
+		Route::put('tasks','API\TaskController@update');
+		Route::delete('tasks','API\TaskController@destroy');
 		
 	});
 });

@@ -102,7 +102,7 @@ class UserListTaskController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $input = $request->all();
 
@@ -118,7 +118,9 @@ class UserListTaskController extends BaseController
              return $this->sendError('Validation Error.', $validator->errors(), 400);       
          }
 
-    	$userListTask = UserListTask::find($id);
+    	$userListTask = UserListTask::where('task_id', $input['task_id'])
+                                    ->where('user_id', auth()->user()->id)
+                                    ->get();
 
         if (is_null($userListTask)) {
             return $this->sendError('User taks list not found.', 400);
@@ -146,34 +148,9 @@ class UserListTaskController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-    	$userListTask = UserListTask::find($id);
-
-        if (is_null($userListTask)) {
-            return $this->sendError('User taks list not found.', 400);
-        }
-    	
-        $deleted = $userListTask->delete();
-
-        if($deleted)
-            return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
-        else
-            return $this->sendError('Task from user list could not be deleted', 500);
-
-    }
-
-
-        /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    public function deleteByTask(Request $request)
-    {
-        $input = $request->all();
+    	$input = $request->all();
 
 
         $validator = Validator::make($input, [
@@ -198,6 +175,7 @@ class UserListTaskController extends BaseController
             return $this->sendResponse($userListTask, 'Task from user list deleted successfully.');
         else
             return $this->sendError('Task from user list could not be deleted', 500);
+
     }
 
 }
