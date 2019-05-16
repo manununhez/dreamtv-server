@@ -49,14 +49,17 @@ class VideoController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
         $video = Video::create($input);
 
-
-        return $this->sendResponse($video->toArray(), 'Video created successfully.');
+        if(is_null($video))
+            return $this->sendError('Video could not be created', 500);
+        else
+            return $this->sendResponse($video->toArray(), 'Video created successfully.');
+        
     }
 
 
@@ -72,7 +75,7 @@ class VideoController extends BaseController
 
 
         if (is_null($video)) {
-            return $this->sendError('Video not found.');
+            return $this->sendError('Video not found.', 400);
         }
 
 
@@ -105,7 +108,7 @@ class VideoController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         $video->primary_audio_language_code =  $input['primary_audio_language_code'];
@@ -117,10 +120,14 @@ class VideoController extends BaseController
         $video->project =  $input['project'];
         $video->video_url =  $input['video_url'];
 
-        $video->save();
+        
+        $updated = $video->save();
 
+        if($updated)
+            return $this->sendResponse($video->toArray(), 'Video updated successfully.');
+        else
+            return $this->sendError('Video could not be updated', 500);
 
-        return $this->sendResponse($video->toArray(), 'Video updated successfully.');
     }
 
 
@@ -132,9 +139,12 @@ class VideoController extends BaseController
      */
     public function destroy(Video $video)
     {
-        $video->delete();
+        $deleted = $video->delete();
 
+        if($deleted)
+            return $this->sendResponse($video->toArray(), 'Video deleted successfully.');
+        else
+            return $this->sendError('Video could not be deleted', 500);
 
-        return $this->sendResponse($video->toArray(), 'Video deleted successfully.');
     }
 }

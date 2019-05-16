@@ -43,14 +43,14 @@ class VideoTestController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
         $videoTest = VideoTest::create($input);
 
         if(is_null($videoTest))
-            return $this->sendError('VideoTest could not be created');
+            return $this->sendError('VideoTest could not be created', 500);
         else
             return $this->sendResponse($videoTest->toArray(), 'VideoTest created successfully.');
     }
@@ -68,7 +68,7 @@ class VideoTestController extends BaseController
 
 
         if (!$videoTest) {
-            return $this->sendError('VideoTest with id = '.$id.' not found.');
+            return $this->sendError('VideoTest with id = '.$id.' not found.', 400);
         }
 
 
@@ -96,13 +96,13 @@ class VideoTestController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 	
         $videoTest = VideoTest::find($id);
 
          if (!$videoTest) {
-            return $this->sendError('VideoTest with id = '.$id.' not found.');
+            return $this->sendError('VideoTest with id = '.$id.' not found.', 400);
         }
 
         // $updated = $product->fill($request->all())->save();
@@ -116,7 +116,7 @@ class VideoTestController extends BaseController
         if($updated)
             return $this->sendResponse($videoTest->toArray(), 'VideoTest updated successfully.');
         else
-            return $this->sendError('VideoTest could not be updated');
+            return $this->sendError('VideoTest could not be updated', 500);
     }
 
 
@@ -131,7 +131,7 @@ class VideoTestController extends BaseController
     	$videoTest = VideoTest::find($id);
 
          if (!$videoTest) {
-            return $this->sendError('VideoTest with id = '.$id.' not found.');
+            return $this->sendError('VideoTest with id = '.$id.' not found.', 400);
         }
 
         $deleted = $videoTest->delete();
@@ -139,6 +139,6 @@ class VideoTestController extends BaseController
         if($deleted)
             return $this->sendResponse($videoTest->toArray(), 'VideoTest deleted successfully.');
         else
-            return $this->sendError('VideoTest could not be deleted');
+            return $this->sendError('VideoTest could not be deleted', 500);
     }
 }

@@ -35,7 +35,7 @@ class UserController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 	    $user = auth()->user();
@@ -48,7 +48,7 @@ class UserController extends BaseController
         if($updated)
             return $this->sendResponse($user->toArray(), 'User updated successfully.');
         else
-            return $this->sendError('User could not be updated.');
+            return $this->sendError('User could not be updated.', 500);
     }
 
 

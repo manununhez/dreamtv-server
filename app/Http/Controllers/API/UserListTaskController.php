@@ -53,7 +53,7 @@ class UserListTaskController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
@@ -61,7 +61,7 @@ class UserListTaskController extends BaseController
         $userListTask = UserListTask::create($input);
 
         if(is_null($userListTask))
-            return $this->sendError('Task could not be added to user list.');
+            return $this->sendError('Task could not be added to user list.', 500);
         else
             return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
 
@@ -88,7 +88,7 @@ class UserListTaskController extends BaseController
 
 
         if (is_null($userListTask)) {
-            return $this->sendError('User taks list not found.');
+            return $this->sendError('User taks list not found.', 400);
         }
 
         return $this->sendResponse($userListTask->toArray(), 'List of user tasks retrieved successfully.');
@@ -115,13 +115,13 @@ class UserListTaskController extends BaseController
 
 
          if($validator->fails()){
-             return $this->sendError('Validation Error.', $validator->errors());       
+             return $this->sendError('Validation Error.', $validator->errors(), 400);       
          }
 
     	$userListTask = UserListTask::find($id);
 
         if (is_null($userListTask)) {
-            return $this->sendError('User taks list not found.');
+            return $this->sendError('User taks list not found.', 400);
         }
 
     	$userListTask->task_id = $input['task_id'];
@@ -132,7 +132,7 @@ class UserListTaskController extends BaseController
         if($updated)
             return $this->sendResponse($userListTask->toArray(), 'Task from user list updated successfully.');
         else
-            return $this->sendError('Task from user list could not be updated');
+            return $this->sendError('Task from user list could not be updated', 500);
 
     }
 
@@ -151,7 +151,7 @@ class UserListTaskController extends BaseController
     	$userListTask = UserListTask::find($id);
 
         if (is_null($userListTask)) {
-            return $this->sendError('User taks list not found.');
+            return $this->sendError('User taks list not found.', 400);
         }
     	
         $deleted = $userListTask->delete();
@@ -159,7 +159,7 @@ class UserListTaskController extends BaseController
         if($deleted)
             return $this->sendResponse($userListTask->toArray(), 'Task from user list deleted successfully.');
         else
-            return $this->sendError('Task from user list could not be deleted');
+            return $this->sendError('Task from user list could not be deleted', 500);
 
     }
 
@@ -181,7 +181,7 @@ class UserListTaskController extends BaseController
         ]);
 
         if($validator->fails()){
-             return $this->sendError('Validation Error.', $validator->errors());       
+             return $this->sendError('Validation Error.', $validator->errors(), 400);       
          }
 
         $taskId = $input['task_id'];
@@ -189,7 +189,7 @@ class UserListTaskController extends BaseController
         $userListTask = UserListTask::where("task_id", $taskId);
 
         if (is_null($userListTask)) {
-            return $this->sendError('User taks list not found.');
+            return $this->sendError('User taks list not found.', 400);
         }
 
         $deleted = $userListTask->delete();
@@ -197,7 +197,7 @@ class UserListTaskController extends BaseController
         if($deleted)
             return $this->sendResponse($userListTask, 'Task from user list deleted successfully.');
         else
-            return $this->sendError('Task from user list could not be deleted');
+            return $this->sendError('Task from user list could not be deleted', 500);
     }
 
 }

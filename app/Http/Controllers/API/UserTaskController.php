@@ -48,14 +48,14 @@ class UserTaskController extends BaseController
             ]);
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         $input['user_id'] = auth()->user()->id;
         $userTask = UserTask::create($input);
 
         if(is_null($userTask))
-            return $this->sendError('User tasks could not be created.');
+            return $this->sendError('User tasks could not be created.', 500);
         else
             return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
 
@@ -74,7 +74,7 @@ class UserTaskController extends BaseController
 
 
         if (is_null($userTask)) {
-            return $this->sendError('UserTask not found.');
+            return $this->sendError('UserTask not found.', 400);
         }
 
 
@@ -101,7 +101,7 @@ class UserTaskController extends BaseController
 
 
          if($validator->fails()){
-             return $this->sendError('Validation Error.', $validator->errors());       
+             return $this->sendError('Validation Error.', $validator->errors(), 400);       
          }
 
         $userTask = UserTask::where('task_id', $input['task_id'])
@@ -110,7 +110,7 @@ class UserTaskController extends BaseController
                             ->first();
 	
     	if(is_null($userTask))
-    		return $this->sendError('UserTask not found.');
+    		return $this->sendError('UserTask not found.', 400);
 
         if(isset($input['time_watched']))
 		  $userTask->time_watched = $input['time_watched'];
@@ -126,7 +126,7 @@ class UserTaskController extends BaseController
         if($updated)
             return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
         else
-            return $this->sendError('UserTask could not be created');
+            return $this->sendError('UserTask could not be created', 500);
 
 
     }
@@ -142,7 +142,7 @@ class UserTaskController extends BaseController
         $userTask = UserTask::find($id);
 
     	if(!$userTask)
-    		return $this->sendError('User task with id = '.$id.' not found.');
+    		return $this->sendError('User task with id = '.$id.' not found.', 400);
 
 
     	$deleted = $userTask->delete();
@@ -150,7 +150,7 @@ class UserTaskController extends BaseController
     	if($deleted)
     		return $this->sendResponse($userTask->toArray(), 'UserTask deleted successfully.');
     	else
-    		return $this->sendError('UserTask could not be deleted');
+    		return $this->sendError('UserTask could not be deleted', 500);
     }
 
 
@@ -173,7 +173,7 @@ class UserTaskController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         $userId = auth()->user()->id;
@@ -183,7 +183,11 @@ class UserTaskController extends BaseController
                     ->where('task_id', $input['task_id'])
                     ->first();
 
-        return $this->sendResponse($userTask, "User task description.");
+        if (is_null($userTask)) {
+            return $this->sendError('UserTask not found.', 400);
+        } else {
+            return $this->sendResponse($userTask, "User task description.");
+        }
     }
 
 }

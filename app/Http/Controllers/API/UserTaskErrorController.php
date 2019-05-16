@@ -50,17 +50,22 @@ class UserTaskErrorController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
+
         #We obtain user_task ID
-        $userTaskId = $this->obtainUserTaskId($input['task_id']);
+        $userTask = $this->obtainUserTaskId($input['task_id']);
+
+        if(is_null($userTask))
+            return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
+
         #insert new values
-        $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
+        $userTaskError = $this->insertValuesFromJsonString($input, $userTask->id);
 
 
         if(!$userTaskError)
-            return $this->sendError('UserTaskError could not be created');
+            return $this->sendError('UserTaskError could not be created', 500);
         else
             return $this->sendResponse($userTaskError, 'UserTaskError created successfully.');
     }
@@ -78,7 +83,7 @@ class UserTaskErrorController extends BaseController
 
 
         if (!$userTaskError) {
-            return $this->sendError('UserTaskError with id = '.$id.' not found.');
+            return $this->sendError('UserTaskError with id = '.$id.' not found.', 400);
         }
 
 
@@ -106,28 +111,31 @@ class UserTaskErrorController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         #We obtain user_task ID
-        $userTaskId = $this->obtainUserTaskId($input['task_id']);
+        $userTask = $this->obtainUserTaskId($input['task_id']);
+
+        if(is_null($userTask))
+            return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
 
         # Delete old values
-        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+        $deleted = UserTaskError::where('user_tasks_id', $userTask->id)
                                         ->where('subtitle_position', $input['subtitle_position'])
                                         ->delete();
 
          if (!$deleted) {
-            return $this->sendError('UserTaskError for task_id = '.$input['task_id'].' could not be updated/deleted.');
+            return $this->sendError('UserTaskError for task_id = '.$input['task_id'].' could not be updated/deleted.', 500);
         }
 
 
         #insert new values
-        $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
+        $userTaskError = $this->insertValuesFromJsonString($input, $userTask->id);
 
 
         if(!$userTaskError)
-            return $this->sendError('UserTaskError could not be created');
+            return $this->sendError('UserTaskError could not be created', 500);
         else
             return $this->sendResponse($userTaskError, 'UserTaskError updated successfully.');
     }
@@ -151,21 +159,24 @@ class UserTaskErrorController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         #We obtain user_task ID
-        $userTaskId = $this->obtainUserTaskId($input['task_id']);
+        $userTask = $this->obtainUserTaskId($input['task_id']);
+
+        if(is_null($userTask))
+            return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
 
         # Delete old values
-        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+        $deleted = UserTaskError::where('user_tasks_id', $userTask->id)
                                         ->where('subtitle_position', $input['subtitle_position'])
                                         ->delete();
 
         if($deleted)
             return $this->sendResponse($deleted, 'UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
         else
-            return $this->sendError('UserTaskError could not be deleted');
+            return $this->sendError('UserTaskError could not be deleted', 500);
     }
 
 
@@ -182,13 +193,7 @@ class UserTaskErrorController extends BaseController
         $userTask = UserTask::where('task_id', $taskId)
                             ->where('user_id', $userId)
                             ->first();
-
-
-        if(is_null($userTask))
-            return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.');
-
-
-        return $userTask->id;
+        return $userTask;
     }
 
 

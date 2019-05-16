@@ -44,14 +44,14 @@ class ErrorReasonController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
 
         $errorReason = ErrorReason::create($input);
 
         if(is_null($errorReason))
-            return $this->sendError('Error Reason could not be created');
+            return $this->sendError('Error Reason could not be created', 500);
         else
             return $this->sendResponse($errorReason->toArray(), 'Error Reason created successfully.');
     }
@@ -69,7 +69,7 @@ class ErrorReasonController extends BaseController
 
 
         if (is_null($errorReason)) {
-            return $this->sendError('ErrorReason with code = '.$code.' not found.');
+            return $this->sendError('ErrorReason with code = '.$code.' not found.', 400);
         }
 
 
@@ -97,7 +97,7 @@ class ErrorReasonController extends BaseController
 
 
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
         $errorReason = ErrorReason::find($code);
@@ -112,7 +112,7 @@ class ErrorReasonController extends BaseController
         if($updated)
             return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'updated successfully.');
         else
-            return $this->sendError('Error reason could not be updated');
+            return $this->sendError('Error reason could not be updated', 500);
 
     }
 
@@ -129,7 +129,7 @@ class ErrorReasonController extends BaseController
         $errorReason = ErrorReason::find($code);
 
         if (!$errorReason) {
-            return $this->sendError('ErrorReason with id = '.$id.' not found.');
+            return $this->sendError('ErrorReason with code = '.$code.' not found.');
         }
 
         $deleted = $errorReason->delete();
@@ -138,6 +138,6 @@ class ErrorReasonController extends BaseController
         if($deleted)
             return $this->sendResponse($errorReason->toArray(), 'Error reason'. $code .'deleted successfully.');
         else
-            return $this->sendError('Error reason could not be deleted');
+            return $this->sendError('Error reason could not be deleted', 500);
     }
 }
