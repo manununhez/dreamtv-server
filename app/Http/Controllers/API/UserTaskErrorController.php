@@ -58,11 +58,12 @@ class UserTaskErrorController extends BaseController
         #insert new values
         $userTaskError = $this->insertValuesFromJsonString($input, $userTaskId);
 
+	//return $userTaskError;
 
-        if(is_null($userTaskError))
+        if(!$userTaskError)
             return $this->sendError('UserTaskError could not be created');
         else
-            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError created successfully.');
+            return $this->sendResponse($userTaskError, 'UserTaskError created successfully.');
     }
 
 
@@ -207,7 +208,7 @@ class UserTaskErrorController extends BaseController
 
         
         #Create array of values to insert
-        foreach ($errorsArray as $key => $value) {
+        foreach ((array)$errorsArray as $key => $value) {
             $multipleValuesToInsert[] = array(
                                             "user_tasks_id" => $userTaskId,
                                             "reason_code" => $value["reason_code"],
@@ -217,12 +218,8 @@ class UserTaskErrorController extends BaseController
         }
 
         #insert multiple values
-        $userTaskError = UserTaskError::create($multipleValuesToInsert);
-
+        $userTaskError = UserTaskError::insert($multipleValuesToInsert);
+//	return $multipleValuesToInsert;
         return $userTaskError;
     }
-
-
-
-
 }
