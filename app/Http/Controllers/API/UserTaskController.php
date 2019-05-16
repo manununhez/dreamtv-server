@@ -183,11 +183,11 @@ class UserTaskController extends BaseController
                     ->where('task_id', $input['task_id'])
                     ->first();
 
-        if (is_null($userTask)) {
-            return $this->sendError('UserTask not found.', 400);
-        } else {
+        // if (is_null($userTask)) { //In case is null, we dont send error, instead just send the null value
+        //     return $this->sendError('UserTask not found.', 400);
+        // } else {
             return $this->sendResponse($userTask, "User task description.");
-        }
+        // }
     }
 
 }
