@@ -30,6 +30,7 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::get('usertask/errors','API\UserTaskErrorController@index');
 		Route::post('usertask/errors','API\UserTaskErrorController@store');
 		Route::put('usertask/errors','API\UserTaskErrorController@update');
+		Route::delete('usertask/errors','API\UserTaskErrorController@destroy');
 
 		
 		Route::resource('resource/videos', 'API\VideoController');
