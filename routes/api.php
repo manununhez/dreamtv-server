@@ -27,6 +27,10 @@ Route::group(['middleware' => ['json.response']], function () {
 
 		Route::get('tasks','API\TaskController@tasksByCategories');
 
+		Route::get('usertask/errors','API\UserTaskErrorController');
+		Route::post('usertask/errors','API\UserTaskErrorController');
+		Route::put('usertask/errors','API\UserTaskErrorController');
+
 		
 		Route::resource('resource/videos', 'API\VideoController');
 	    
