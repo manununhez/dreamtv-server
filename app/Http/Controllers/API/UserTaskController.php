@@ -54,10 +54,14 @@ class UserTaskController extends BaseController
         $input['user_id'] = auth()->user()->id;
         $userTask = UserTask::create($input);
 
-        if(is_null($userTask))
+        if(is_null($userTask)){
             return $this->sendError('User tasks could not be created.', 500);
+        }
         else
+        {
+            $userTask = $this->getUserTaskWithErrors($input['task_id']);
             return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
+        }
 
     }
 
@@ -123,10 +127,13 @@ class UserTaskController extends BaseController
         
         $updated = $userTask->save();
 
-        if($updated)
+        if($updated){
+            $userTask = $this->getUserTaskWithErrors($input['task_id']);
             return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
-        else
+        }
+        else{
             return $this->sendError('UserTask could not be created', 500);
+        }
 
 
     }
@@ -176,18 +183,27 @@ class UserTaskController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors(), 400);       
         }
 
-        $userId = auth()->user()->id;
-   
-        $userTask = UserTask::with('userTaskErrors')
-                    ->where('user_id', $userId)
-                    ->where('task_id', $input['task_id'])
-                    ->first();
+
+        $userTask = $this->getUserTaskWithErrors($input['task_id']);
 
         // if (is_null($userTask)) { //In case is null, we dont send error, instead just send the null value
         //     return $this->sendError('UserTask not found.', 400);
         // } else {
             return $this->sendResponse($userTask, "User task description.");
         // }
+    }
+
+
+    private function getUserTaskWithErrors($taskId){
+        $userId = auth()->user()->id;
+   
+        $userTask = UserTask::with('userTaskErrors')
+                    ->where('user_id', $userId)
+                    ->where('task_id', $taskId)
+                    ->first();
+
+
+        return $userTask;
     }
 
 }
