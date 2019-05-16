@@ -159,12 +159,18 @@ class UserTaskErrorController extends BaseController
         $userTaskId = $this->obtainUserTaskId($input['task_id']);
 
         # Delete old values
-        $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+        // $deleted = UserTaskError::where('user_tasks_id', $userTaskId)
+        //                                 ->where('subtitle_position', $input['subtitle_position'])
+        //                                 ->delete();
+
+        $userTaskError = UserTaskError::where('user_tasks_id', $userTaskId)
                                         ->where('subtitle_position', $input['subtitle_position'])
-                                        ->delete();
+                                        ->get();
+
+        $deleted = $userTaskError->delete();
 
         if($deleted)
-            return $this->sendResponse('UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
+            return $this->sendResponse($userTaskError->toArray(), 'UserTaskError with task_id = '.$input['task_id'].' and subtitle_position = '.$input['subtitle_position'].' deleted successfully.');
         else
             return $this->sendError('UserTaskError could not be deleted');
     }
@@ -219,7 +225,7 @@ class UserTaskErrorController extends BaseController
 
         #insert multiple values
         $userTaskError = UserTaskError::insert($multipleValuesToInsert);
-//	return $multipleValuesToInsert;
+
         return $userTaskError;
     }
 }
