@@ -20,6 +20,6 @@ class UserTask extends Model
 
 
     public function userTaskErrors(){
-    	return $this->hasMany(UserTaskError::class, 'user_tasks_id', 'id');
+    	return $this->hasMany(UserTaskError::class, 'user_tasks_id', 'id')->orderBy('subtitle_position');;
     }
 }
