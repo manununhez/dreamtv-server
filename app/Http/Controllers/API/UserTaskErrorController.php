@@ -24,7 +24,7 @@ class UserTaskErrorController extends BaseController
      */
     public function index()
     {
-        $userTaskErrors = UserTaskError::all();
+        $userTaskErrors = UserTaskError::orderBy('subtitle_position')->get(); //desc
 
         return $this->sendResponse($userTaskErrors->toArray(), 'UserTaskError retrieved successfully.');
     }
