@@ -184,22 +184,22 @@ class TaskController extends BaseController
         
         switch ($task_type) {
             case "all":
-                return $this->getAllTasksForCurrentUser($request);
+                return $this->getAllTasksForCurrentUser();
             
             case "continue":
-                return $this->getContinueTasksForCurrentUser($request);
+                return $this->getContinueTasksForCurrentUser();
             
             case "finished":
-                return $this->getFinishedTasksForCurrentUser($request);
+                return $this->getFinishedTasksForCurrentUser();
             
             case "myList":
-                return $this->getCurrentUserTaskList($request);
+                return $this->getCurrentUserTaskList();
             
             case "test":
-                return $this->getTestTasksForCurrentUser($request);
+                return $this->getTestTasksForCurrentUser();
             
             default:
-                return $this->getAllTasksForCurrentUser($request);
+                return $this->getAllTasksForCurrentUser();
 
         }
     }
@@ -212,7 +212,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getAllTasksForCurrentUser(Request $request)
+    private function getAllTasksForCurrentUser()
     {
         $user = auth()->user();
 
@@ -248,7 +248,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getTestTasksForCurrentUser(Request $request)
+    private function getTestTasksForCurrentUser()
     {
         $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
         
@@ -282,7 +282,7 @@ class TaskController extends BaseController
     *
     *
     */
-    private function getCurrentUserTaskList(Request $request)
+    private function getCurrentUserTaskList()
     {
         $user = auth()->user();
 
@@ -310,7 +310,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getContinueTasksForCurrentUser(Request $request)
+    private function getContinueTasksForCurrentUser()
     {
         $user = auth()->user();
 
@@ -330,7 +330,7 @@ class TaskController extends BaseController
     *
     *
     */
-    private function getFinishedTasksForCurrentUser(Request $request)
+    private function getFinishedTasksForCurrentUser()
     {
         $user = auth()->user();
 
