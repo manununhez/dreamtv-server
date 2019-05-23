@@ -216,7 +216,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->groupBy('task_id')->pluck('task_id');
 
         if($user->audio_language != 'NN') {
             //We only shows tasks not finished yet by the user
@@ -288,8 +288,6 @@ class TaskController extends BaseController
 
         $userListTask = $user->userListTasks()->get();
         
-        $userTasksIdArray = $userListTask->groupBy('task_id')->pluck('task_id');                          
-
         $tasks = $userListTask->map(function($list){ 
                 		return Task::with('videos')
                                     ->whereHas('videos', function($query) use ($list){
@@ -314,7 +312,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->where('completed', 0)->groupBy('task_id')->pluck('task_id');//completed false
+        $userTasks = $user->userContinueTasks()->pluck('task_id');//completed false
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
@@ -334,7 +332,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->where('completed', 1)->groupBy('task_id')->pluck('task_id');//completed true
+        $userTasks = $user->userFinishedTasks()->pluck('task_id');//completed true
 
         $tasks = Task::with('videos')
                     ->whereIn('task_id', $userTasks)
