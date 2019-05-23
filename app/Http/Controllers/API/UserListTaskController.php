@@ -63,8 +63,7 @@ class UserListTaskController extends BaseController
         if(is_null($userListTask))
             return $this->sendError('Task could not be added to user list.', 500);
         else{
-            // return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
-            return $this->getCurrentUserTaskList();
+            return $this->sendResponse($userListTask->toArray(), 'Task added to user list successfully.');
         }
 
     }
@@ -174,33 +173,13 @@ class UserListTaskController extends BaseController
         $deleted = $userListTask->delete();
 
         if($deleted){
-            // return $this->sendResponse($userListTask, 'Task from user list deleted successfully.');
-            return $this->getCurrentUserTaskList();
+            return $this->sendResponse($userListTask, 'Task from user list deleted successfully.');
         }
         else
             return $this->sendError('Task from user list could not be deleted', 500);
 
     }
 
-
-    private function getCurrentUserTaskList()
-    {
-        $user = auth()->user();
-
-        $userListTask = $user->userListTasks()->get();
-        
-        $tasks = $userListTask->map(function($list){ 
-                        return Task::with('videos')
-                                    ->whereHas('videos', function($query) use ($list){
-                                        $query->where('primary_audio_language_code', $list->audio_language_config);
-                                    })
-                                    ->where('language', $list->sub_language_config)
-                                    ->where('task_id', $list->task_id)
-                                    ->firstOrFail();
-                });
-
-        return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
-    }
 
 }
 
