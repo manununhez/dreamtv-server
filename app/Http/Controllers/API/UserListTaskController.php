@@ -189,8 +189,6 @@ class UserListTaskController extends BaseController
 
         $userListTask = $user->userListTasks()->get();
         
-        $userTasksIdArray = $userListTask->groupBy('task_id')->pluck('task_id');                          
-
         $tasks = $userListTask->map(function($list){ 
                         return Task::with('videos')
                                     ->whereHas('videos', function($query) use ($list){

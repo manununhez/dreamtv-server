@@ -35,7 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function userTasks(){
-        return $this->hasMany(UserTask::class, "user_id", "id")->orderBy('created_at','desc');
+        return $this->hasMany(UserTask::class, "user_id", "id")->groupBy('task_id', 'created_at')->orderBy('created_at','desc');
     }
 
     public function userContinueTasks(){

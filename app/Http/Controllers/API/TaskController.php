@@ -216,7 +216,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userTasks = $user->userTasks()->groupBy('task_id')->pluck('task_id');
+        $userTasks = $user->userTasks()->pluck('task_id');
 
         if($user->audio_language != 'NN') {
             //We only shows tasks not finished yet by the user
