@@ -39,11 +39,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function userContinueTasks(){
-        return $this->hasMany(UserTask::class, "user_id", "id")->where('completed', 0)->groupBy('task_id, created_at')->orderBy('created_at','desc');
+        return $this->hasMany(UserTask::class, "user_id", "id")->where('completed', 0)->groupBy('task_id', 'created_at')->orderBy('created_at','desc');
     }
 
     public function userFinishedTasks(){
-        return $this->hasMany(UserTask::class, "user_id", "id")->where('completed', 1)->groupBy('task_id, created_at')->orderBy('created_at','desc');
+        return $this->hasMany(UserTask::class, "user_id", "id")->where('completed', 1)->groupBy('task_id', 'created_at')->orderBy('created_at','desc');
     }
 
 
