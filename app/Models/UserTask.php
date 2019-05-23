@@ -18,7 +18,6 @@ class UserTask extends Model
         return $this->belongsTo(Task::class, 'task_id');
     }
 
-
     public function userTaskErrors(){
     	return $this->hasMany(UserTaskError::class, 'user_tasks_id', 'id')->orderBy('subtitle_position');
     }

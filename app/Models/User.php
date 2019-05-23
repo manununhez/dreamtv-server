@@ -31,10 +31,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     public function userListTasks(){
-        return $this->hasMany(UserListTask::class, "user_id", "id");
+        return $this->hasMany(UserListTask::class, "user_id", "id")->orderBy('created_at','desc');
     }
 
     public function userTasks(){
-        return $this->hasMany(UserTask::class, "user_id", "id");
+        return $this->hasMany(UserTask::class, "user_id", "id")->orderBy('created_at','desc');
     }
 }

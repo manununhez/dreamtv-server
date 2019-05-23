@@ -19,15 +19,8 @@ class Task extends Model
     	'task_id', 'video_id','language', 'type', 'created', 'completed', 'modified'
     ];  
 
-    public function userTasks(){
-        return $this->hasMany('App\UserTask');//UserTask::class);
-    }
-
-     public function userListTasks(){
-        return $this->hasMany(UserListTask::class);
-    }
 
     public function videos(){
-        return $this->belongsTo(Video::class, 'video_id');
+        return $this->belongsTo(Video::class, 'video_id')->orderBy('created_at','desc');
     }
 }

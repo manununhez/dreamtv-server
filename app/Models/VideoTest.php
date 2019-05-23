@@ -11,11 +11,4 @@ class VideoTest extends Model
 		'video_id', 'subtitle_version', 'language_code'
 	];
 
-    /**
-     * Get the video record associated with the video test.
-     */
-  //  public function video()
-    //{
-      //  return $this->hasOne(Video::class);
-   // }
 }

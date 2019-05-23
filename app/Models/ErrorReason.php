@@ -17,8 +17,4 @@ class ErrorReason extends Model
 
     protected $fillable = ['reason_code','name', 'description', 'language']; 
 
-
-    public function userTasksError(){
-        return $this->hasMany(UserTaskError::class, 'reason_code');
-    } 
 }
