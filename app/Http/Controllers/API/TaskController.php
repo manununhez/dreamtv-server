@@ -221,17 +221,19 @@ class TaskController extends BaseController
         if($user->audio_language != 'NN') {
             //We only shows tasks not finished yet by the user
             $tasks = Task::with('videos')
+			->with('userTasks.userTaskErrors')
                         ->whereHas('videos', function($query) use ($user){
             				$query->where('primary_audio_language_code', $user->audio_language);
             			})
-            			//->whereNotIn('task_id',$userTasks)
+            			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
             			->where('language', $user->sub_language)
             			->paginate(50); 
         
         } else {           
             //We only shows tasks not finished yet by the user
        		$tasks = Task::with('videos')
-            			//->whereNotIn('task_id',$userTasks)
+				->with('userTasks.userTaskErrors')
+            			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
             			->where('language', $user->sub_language)
             			->paginate(50);
 
@@ -256,6 +258,7 @@ class TaskController extends BaseController
    
         if($user->audio_language != 'NN') {
             $tasks = Task::with('videos')
+			->with('userTasks.userTaskErrors')
                         ->whereHas('videos', function($query) use ($user,$videoIdArray){
                             $query->where('primary_audio_language_code', $user->audio_language);
                             $query->whereIn('video_id', $videoIdArray);
@@ -265,6 +268,7 @@ class TaskController extends BaseController
           
         } else {
             $tasks = Task::with('videos')
+			->with('userTasks.userTaskErrors')
                         ->whereHas('videos', function($query) use ($videoIdArray){
                             $query->whereIn('video_id', $videoIdArray);
                         })
@@ -290,6 +294,7 @@ class TaskController extends BaseController
         
         $tasks = $userListTask->map(function($list){ 
                 		return Task::with('videos')
+					->with('userTasks.userTaskErrors')
                                     ->whereHas('videos', function($query) use ($list){
                                         $query->where('primary_audio_language_code', $list->audio_language_config);
                                     })
@@ -315,6 +320,7 @@ class TaskController extends BaseController
         $userTasks = $user->userContinueTasks()->pluck('task_id');//completed false
 
         $tasks = Task::with('videos')
+			->with('userTasks.userTaskErrors')
                     ->whereIn('task_id', $userTasks)
                     ->get();
         
@@ -335,6 +341,7 @@ class TaskController extends BaseController
         $userTasks = $user->userFinishedTasks()->pluck('task_id');//completed true
 
         $tasks = Task::with('videos')
+			->with('userTasks.userTaskErrors')
                     ->whereIn('task_id', $userTasks)
                     ->get();
         

@@ -23,4 +23,8 @@ class Task extends Model
     public function videos(){
         return $this->belongsTo(Video::class, 'video_id')->orderBy('created_at','desc');
     }
+
+	public function userTasks(){
+		return $this->hasMany(UserTask::class, 'task_id', 'task_id');
+	}
 }
