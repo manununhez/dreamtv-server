@@ -67,8 +67,13 @@ class UserTaskErrorController extends BaseController
 
         if(!$userTaskError)
             return $this->sendError('UserTaskError could not be created', 500);
-        else
-            return $this->sendResponse($userTaskError, 'UserTaskError created successfully.');
+        else{
+            $userTaskErrorInserted = UserTaskError::where('user_tasks_id', $userTask->id)
+                                        ->where('subtitle_position', $input['subtitle_position'])
+                                        ->get();
+
+            return $this->sendResponse($userTaskErrorInserted, 'UserTaskError created successfully.');
+        }
     }
 
 
