@@ -68,11 +68,11 @@ class UserTaskErrorController extends BaseController
         if(!$userTaskError)
             return $this->sendError('UserTaskError could not be created', 500);
         else{
-            $userTaskErrorInserted = UserTaskError::where('user_tasks_id', $userTask->id)
-                                        ->where('subtitle_position', $input['subtitle_position'])
-                                        ->get();
+            $userTaskErrors = UserTaskError::where('user_tasks_id', $userTask->id)
+                                            ->orderBy('subtitle_position')
+                                            ->get();
 
-            return $this->sendResponse($userTaskErrorInserted, 'UserTaskError created successfully.');
+            return $this->sendResponse($userTaskErrors, 'UserTaskError created successfully.');
         }
     }
 
@@ -143,8 +143,12 @@ class UserTaskErrorController extends BaseController
 
         if(!$userTaskError)
             return $this->sendError('UserTaskError could not be created', 500);
-        else
-            return $this->sendResponse($userTaskError, 'UserTaskError updated successfully.');
+        else{
+            $userTaskErrors = UserTaskError::where('user_tasks_id', $userTask->id)
+                                            ->orderBy('subtitle_position')
+                                            ->get();
+            return $this->sendResponse($userTaskErrors, 'UserTaskError updated successfully.');
+        }
     }
 
 
