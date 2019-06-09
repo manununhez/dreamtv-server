@@ -223,19 +223,24 @@ class UserTaskErrorController extends BaseController
         // $input['reason_code'] -> JSON string
         // '[{"name":"rc1","reason_code":"rc1"},{"name":"rc4","reason_code":"rc4"},{"name":"rc3","reason_code":"rc2"}]';
 
-        
-        #Create array of values to insert
-        foreach ((array)$errorsArray as $key => $value) {
-            $multipleValuesToInsert[] = array(
-                                            "user_tasks_id" => $userTaskId,
-                                            "reason_code" => $value["reason_code"],
-                                            "subtitle_position" => $input['subtitle_position'],
-                                            "comment" => isset($input['comment']) ? $input['comment'] : null
-                                        );
+        if(sizeof($errorsArray) > 0){
+            #Create array of values to insert
+            foreach ((array)$errorsArray as $key => $value) {
+                $multipleValuesToInsert[] = array(
+                                                "user_tasks_id" => $userTaskId,
+                                                "reason_code" => $value["reason_code"],
+                                                "subtitle_position" => $input['subtitle_position'],
+                                                "comment" => isset($input['comment']) ? $input['comment'] : null
+                                            );
+            }
+
+            #insert multiple values
+            $userTaskError = UserTaskError::insert($multipleValuesToInsert);
+        } else {
+            $userTaskError = true; //if the reason_code is empty, it is still correct, that means the user just wanted to delete all his previous selected options. 
         }
 
-        #insert multiple values
-        $userTaskError = UserTaskError::insert($multipleValuesToInsert);
+        
 
         return $userTaskError;
     }
