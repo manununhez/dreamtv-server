@@ -184,22 +184,22 @@ class TaskController extends BaseController
         
         switch ($task_type) {
             case "all":
-                return $this->getAllTasksForCurrentUser();
+                return $this->getAllTasksForCurrentUser($input['min_duration'], $input['max_duration']);
             
             case "continue":
-                return $this->getContinueTasksForCurrentUser();
+                return $this->getContinueTasksForCurrentUser($input['min_duration'], $input['max_duration']);
             
             case "finished":
-                return $this->getFinishedTasksForCurrentUser();
+                return $this->getFinishedTasksForCurrentUser($input['min_duration'], $input['max_duration']);
             
             case "myList":
-                return $this->getCurrentUserTaskList();
+                return $this->getCurrentUserTaskList($input['min_duration'], $input['max_duration']);
             
             case "test":
-                return $this->getTestTasksForCurrentUser();
+                return $this->getTestTasksForCurrentUser($input['min_duration'], $input['max_duration']);
             
             default:
-                return $this->getAllTasksForCurrentUser();
+                return $this->getAllTasksForCurrentUser($input['min_duration'], $input['max_duration']);
 
         }
     }
@@ -212,32 +212,106 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getAllTasksForCurrentUser()
+    private function getAllTasksForCurrentUser($minDuration, $maxDuration)
     {
         $user = auth()->user();
 
         $userTasks = $user->userTasks()->pluck('task_id');
 
-        if($user->audio_language != 'NN') {
-            //We only shows tasks not finished yet by the user
-            $tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors')
-                        ->whereHas('videos', function($query) use ($user){
-            				$query->where('primary_audio_language_code', $user->audio_language);
-            			})
-            			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
-            			->where('language', $user->sub_language)
-            			->paginate(50); 
-        
-        } else {           
-            //We only shows tasks not finished yet by the user
-       		$tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors')
-            			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
-            			->where('language', $user->sub_language)
-            			->paginate(50);
+        $minDuration = 
 
-        } 
+        if($minDuration == null && $maxDuration == null){ //all videos
+            if($user->audio_language != 'NN') {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user){
+                				$query->where('primary_audio_language_code', $user->audio_language);
+                			})
+                			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                			->where('language', $user->sub_language)
+                			->paginate(50);
+            } else {           
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+
+            } 
+        } else if ($maxDuration == null){ //duration > min
+            if($user->audio_language != 'NN') {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user, $minDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->where('duration', '>', $minDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+            } else {
+               //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($minDuration){
+                                $query->where('duration', '>', $minDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50); 
+            }
+        } else if ($minDuration == null) { //$minDuration == null   //duration < max
+            if($user->audio_language != 'NN') {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user, $maxDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+            } else {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($maxDuration){
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+            }
+        } else { //interval (min, max)
+            if($user->audio_language != 'NN') {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user, $maxDuration, $minDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->where('duration', '>', $minDuration);
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+            } else {
+                //We only shows tasks not finished yet by the user
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($maxDuration, $minDuration){
+                                $query->where('duration', '>', $minDuration);
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
+            }
+        }
         
         return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
     }
@@ -250,31 +324,101 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getTestTasksForCurrentUser()
+    private function getTestTasksForCurrentUser($minDuration, $maxDuration)
     {
         $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
         
         $user = auth()->user();
    
-        if($user->audio_language != 'NN') {
-            $tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors')
-                        ->whereHas('videos', function($query) use ($user,$videoIdArray){
-                            $query->where('primary_audio_language_code', $user->audio_language);
-                            $query->whereIn('video_id', $videoIdArray);
-                         })
-                        ->where('language', $user->sub_language)
-                        ->get();
-          
-        } else {
-            $tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors')
-                        ->whereHas('videos', function($query) use ($videoIdArray){
-                            $query->whereIn('video_id', $videoIdArray);
-                        })
-                        ->where('language', $user->sub_language)
-                        ->get();
-       
+        if($minDuration == null && $maxDuration == null){ //all videos
+            if($user->audio_language != 'NN') {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user,$videoIdArray){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->whereIn('video_id', $videoIdArray);
+                             })
+                            ->where('language', $user->sub_language)
+                            ->get();
+              
+            } else {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($videoIdArray){
+                                $query->whereIn('video_id', $videoIdArray);
+                            })
+                            ->where('language', $user->sub_language)
+                            ->get();
+           
+            }
+        } else if ($maxDuration == null){ //duration > min
+            if($user->audio_language != 'NN') {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user,$videoIdArray, $minDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '>', $minDuration);
+                             })
+                            ->where('language', $user->sub_language)
+                            ->get();
+              
+            } else { 
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($videoIdArray, $minDuration){
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '>', $minDuration);
+                            })
+                            ->where('language', $user->sub_language)
+                            ->get();
+            }
+        } else if ($minDuration == null){ //$minDuration == null   //duration < max
+            if($user->audio_language != 'NN') {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user,$videoIdArray, $maxDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '<', $maxDuration);
+                             })
+                            ->where('language', $user->sub_language)
+                            ->get();
+              
+            } else {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($videoIdArray, $maxDuration){
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->where('language', $user->sub_language)
+                            ->get();
+            }
+        } else { //interval (min, max)
+            if($user->audio_language != 'NN') {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($user,$videoIdArray, $minDuration, $maxDuration){
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '>', $minDuration);
+                                $query->where('duration', '<', $maxDuration);
+                             })
+                            ->where('language', $user->sub_language)
+                            ->get();
+              
+            } else {
+                $tasks = Task::with('videos')
+                            ->with('userTasks.userTaskErrors')
+                            ->whereHas('videos', function($query) use ($videoIdArray, $minDuration, $maxDuration){
+                                $query->whereIn('video_id', $videoIdArray);
+                                $query->where('duration', '>', $minDuration);
+                                $query->where('duration', '<', $maxDuration);
+                            })
+                            ->where('language', $user->sub_language)
+                            ->get();
+            }
         }
         
         return $this->sendResponse($tasks->toArray(), "Test tasks retrieved.");
@@ -286,22 +430,61 @@ class TaskController extends BaseController
     *
     *
     */
-    private function getCurrentUserTaskList()
+    private function getCurrentUserTaskList($minDuration, $maxDuration)
     {
         $user = auth()->user();
 
         $userListTask = $user->userListTasks()->get();
         
-        $tasks = $userListTask->map(function($list){ 
-                		return Task::with('videos')
-                                    ->with('userTasks.userTaskErrors')
-                                    ->whereHas('videos', function($query) use ($list){
-                                        $query->where('primary_audio_language_code', $list->audio_language_config);
-                                    })
-                                    ->where('language', $list->sub_language_config)
-                                    ->where('task_id', $list->task_id)
-                                    ->firstOrFail();
-                });
+        if($minDuration == null && $maxDuration == null){ //all videos
+            $tasks = $userListTask->map(function($list){ 
+                    		return Task::with('videos')
+                                        ->with('userTasks.userTaskErrors')
+                                        ->whereHas('videos', function($query) use ($list){
+                                            $query->where('primary_audio_language_code', $list->audio_language_config);
+                                        })
+                                        ->where('language', $list->sub_language_config)
+                                        ->where('task_id', $list->task_id)
+                                        ->firstOrFail();
+                    });
+        } else if ($maxDuration == null){ //duration > min
+            $tasks = $userListTask->map(function($list, $minDuration){ 
+                            return Task::with('videos')
+                                        ->with('userTasks.userTaskErrors')
+                                        ->whereHas('videos', function($query) use ($list, $minDuration){
+                                            $query->where('primary_audio_language_code', $list->audio_language_config);
+                                            $query->where('duration', '>', $minDuration);
+                                        })
+                                        ->where('language', $list->sub_language_config)
+                                        ->where('task_id', $list->task_id)
+                                        ->firstOrFail();
+                    });
+        } else if ($minDuration == null){ //$minDuration == null   //duration < max
+            $tasks = $userListTask->map(function($list, $maxDuration){ 
+                            return Task::with('videos')
+                                        ->with('userTasks.userTaskErrors')
+                                        ->whereHas('videos', function($query) use ($list, $maxDuration){
+                                            $query->where('primary_audio_language_code', $list->audio_language_config);
+                                            $query->where('duration', '<', $maxDuration);
+                                        })
+                                        ->where('language', $list->sub_language_config)
+                                        ->where('task_id', $list->task_id)
+                                        ->firstOrFail();
+                    });
+        } else { //interval (min, max)
+            $tasks = $userListTask->map(function($list, $minDuration, $maxDuration){ 
+                            return Task::with('videos')
+                                        ->with('userTasks.userTaskErrors')
+                                        ->whereHas('videos', function($query) use ($list, $minDuration, $maxDuration){
+                                            $query->where('primary_audio_language_code', $list->audio_language_config);
+                                            $query->where('duration', '>', $minDuration);
+                                            $query->where('duration', '<', $maxDuration);
+                                        })
+                                        ->where('language', $list->sub_language_config)
+                                        ->where('task_id', $list->task_id)
+                                        ->firstOrFail();
+                    });
+        }
 
         return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
     }
@@ -313,16 +496,43 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getContinueTasksForCurrentUser()
+    private function getContinueTasksForCurrentUser($minDuration, $maxDuration)
     {
         $user = auth()->user();
 
         $userTasks = $user->userContinueTasks()->pluck('task_id');//completed false
 
-        $tasks = Task::with('videos')
-                    ->with('userTasks.userTaskErrors')
-                    ->whereIn('task_id', $userTasks)
-                    ->get();
+        if($minDuration == null && $maxDuration == null){ //all videos
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else if ($maxDuration == null){ //duration > min
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($minDuration){
+                            $query->where('duration', '>', $minDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else if ($minDuration == null){ //$minDuration == null   //duration < max
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($maxDuration){
+                            $query->where('duration', '<', $maxDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else { //interval (min, max)
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($minDuration, $maxDuration){
+                            $query->where('duration', '>', $minDuration);
+                            $query->where('duration', '<', $maxDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        }
         
         return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
        
@@ -334,16 +544,43 @@ class TaskController extends BaseController
     *
     *
     */
-    private function getFinishedTasksForCurrentUser()
+    private function getFinishedTasksForCurrentUser($minDuration, $maxDuration)
     {
         $user = auth()->user();
 
         $userTasks = $user->userFinishedTasks()->pluck('task_id');//completed true
 
-        $tasks = Task::with('videos')
-                    ->with('userTasks.userTaskErrors')
-                    ->whereIn('task_id', $userTasks)
-                    ->get();
+        if($minDuration == null && $maxDuration == null){ //all videos
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else if ($maxDuration == null){ //duration > min
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($minDuration){
+                            $query->where('duration', '>', $minDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else if ($minDuration == null){ //$minDuration == null   //duration < max
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($maxDuration){
+                            $query->where('duration', '<', $maxDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        } else { //interval (min, max)
+            $tasks = Task::with('videos')
+                        ->with('userTasks.userTaskErrors')
+                        ->whereHas('videos', function($query) use ($minDuration, $maxDuration){
+                            $query->where('duration', '>', $minDuration);
+                            $query->where('duration', '<', $maxDuration);
+                        })
+                        ->whereIn('task_id', $userTasks)
+                        ->get();
+        }
         
         return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
     }
