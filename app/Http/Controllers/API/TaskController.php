@@ -180,26 +180,36 @@ class TaskController extends BaseController
         }
 
 
+
         $task_type = $input['type'];
+
+        $minDuration = null;
+        $maxDuration = null;
+
+        if(isset($input['min_duration']))
+            $minDuration = $input['min_duration'];
+
+        if(isset($input['max_duration']))
+            $maxDuration = $input['max_duration'];
         
         switch ($task_type) {
             case "all":
-                return $this->getAllTasksForCurrentUser($input['min_duration'], $input['max_duration']);
+                return $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
             
             case "continue":
-                return $this->getContinueTasksForCurrentUser($input['min_duration'], $input['max_duration']);
+                return $this->getContinueTasksForCurrentUser($minDuration, $maxDuration);
             
             case "finished":
-                return $this->getFinishedTasksForCurrentUser($input['min_duration'], $input['max_duration']);
+                return $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration);
             
             case "myList":
-                return $this->getCurrentUserTaskList($input['min_duration'], $input['max_duration']);
+                return $this->getCurrentUserTaskList($minDuration, $maxDuration);
             
             case "test":
-                return $this->getTestTasksForCurrentUser($input['min_duration'], $input['max_duration']);
+                return $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
             
             default:
-                return $this->getAllTasksForCurrentUser($input['min_duration'], $input['max_duration']);
+                return $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
 
         }
     }
