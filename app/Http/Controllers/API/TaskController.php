@@ -444,8 +444,8 @@ class TaskController extends BaseController
 
         $userListTask = $user->userListTasks()->get();
         
-        if($minDuration == null && $maxDuration == null){ //all videos
-            $tasks = $userListTask->map(function($list){ 
+        
+        $tasks = $userListTask->map(function($list){ 
                     		return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list){
@@ -455,56 +455,10 @@ class TaskController extends BaseController
                                         ->where('task_id', $list->task_id)
                                         ->first();
                     })
-                    ->reject(function ($name) {
-                        return empty($name);
+                    ->reject(function ($list) {
+                        return empty($list);
                     });
-        } else if ($maxDuration == null){ //duration > min
-            $tasks = $userListTask->map(function($list, $minDuration){ 
-                            return Task::with('videos')
-                                        ->with('userTasks.userTaskErrors')
-                                        ->whereHas('videos', function($query) use ($list, $minDuration){
-                                            $query->where('primary_audio_language_code', $list->audio_language_config);
-                                            $query->where('duration', '>', $minDuration);
-                                        })
-                                        ->where('language', $list->sub_language_config)
-                                        ->where('task_id', $list->task_id)
-                                        ->first();
-                    })
-                    ->reject(function ($name) {
-                        return empty($name);
-                    });
-        } else if ($minDuration == null){ //$minDuration == null   //duration < max
-            $tasks = $userListTask->map(function($list, $maxDuration){ 
-                            return Task::with('videos')
-                                        ->with('userTasks.userTaskErrors')
-                                        ->whereHas('videos', function($query) use ($list, $maxDuration){
-                                            $query->where('primary_audio_language_code', $list->audio_language_config);
-                                            $query->where('duration', '<', $maxDuration);
-                                        })
-                                        ->where('language', $list->sub_language_config)
-                                        ->where('task_id', $list->task_id)
-                                        ->first();
-                    })
-                    ->reject(function ($name) {
-                        return empty($name);
-                    });
-        } else { //interval (min, max)
-            $tasks = $userListTask->map(function($list, $minDuration, $maxDuration){ 
-                            return Task::with('videos')
-                                        ->with('userTasks.userTaskErrors')
-                                        ->whereHas('videos', function($query) use ($list, $minDuration, $maxDuration){
-                                            $query->where('primary_audio_language_code', $list->audio_language_config);
-                                            $query->where('duration', '>', $minDuration);
-                                            $query->where('duration', '<', $maxDuration);
-                                        })
-                                        ->where('language', $list->sub_language_config)
-                                        ->where('task_id', $list->task_id)
-                                        ->first();
-                    })
-                    ->reject(function ($name) {
-                        return empty($name);
-                    });
-        }
+        
 
         return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
     }
