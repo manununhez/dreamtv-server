@@ -218,8 +218,6 @@ class TaskController extends BaseController
 
         $userTasks = $user->userTasks()->pluck('task_id');
 
-        $minDuration = 
-
         if($minDuration == null && $maxDuration == null){ //all videos
             if($user->audio_language != 'NN') {
                 //We only shows tasks not finished yet by the user
