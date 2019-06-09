@@ -442,7 +442,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userListTask = $user->userListTasks()->tasks()->videosByDuration($minDuration, $maxDuration)->get();
+        $userListTask = $user->userListTasks()->get();
         
         if($minDuration == null && $maxDuration == null){ //all videos
             $tasks = $userListTask->map(function($list){ 
@@ -454,6 +454,9 @@ class TaskController extends BaseController
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
                                         ->first();
+                    })
+                    ->reject(function ($name) {
+                        return empty($name);
                     });
         } else if ($maxDuration == null){ //duration > min
             $tasks = $userListTask->map(function($list, $minDuration){ 
@@ -466,6 +469,9 @@ class TaskController extends BaseController
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
                                         ->first();
+                    })
+                    ->reject(function ($name) {
+                        return empty($name);
                     });
         } else if ($minDuration == null){ //$minDuration == null   //duration < max
             $tasks = $userListTask->map(function($list, $maxDuration){ 
@@ -478,6 +484,9 @@ class TaskController extends BaseController
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
                                         ->first();
+                    })
+                    ->reject(function ($name) {
+                        return empty($name);
                     });
         } else { //interval (min, max)
             $tasks = $userListTask->map(function($list, $minDuration, $maxDuration){ 
@@ -491,6 +500,9 @@ class TaskController extends BaseController
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
                                         ->first();
+                    })
+                    ->reject(function ($name) {
+                        return empty($name);
                     });
         }
 
