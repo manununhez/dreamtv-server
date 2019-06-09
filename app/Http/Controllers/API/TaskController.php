@@ -459,7 +459,7 @@ class TaskController extends BaseController
                         return empty($name);
                     });
         } else if ($maxDuration == null){ //duration > min
-            $tasks = $userListTask->map(function($list){ 
+            $tasks = $userListTask->map(function($list, $minDuration){ 
                             return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list, $minDuration){
@@ -474,7 +474,7 @@ class TaskController extends BaseController
                         return empty($name);
                     });
         } else if ($minDuration == null){ //$minDuration == null   //duration < max
-            $tasks = $userListTask->map(function($list){ 
+            $tasks = $userListTask->map(function($list, $maxDuration){ 
                             return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list, $maxDuration){
@@ -489,7 +489,7 @@ class TaskController extends BaseController
                         return empty($name);
                     });
         } else { //interval (min, max)
-            $tasks = $userListTask->map(function($list){ 
+            $tasks = $userListTask->map(function($list, $minDuration, $maxDuration){ 
                             return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list, $minDuration, $maxDuration){
