@@ -442,7 +442,7 @@ class TaskController extends BaseController
     {
         $user = auth()->user();
 
-        $userListTask = $user->userListTasks()->get();
+        $userListTask = $user->userListTasks()->tasks()->videosByDuration($minDuration, $maxDuration)->get();
         
         if($minDuration == null && $maxDuration == null){ //all videos
             $tasks = $userListTask->map(function($list){ 

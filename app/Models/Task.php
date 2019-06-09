@@ -24,6 +24,17 @@ class Task extends Model
         return $this->belongsTo(Video::class, 'video_id')->orderBy('created_at','desc');
     }
 
+    public function videosByDuration($minDuration, $maxDuration){
+        if($minDuration == null && $maxDuration == null)
+            return $this->belongsTo(Video::class, 'video_id')->orderBy('created_at','desc');
+        else if($maxDuration == null)
+            return $this->belongsTo(Video::class, 'video_id')->where('duration', '>', $minDuration)->orderBy('created_at','desc');
+        else if($minDuration == null)
+            return $this->belongsTo(Video::class, 'video_id')->where('duration', '<', $maxDuration)->orderBy('created_at','desc');
+        else
+            return $this->belongsTo(Video::class, 'video_id')->where('duration', '>', $minDuration)->where('duration', '<', $maxDuration)->orderBy('created_at','desc');
+    }
+
 	public function userTasks(){
 		return $this->hasMany(UserTask::class, 'task_id', 'task_id');
 	}
