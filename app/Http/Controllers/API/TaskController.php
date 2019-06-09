@@ -453,7 +453,7 @@ class TaskController extends BaseController
                                         })
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
-                                        ->firstOrFail();
+                                        ->first();
                     });
         } else if ($maxDuration == null){ //duration > min
             $tasks = $userListTask->map(function($list, $minDuration){ 
@@ -465,7 +465,7 @@ class TaskController extends BaseController
                                         })
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
-                                        ->firstOrFail();
+                                        ->first();
                     });
         } else if ($minDuration == null){ //$minDuration == null   //duration < max
             $tasks = $userListTask->map(function($list, $maxDuration){ 
@@ -477,7 +477,7 @@ class TaskController extends BaseController
                                         })
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
-                                        ->firstOrFail();
+                                        ->first();
                     });
         } else { //interval (min, max)
             $tasks = $userListTask->map(function($list, $minDuration, $maxDuration){ 
@@ -490,7 +490,7 @@ class TaskController extends BaseController
                                         })
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
-                                        ->firstOrFail();
+                                        ->first();
                     });
         }
 
