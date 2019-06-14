@@ -120,7 +120,7 @@ class TaskController extends BaseController
         $task->modified =  $input['modified'];
         
         if(isset($input['completed']))
-		  $task->completed = $input['completed'];
+          $task->completed = $input['completed'];
         
         $updated = $task->save();
 
@@ -234,11 +234,11 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user){
-                				$query->where('primary_audio_language_code', $user->audio_language);
-                			})
-                			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
-                			->where('language', $user->sub_language)
-                			->paginate(50);
+                                $query->where('primary_audio_language_code', $user->audio_language);
+                            })
+                            ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
+                            ->where('language', $user->sub_language)
+                            ->paginate(50);
             } else {           
                 //We only shows tasks not finished yet by the user
                 $tasks = Task::with('videos')
@@ -446,7 +446,7 @@ class TaskController extends BaseController
         
         
         $tasks = $userListTask->map(function($list){ 
-                    		return Task::with('videos')
+                            return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list){
                                             $query->where('primary_audio_language_code', $list->audio_language_config);
@@ -560,20 +560,24 @@ class TaskController extends BaseController
     }
 
 
-
+    /**
+    *
+    *
+    */
     public function searchByTerm(Request $request)
     {
-	$input = $request->all();
+        $input = $request->all();
 
-	$validator = Validator::make($input, [
-		'query' => 'required|string'
-	]);
+        $validator = Validator::make($input, [
+            'query' => 'required|string'
+        ]);
 
-	if($validator->fails()){
-		return $this->sendError('Validation Error.', $validator->errors(), 400);	
-	}
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors(), 400);    
+        }
 
-	$searchTerm = $input['query'];
+        $searchTerm = $input['query'];
+
 
         $tasks = Task::with('videos')
                         ->with('userTasks.userTaskErrors')
