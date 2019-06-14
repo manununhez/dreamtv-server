@@ -559,7 +559,10 @@ class TaskController extends BaseController
         return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
     }
 
-
+    /**
+    *
+    *
+    */
     private function searchByTerm($searchTerm){
         $tasks = Task::with('videos')
                         ->with('userTasks.userTaskErrors')
