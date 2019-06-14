@@ -73,6 +73,10 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::post('tasks','API\TaskController@store');
 		Route::put('tasks/{id}','API\TaskController@update');
 		Route::delete('tasks/{id}','API\TaskController@delete');
+<<<<<<< HEAD
+				
+=======
+		Route::get('tasks/search/{term}','API\TaskController@searchByTerm');
 
 		#Categories
 	    Route::get('categories','API\CategoryController@index');
@@ -88,5 +92,6 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::put('categories/keywords','API\CategoryKeywordController@update');
 		Route::delete('categories/keywords','API\CategoryKeywordController@delete');
 		
+>>>>>>> c7e0382fa1ae75a078ab18e4720470d5d224dd5e
 	});
 });
