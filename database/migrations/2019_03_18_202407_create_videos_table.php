@@ -16,7 +16,6 @@ class CreateVideosTable extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->string('video_id')->primary();
             $table->string('primary_audio_language_code');
-            $table->string('language_code');
             $table->string('speaker_name');
             $table->string('title');
             $table->text('description');
