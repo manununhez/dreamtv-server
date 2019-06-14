@@ -560,12 +560,25 @@ class TaskController extends BaseController
     }
 
 
-    private function searchByTerm($searchTerm){
+    public function searchByTerm(Request $request)
+    {
+	$input = $request->all();
+
+	$validator = Validator::make($input, [
+		'query' => 'required|string'
+	]);
+
+	if($validator->fails()){
+		return $this->sendError('Validation Error.', $validator->errors(), 400);	
+	}
+
+	$searchTerm = $input['query'];
+
         $tasks = Task::with('videos')
                         ->with('userTasks.userTaskErrors')
                         ->whereHas('videos', function($query) use ($searchTerm){
                             $query->where('title', 'LIKE', "%{$searchTerm}%");
-                            $query->->orWhere('description', 'LIKE', "%{$searchTerm}%");
+                            $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
                         })
                         ->get();
 

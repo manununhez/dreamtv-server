@@ -67,12 +67,12 @@ Route::group(['middleware' => ['json.response']], function () {
 
 		#tasks
 		Route::get('tasks/categories','API\TaskController@tasksByCategories');
+		Route::get('tasks/search','API\TaskController@searchByTerm');
 		Route::get('tasks','API\TaskController@index');
 		Route::get('tasks/{id}','API\TaskController@show');
 		Route::post('tasks','API\TaskController@store');
 		Route::put('tasks/{id}','API\TaskController@update');
 		Route::delete('tasks/{id}','API\TaskController@delete');
-		Route::get('tasks/search/{term}','API\TaskController@searchByTerm');
-		
+				
 	});
 });
