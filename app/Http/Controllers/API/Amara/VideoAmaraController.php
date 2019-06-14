@@ -53,7 +53,7 @@ class VideoAmaraController extends BaseController
         $r = $request->all();
         $video = $API->getVideoInfo($r);
 
-        return $this->sendResponse($video->toArray(), 'Video details from Amara'); 
+        return $this->sendResponse($video, 'Video details from Amara'); 
 
     }
 
