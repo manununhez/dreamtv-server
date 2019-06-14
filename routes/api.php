@@ -72,6 +72,7 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::post('tasks','API\TaskController@store');
 		Route::put('tasks/{id}','API\TaskController@update');
 		Route::delete('tasks/{id}','API\TaskController@delete');
+		Route::get('tasks/search/{term}','API\TaskController@searchByTerm');
 		
 	});
 });
