@@ -111,7 +111,6 @@ class BackupVideosController extends BaseController
                                 Video::create([
                                     'video_id' => $v->id,
                                     'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
-                                    'language_code' => $videoLanguage->language_code,
                                     'title' => $videoLanguage->title,
                                     'description' => $videoLanguage->description,
                                     'speaker_name' => isset($videoLanguage->metadata->{'speaker-name'})?$videoLanguage->metadata->{'speaker-name'}:"",
@@ -234,7 +233,6 @@ class BackupVideosController extends BaseController
                                 Video::create([
                                     'video_id' => $v->id,
                                     'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
-                                    'language_code' => $videoLanguage->language_code,
                                     'title' => $videoLanguage->title,
                                     'description' => $videoLanguage->description,
                                     'speaker_name' => isset($videoLanguage->metadata->{'speaker-name'})?$videoLanguage->metadata->{'speaker-name'}:"",
