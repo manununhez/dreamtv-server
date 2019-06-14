@@ -104,7 +104,7 @@ class BackupVideosController extends BaseController
                         try{
                             $v = $API->getVideoInfo(array("video_id" => $value->video_id));
                 
-                            $videoLanguage = $API->getVideoInfo(array("video_id" => $value->video_id,
+                            $videoLanguage = $API->getVideoLanguage(array("video_id" => $value->video_id,
                                  'language' => $value->language));
                                 
                     
@@ -227,7 +227,7 @@ class BackupVideosController extends BaseController
                             {
                                 $v = $API->getVideoInfo(array("video_id" => $value->video_id));
 
-                                $videoLanguage = $API->getVideoInfo(array("video_id" => $value->video_id,
+                                $videoLanguage = $API->getVideoLanguage(array("video_id" => $value->video_id,
                                  'language' => $value->language));
                                 
                     
