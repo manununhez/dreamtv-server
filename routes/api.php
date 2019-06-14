@@ -5,6 +5,7 @@ Route::group(['middleware' => ['json.response']], function () {
 	Route::get('amara/languages', 'API\Amara\LanguageAmaraController@index');
 	Route::get('amara/videos', 'API\Amara\VideoAmaraController@index');
 	Route::get('amara/video', 'API\Amara\VideoAmaraController@show');
+	Route::get('amara/video/language', 'API\Amara\VideoAmaraController@getVideoLanguage');
 	Route::get('amara/subtitle', 'API\Amara\SubtitleAmaraController@show');
 
 	// Backup

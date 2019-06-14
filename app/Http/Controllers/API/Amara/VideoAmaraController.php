@@ -57,4 +57,14 @@ class VideoAmaraController extends BaseController
 
     }
 
+    public function getVideoLanguage(Request $request)
+    {
+        $API = new AmaraAPI();
+        $r = $request->all();
+        $video = $API->getVideoLanguage($r);
+
+        return $this->sendResponse($video, 'Video details from Amara'); 
+
+    }
+
 }
