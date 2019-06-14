@@ -67,7 +67,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$language,
+                        'language'=>$videoTest->language_code,
                         //'assignee'=>'ted_Snai',
                         'type' => $Review,
                         'limit'=> $limit,
@@ -81,7 +81,7 @@ class BackupVideosController extends BaseController
                             'team' => 'ted',
                             'order_by'=> '-modified',
                             'video_id'=>$videoId,
-                            'language'=>$language,
+                            'language'=>$videoTest->language_code,
                             //'assignee'=>'ted_Snai',
                             'type' => $Approve,
                             'limit'=> $limit,
@@ -104,17 +104,23 @@ class BackupVideosController extends BaseController
                         try{
                             $v = $API->getVideoInfo(array("video_id" => $value->video_id));
                 
-                            Video::create([
-                                'video_id' => $v->id,
-                                'primary_audio_language_code' => $v->primary_audio_language_code,
-                                'title' => $v->title,
-                                'description' => $v->description,
-                                'duration' => $v->duration,
-                                'thumbnail' => $v->thumbnail,
-                                'team' => $v->team,
-                                'project' => $v->project,
-                                'video_url' => $v->all_urls[0],
-                            ]);
+                            $videoLanguage = $API->getVideoInfo(array("video_id" => $value->video_id,
+                                 'language' => $value->language));
+                                
+                    
+                                Video::create([
+                                    'video_id' => $v->id,
+                                    'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
+                                    'language_code' => $videoLanguage->language_code,
+                                    'title' => $videoLanguage->title,
+                                    'description' => $videoLanguage->description,
+                                    'speaker_name' => $videoLanguage->metadata['speaker-name'],
+                                    'duration' => $v->duration,
+                                    'thumbnail' => $v->thumbnail,
+                                    'team' => $v->team,
+                                    'project' => $v->project == null ? "" : $v->project,
+                                    'video_url' => $v->all_urls[0],
+                                ]);
 
                             $task = Task::find($value->id);
 
@@ -220,12 +226,18 @@ class BackupVideosController extends BaseController
                             try
                             {
                                 $v = $API->getVideoInfo(array("video_id" => $value->video_id));
+
+                                $videoLanguage = $API->getVideoInfo(array("video_id" => $value->video_id,
+                                 'language' => $value->language));
+                                
                     
                                 Video::create([
                                     'video_id' => $v->id,
-                                    'primary_audio_language_code' => $v->primary_audio_language_code,
-                                    'title' => $v->title,
-                                    'description' => $v->description,
+                                    'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
+                                    'language_code' => $videoLanguage->language_code,
+                                    'title' => $videoLanguage->title,
+                                    'description' => $videoLanguage->description,
+                                    'speaker_name' => $videoLanguage->metadata['speaker-name'],
                                     'duration' => $v->duration,
                                     'thumbnail' => $v->thumbnail,
                                     'team' => $v->team,
@@ -237,7 +249,6 @@ class BackupVideosController extends BaseController
 
                                 if(is_null($task))
                                 { //we save a new task only if the task does not exist yet
-                                    
                                     try
                                     {
                                         Task::create([
