@@ -234,7 +234,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user){
-                				$query->where('language_code', $user->audio_language);
+                				$query->where('primary_audio_language_code', $user->audio_language);
                 			})
                 			->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                 			->where('language', $user->sub_language)
@@ -254,7 +254,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user, $minDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->where('duration', '>', $minDuration);
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
@@ -277,7 +277,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user, $maxDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->where('duration', '<', $maxDuration);
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
@@ -300,7 +300,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user, $maxDuration, $minDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->where('duration', '>', $minDuration);
                                 $query->where('duration', '<', $maxDuration);
                             })
@@ -343,7 +343,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user,$videoIdArray){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->whereIn('video_id', $videoIdArray);
                              })
                             ->where('language', $user->sub_language)
@@ -364,7 +364,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user,$videoIdArray, $minDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->whereIn('video_id', $videoIdArray);
                                 $query->where('duration', '>', $minDuration);
                              })
@@ -386,7 +386,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user,$videoIdArray, $maxDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->whereIn('video_id', $videoIdArray);
                                 $query->where('duration', '<', $maxDuration);
                              })
@@ -408,7 +408,7 @@ class TaskController extends BaseController
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereHas('videos', function($query) use ($user,$videoIdArray, $minDuration, $maxDuration){
-                                $query->where('language_code', $user->audio_language);
+                                $query->where('primary_audio_language_code', $user->audio_language);
                                 $query->whereIn('video_id', $videoIdArray);
                                 $query->where('duration', '>', $minDuration);
                                 $query->where('duration', '<', $maxDuration);
@@ -449,7 +449,7 @@ class TaskController extends BaseController
                     		return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list){
-                                            $query->where('language_code', $list->audio_language_config);
+                                            $query->where('primary_audio_language_code', $list->audio_language_config);
                                         })
                                         ->where('language', $list->sub_language_config)
                                         ->where('task_id', $list->task_id)
