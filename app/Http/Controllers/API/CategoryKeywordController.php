@@ -67,7 +67,7 @@ class CategoryKeywordController extends BaseController
 
         if (strpos($input['keyword'], ',')) {
             // insert multiple keywords
-            $keyword = $this->insertValuesFromListString($input['keyword'], $input['category_id'])
+            $keyword = $this->insertValuesFromListString($input['keyword'], $input['category_id']);
         } else {
             $keyword = CategoryKeyword::create($input);
         }
