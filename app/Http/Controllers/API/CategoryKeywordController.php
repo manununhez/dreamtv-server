@@ -64,7 +64,13 @@ class CategoryKeywordController extends BaseController
 
         $input['category_id'] = $category->id;
 
-        $keyword = CategoryKeyword::create($input);
+
+        if (strpos($input['keyword'], ',')) {
+            // insert multiple keywords
+            $keyword = $this->insertValuesFromListString($input['keyword'], $input['category_id'])
+        } else {
+            $keyword = CategoryKeyword::create($input);
+        }
 
         if(is_null($keyword))
             return $this->sendError('Keyword could not be created.', 500);
@@ -181,6 +187,40 @@ class CategoryKeywordController extends BaseController
             return $this->sendResponse($deleted, 'Keyword = '.$input['keyword'].'  deleted successfully.');
         else
             return $this->sendError('Keyword could not be deleted', 500);
+    }
+
+
+    /**
+    *
+    *   Decode JSON String of reason_code values and insert them in UserTaskError
+    */
+    private function insertValuesFromListString($keywords, $categoryId)
+    {    
+
+        #Decoding the reason_code jsonString parameter. Array of reason_Codes
+        $keywordsArray = explode (",", $keywords); 
+
+        // $input['reason_code'] -> JSON string
+        // '[{"name":"rc1","reason_code":"rc1"},{"name":"rc4","reason_code":"rc4"},{"name":"rc3","reason_code":"rc2"}]';
+
+        if(sizeof($keywordsArray) > 0){
+            #Create array of values to insert
+            foreach ((array)$keywordsArray as $key => $value) {
+                $multipleValuesToInsert[] = array(
+                                                "category_id" => $categoryId,
+                                                "keyword" => $value
+                                            );
+            }
+
+            #insert multiple values
+            $keyword = CategoryKeyword::insert($multipleValuesToInsert);
+        } else {
+            $keyword = true; //if the reason_code is empty, it is still correct, that means the user just wanted to delete all his previous selected options. 
+        }
+
+        
+
+        return $keyword;
     }
 
 }
