@@ -161,8 +161,8 @@ class CategoryKeywordController extends BaseController
 
         $validator = Validator::make($input, [
             'category_name' => 'required|string',
-            'language' => 'required|string'
-            'keyword' => 'required|string',
+            'language' => 'required|string',
+            'keyword' => 'required|string'
         ]);
 
 
