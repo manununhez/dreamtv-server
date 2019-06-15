@@ -75,7 +75,7 @@ class CategoryKeywordController extends BaseController
         if(is_null($keyword))
             return $this->sendError('Keyword could not be created.', 500);
         else{
-            return $this->sendResponse($keyword->toArray(), 'Keyword created successfully.');
+            return $this->sendResponse($keyword, 'Keyword created successfully.');
         }
 
     }
