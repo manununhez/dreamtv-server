@@ -74,6 +74,13 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::put('tasks/{id}','API\TaskController@update');
 		Route::delete('tasks/{id}','API\TaskController@delete');
 
+		#Categories keywords
+	    Route::get('categories/keywords','API\CategoryKeywordController@index');
+		Route::get('categories/keywords/{id}','API\CategoryKeywordController@show');
+		Route::post('categories/keywords','API\CategoryKeywordController@store');
+		Route::put('categories/keywords','API\CategoryKeywordController@update');
+		Route::delete('categories/keywords','API\CategoryKeywordController@delete');
+
 		#Categories
 	    Route::get('categories','API\CategoryController@index');
 		Route::get('categories/{id}','API\CategoryController@show');
@@ -81,12 +88,5 @@ Route::group(['middleware' => ['json.response']], function () {
 		Route::put('categories/{id}','API\CategoryController@update');
 		Route::delete('categories/{id}','API\CategoryController@delete');
 
-		#Categories
-	    Route::get('categories/keywords','API\CategoryKeywordController@index');
-		Route::get('categories/keywords/{id}','API\CategoryKeywordController@show');
-		Route::post('categories/keywords','API\CategoryKeywordController@store');
-		Route::put('categories/keywords','API\CategoryKeywordController@update');
-		Route::delete('categories/keywords','API\CategoryKeywordController@delete');
-		
 	});
 });
