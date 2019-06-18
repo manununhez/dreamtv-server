@@ -625,7 +625,7 @@ class TaskController extends BaseController
                          })
                          ->get();
 
-            $tasks = array_merge($tasks, $temp);
+            $tasks = $tasks->concat($temp);
         }
 
 		return $this->sendResponse($tasks->toArray(), "Keywords of the category ".$searchByCategory);
