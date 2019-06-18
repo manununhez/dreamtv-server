@@ -8,6 +8,7 @@ use App\Task;
 use App\UserTask;
 use App\VideoTest;
 use App\Category;
+use App\CategoryKeyword;
 use Validator;
 
 
@@ -597,7 +598,7 @@ class TaskController extends BaseController
 	public function searchByCategory(Request $request)
 	{
 		$input = $request->all();
-        
+
 		$validator = Validator::make($input, [
 			'category' => 'required|string'
 		]);
