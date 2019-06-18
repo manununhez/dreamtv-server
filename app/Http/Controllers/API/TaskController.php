@@ -7,6 +7,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Task;
 use App\UserTask;
 use App\VideoTest;
+use App\Category;
 use Validator;
 
 
@@ -578,28 +579,35 @@ class TaskController extends BaseController
 
         $searchTerm = $input['query'];
 
-        $tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors');
-
-        $tasks = $tasks->whereHas('videos', function($query) use ($searchTerm){
-                            $query->where('title', 'LIKE', "%{$searchTerm}%");
-                        });
-        
-        $tasks = $tasks->whereHas('videos', function($query) use ($searchTerm){
-                            $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
-                        });
-
-        $tasks = $tasks->get();
-
-        // $tasks = Task::with('videos')
-        //                 ->with('userTasks.userTaskErrors')
-        //                 ->whereHas('videos', function($query) use ($searchTerm){
-        //                     $query->where('title', 'LIKE', "%{$searchTerm}%");
-        //                     $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
-        //                 })
-        //                 ->get();
-
+         $tasks = Task::with('videos')
+                         ->with('userTasks.userTaskErrors')
+                         ->whereHas('videos', function($query) use ($searchTerm){
+                             	$query->where('title', 'LIKE', "%{$searchTerm}%");
+                             	$query->orWhere('description', 'LIKE', "%{$searchTerm}%");
+                         })
+                         ->get();
 
         return $this->sendResponse($tasks->toArray(), "Search tasks retrieved.");    
     }
+
+	public function searchByCategory(Request $request)
+	{
+		$input = $request->all();
+		$validator = Validator::make($input, [
+			'category' => 'required|string'
+		]);
+
+		if($validator->fails()){
+			return $this->sendError('Validation Error.', $validator->errors(), 400);
+		}
+
+		$searchByCategory = $input['category'];
+		
+		#get categoryID
+		$category = Category::where('name', $searchByCategory)->get();
+
+		$keywords = CategoryKeyword::where('category_id', $category->id)->get();
+
+		return $this->sendResponse($keywords->toArray(), "Keywords of the category ".$searchByCategory);
+	}
 }
