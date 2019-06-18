@@ -612,7 +612,11 @@ class TaskController extends BaseController
 		#get categoryID
 		$category = Category::where('name', $searchByCategory)->first();
 
-		$keywords = CategoryKeyword::where('category_id', $category->id)->get();
+		$keywords = CategoryKeyword::where('category_id', $category->id)->pluck('keyword';
+
+        $tasks = [];
+
+        //foreach()
 
 		return $this->sendResponse($keywords->toArray(), "Keywords of the category ".$searchByCategory);
 	}
