@@ -578,14 +578,26 @@ class TaskController extends BaseController
 
         $searchTerm = $input['query'];
 
-
         $tasks = Task::with('videos')
-                        ->with('userTasks.userTaskErrors')
-                        ->whereHas('videos', function($query) use ($searchTerm){
+                        ->with('userTasks.userTaskErrors');
+
+        $tasks = $tasks->whereHas('videos', function($query) use ($searchTerm){
                             $query->where('title', 'LIKE', "%{$searchTerm}%");
+                        });
+        
+        $tasks = $tasks->whereHas('videos', function($query) use ($searchTerm){
                             $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
-                        })
-                        ->get();
+                        });
+
+        $tasks = $tasks->get();
+
+        // $tasks = Task::with('videos')
+        //                 ->with('userTasks.userTaskErrors')
+        //                 ->whereHas('videos', function($query) use ($searchTerm){
+        //                     $query->where('title', 'LIKE', "%{$searchTerm}%");
+        //                     $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
+        //                 })
+        //                 ->get();
 
 
         return $this->sendResponse($tasks->toArray(), "Search tasks retrieved.");    
