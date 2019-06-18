@@ -616,8 +616,18 @@ class TaskController extends BaseController
 
         $tasks = [];
 
-        //foreach()
+        foreach($keywords as $searchTerm){
+            $temp = Task::with('videos')
+                         ->with('userTasks.userTaskErrors')
+                         ->whereHas('videos', function($query) use ($searchTerm){
+                                $query->where('title', 'LIKE', "%{$searchTerm}%");
+                                $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
+                         })
+                         ->get();
 
-		return $this->sendResponse($keywords->toArray(), "Keywords of the category ".$searchByCategory);
+            $tasks = array_merge($tasks, $temp);
+        }
+
+		return $this->sendResponse($tasks->toArray(), "Keywords of the category ".$searchByCategory);
 	}
 }
