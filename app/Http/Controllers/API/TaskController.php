@@ -614,7 +614,7 @@ class TaskController extends BaseController
 
 		$keywords = CategoryKeyword::where('category_id', $category->id)->pluck('keyword');
 
-        $tasks = [];
+        $tasks = collect();
 
         foreach($keywords as $searchTerm){
             $temp = Task::with('videos')
