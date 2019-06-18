@@ -610,7 +610,7 @@ class TaskController extends BaseController
 		$searchByCategory = $input['category'];
 		
 		#get categoryID
-		$category = Category::where('name', $searchByCategory)->get();
+		$category = Category::where('name', $searchByCategory)->first();
 
 		$keywords = CategoryKeyword::where('category_id', $category->id)->get();
 
