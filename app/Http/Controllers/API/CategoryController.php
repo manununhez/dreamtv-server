@@ -139,6 +139,10 @@ class CategoryController extends BaseController
             return $this->sendError('Category could not be deleted', 500);
     }
 
+    /**
+    *
+    *
+    */
 	public function categoriesByLanguage(Request $request){
 		$input = $request->all();
 
@@ -151,6 +155,7 @@ class CategoryController extends BaseController
 		}
 
 		$category = Category::where('language', $input['language'])->get();
+        
 		return $this->sendResponse($category, 'Categories');
 	}
 }

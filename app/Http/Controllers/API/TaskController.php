@@ -590,9 +590,14 @@ class TaskController extends BaseController
         return $this->sendResponse($tasks->toArray(), "Search tasks retrieved.");    
     }
 
+    /**
+    *
+    *
+    */
 	public function searchByCategory(Request $request)
 	{
 		$input = $request->all();
+        
 		$validator = Validator::make($input, [
 			'category' => 'required|string'
 		]);

@@ -67,7 +67,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
 		#tasks
 		Route::get('tasks/categories','API\TaskController@tasksByCategories');
-		Route::get('tasks/search/category', 'API\TaskController@searchByCategory')
+		Route::get('tasks/search/category', 'API\TaskController@searchByCategory');
 		Route::get('tasks/search','API\TaskController@searchByTerm');
 		Route::get('tasks','API\TaskController@index');
 		Route::get('tasks/{id}','API\TaskController@show');
