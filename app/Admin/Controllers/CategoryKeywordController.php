@@ -82,9 +82,9 @@ class CategoryKeywordController extends Controller
         $grid = new Grid(new CategoryKeyword);
 
         $grid->category_id('Category id');
-        //$grid->keyword('Keyword');
-        //$grid->created_at('Created at');
-        //$grid->updated_at('Updated at');
+        $grid->keyword('Keyword');
+        $grid->created_at('Created at');
+        $grid->updated_at('Updated at');
 
         return $grid;
     }
