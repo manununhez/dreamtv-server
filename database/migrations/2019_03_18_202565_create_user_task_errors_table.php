@@ -14,6 +14,7 @@ class CreateUserTaskErrorsTable extends Migration
     public function up()
     {
         Schema::create('user_task_errors', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('user_tasks_id')->unsigned();
             $table->string('reason_code');
             $table->integer('subtitle_position');
