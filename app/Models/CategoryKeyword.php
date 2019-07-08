@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoryKeyword extends Model
 {
+	protected $table = 'category_keywords';
 		/**
 	 * primaryKey 
 	 * 
