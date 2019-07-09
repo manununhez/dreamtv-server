@@ -111,8 +111,8 @@ class BackupVideosController extends BaseController
                                 Video::create([
                                     'video_id' => $v->id,
                                     'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
-                                    'title' => $videoLanguage->title,
-                                    'description' => $videoLanguage->description,
+                                    'title' => $v->title,
+                                    'description' => $v->description,
                                     'speaker_name' => isset($videoLanguage->metadata->{'speaker-name'})?$videoLanguage->metadata->{'speaker-name'}:"",
                                     'duration' => $v->duration,
                                     'thumbnail' => $v->thumbnail,
@@ -129,6 +129,8 @@ class BackupVideosController extends BaseController
                                     Task::create([
                                         'task_id' => $value->id,
                                         'video_id' => $value->video_id,
+                                        'video_title' => $videoLanguage->title,
+                                        'video_description' => $videoLanguage->description,
                                         'language' => $value->language,
                                         'type' => $value->type,
                                         'created' => $value ->created,
@@ -233,8 +235,8 @@ class BackupVideosController extends BaseController
                                 Video::create([
                                     'video_id' => $v->id,
                                     'primary_audio_language_code' => $v->primary_audio_language_code, //original_language
-                                    'title' => $videoLanguage->title,
-                                    'description' => $videoLanguage->description,
+                                    'title' => $v->title,
+                                    'description' => $v->description,
                                     'speaker_name' => isset($videoLanguage->metadata->{'speaker-name'})?$videoLanguage->metadata->{'speaker-name'}:"",
                                     'duration' => $v->duration,
                                     'thumbnail' => $v->thumbnail,
@@ -252,6 +254,8 @@ class BackupVideosController extends BaseController
                                         Task::create([
                                             'task_id' => $value->id,
                                             'video_id' => $value->video_id,
+                                            'video_title' => $videoLanguage->title,
+                                            'video_description' => $videoLanguage->description,
                                             'language' => $value->language,
                                             'type' => $value->type,
                                             'created' => $value ->created,

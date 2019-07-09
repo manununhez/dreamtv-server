@@ -15,7 +15,7 @@ class Task extends Model
 
 
     protected $fillable = [
-    	'task_id', 'video_id','language', 'type', 'created', 'completed', 'modified'
+    	'task_id', 'video_id', 'video_title', 'video_description','language', 'type', 'created', 'completed', 'modified'
     ];  
 
 
