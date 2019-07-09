@@ -28,7 +28,6 @@ class UserController extends BaseController
 
         $validator = Validator::make($input, [
             'interface_mode' => 'required|string',
-            'interface_language' => 'required|string',
             'sub_language' => 'required|string',
             'audio_language' => 'required|string'
         ]);
@@ -41,7 +40,6 @@ class UserController extends BaseController
 	    $user = auth()->user();
         $user->audio_language = $request['audio_language'];     
         $user->interface_mode = $request['interface_mode']; 
-        $user->interface_language = $request['interface_language']; 
         $user->sub_language = $request['sub_language']; 
         $updated = $user->save();
 

@@ -18,7 +18,6 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('interface_mode')->default('beginner');
-            $table->string('interface_language')->default('pl');
             $table->string('sub_language')->default('pl');
             $table->string('audio_language')->default('NN');
             $table->rememberToken();
