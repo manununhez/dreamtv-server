@@ -38,7 +38,7 @@ class VideoTestController extends BaseController
         $validator = Validator::make($input, [
             'video_id' => 'required|string',
             'subtitle_version' => 'required|integer',
-            'language_code' => 'required|string'
+            'subtitle_language_code' => 'required|string'
         ]);
 
 
@@ -91,7 +91,7 @@ class VideoTestController extends BaseController
         $validator = Validator::make($input, [
             'video_id' => 'required|string',
             'subtitle_version' => 'required|integer',
-            'language_code' => 'required|string'
+            'subtitle_language_code' => 'required|string'
         ]);
 
 
@@ -109,7 +109,7 @@ class VideoTestController extends BaseController
         
         $videoTest->video_id =  $input['video_id'];
         $videoTest->subtitle_version =  $input['subtitle_version'];
-        $videoTest->language_code =  $input['language_code'];
+        $videoTest->subtitle_language_code =  $input['subtitle_language_code'];
 
         $updated = $videoTest->save();
 

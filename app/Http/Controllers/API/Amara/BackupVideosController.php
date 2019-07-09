@@ -37,7 +37,6 @@ class BackupVideosController extends BaseController
         $Translate = 'Translate';
         $Review = 'Review';
         $Approve = 'Approve';
-        $language = 'pl';
 
         $videoIdArray = VideoTest::select('video_id')->pluck('video_id');
 
@@ -52,7 +51,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$language,
+                        'language'=>$videoTest->subtitle_language_code,
                         //'assignee'=>'ted_Snai',
                         'type' => $Translate,
                         'limit'=> $limit,
@@ -67,7 +66,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$videoTest->language_code,
+                        'language'=>$videoTest->subtitle_language_code,
                         //'assignee'=>'ted_Snai',
                         'type' => $Review,
                         'limit'=> $limit,
@@ -81,7 +80,7 @@ class BackupVideosController extends BaseController
                             'team' => 'ted',
                             'order_by'=> '-modified',
                             'video_id'=>$videoId,
-                            'language'=>$videoTest->language_code,
+                            'language'=>$videoTest->subtitle_language_code,
                             //'assignee'=>'ted_Snai',
                             'type' => $Approve,
                             'limit'=> $limit,
@@ -105,7 +104,7 @@ class BackupVideosController extends BaseController
                             $v = $API->getVideoInfo(array("video_id" => $value->video_id));
                 
                             $videoLanguage = $API->getVideoLanguage(array("video_id" => $value->video_id,
-                                 'language_code' => $value->language));
+                                 'language_code' => $videoTest->subtitle_language_code));
                                 
                     
                                 Video::create([
@@ -131,7 +130,7 @@ class BackupVideosController extends BaseController
                                         'video_id' => $value->video_id,
                                         'video_title' => $videoLanguage->title,
                                         'video_description' => $videoLanguage->description,
-                                        'language' => $value->language,
+                                        'language' => $videoTest->subtitle_language_code,
                                         'type' => $value->type,
                                         'created' => $value ->created,
                                         'modified' => $value->modified,

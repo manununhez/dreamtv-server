@@ -17,7 +17,7 @@ class CreateVideoTestsTable extends Migration
             $table->increments('id');
             $table->string('video_id');
             $table->integer("subtitle_version");
-            $table->string("language_code");    
+            $table->string("subtitle_language_code");    
             $table->timestamps();
 
            // $table->foreign('video_id')->references('video_id')->on('videos')->onDelete('cascade');
