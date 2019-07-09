@@ -52,7 +52,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$videoTest->language_code,
+                        'language'=>$language,
                         //'assignee'=>'ted_Snai',
                         'type' => $Translate,
                         'limit'=> $limit,
