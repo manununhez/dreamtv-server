@@ -28,7 +28,7 @@ class AuthController extends BaseController
             $success['token'] =  auth()->user()->createToken('DreamTv')->accessToken;
             return $this->sendResponse(["token" => $success['token']], 'Login successfully.');
         } else {
-            return $this->sendError('User UnAuthorised', 401);
+            return $this->sendError('Register for the first time to access.', 401);
         }
     }
 
