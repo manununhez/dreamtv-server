@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+
 
 class Task extends Model
 {
@@ -35,6 +37,7 @@ class Task extends Model
     }
 
 	public function userTasks(){
-		return $this->hasMany(UserTask::class, 'task_id', 'task_id');
+        $id = Auth::id();
+		return $this->hasMany(UserTask::class, 'task_id', 'task_id')->where('user_id', $id);
 	}
 }
