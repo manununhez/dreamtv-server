@@ -143,18 +143,22 @@ class CategoryController extends BaseController
     *
     *
     */
-	public function categoriesByLanguage(Request $request){
-		$input = $request->all();
+	public function categoriesByLanguage(/*Request $request*/){
+		//$input = $request->all();
 
-		$validator = Validator::make($input, [
-			'language' => 'required|string'
-		]);
+		// $validator = Validator::make($input, [
+		// 	'language' => 'required|string'
+		// ]);
 		
-		if($validator->fails()){
-			return $this->sendError('Validation Error.', $validator->errors(), 400);
-		}
+		// if($validator->fails()){
+		// 	return $this->sendError('Validation Error.', $validator->errors(), 400);
+		// }
 
-		$category = Category::where('language', $input['language'])->get();
+        $user = auth()->user();
+
+		// $category = Category::where('language', $input['language'])->get();
+
+        $category = Category::where('language', $user->sub_language)->get();
         
 		return $this->sendResponse($category, 'Categories');
 	}
