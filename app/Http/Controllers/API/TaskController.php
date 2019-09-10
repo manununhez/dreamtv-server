@@ -597,6 +597,8 @@ class TaskController extends BaseController
     */
 	public function searchByCategory(Request $request)
 	{
+        $user = auth()->user();
+
 		$input = $request->all();
 
 		$validator = Validator::make($input, [
@@ -623,6 +625,7 @@ class TaskController extends BaseController
                                 $query->where('title', 'LIKE', "%{$searchTerm}%");
                                 $query->orWhere('description', 'LIKE', "%{$searchTerm}%");
                          })
+                         ->where('language', $user->sub_language)
                          ->get();
 
             $tasks = $tasks->concat($temp);
