@@ -195,10 +195,11 @@ class TaskController extends BaseController
             $maxDuration = $input['max_duration'];
         
         switch ($task_type) {
-        	case "mix":
-			return $this->getTaskMixed($minDuration, $maxDuration);    
-	case "all":
-                return $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
+        	case "all":
+                return $this->getAllTaskMixedForCurrentUser($minDuration, $maxDuration);    
+            
+            case "new":
+                return $this->getNewTasksCategoryForCurrentUser($minDuration, $maxDuration);
             
             case "continue":
                 return $this->getContinueTasksForCurrentUser($minDuration, $maxDuration);
@@ -218,29 +219,40 @@ class TaskController extends BaseController
         }
     }
 
-   private function getTaskMixed($minDuration, $maxDuration)
+   private function getAllTaskMixedForCurrentUser($minDuration, $maxDuration)
 	{
-		$categories = collect(["all", "test", "continue", "finished", "myList"]);
+		$categories = collect(["new", "test", "continue", "finished", "myList"]);
 		$result = $categories->map(function ($item) use ($minDuration, $maxDuration){
-			if($item == "all"){
-				$category = collect();
-				$category['category'] = $item;
-				$category['tasks'] = $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
-				return $category;
-			}
+			$category = collect();
+            $category['category'] = "";
+            $category['tasks'] = collect()
+            
+            switch ($item) {
+                case 'new':
+                    $category['category'] = $item;
+                    $category['tasks'] = $this->getNewTasksCategoryForCurrentUser($minDuration, $maxDuration);
+                    return $category;
+                case 'test':
+                    $category['category'] = $item;
+                    $category['tasks'] = $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
+                    return $category;
+                case 'continue':
+                    $category['category'] = $item;
+                    $category['tasks'] = $this->getContinueTasksForCurrentUser($minDuration, $maxDuration);
+                    return $category;
+                case 'finished':
+                    $category['category'] = $item;
+                    $category['tasks'] = $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration);
+                    return $category;
+                case 'myList':
+                    $category['category'] = $item;
+                    $category['tasks'] = $this->getCurrentUserTaskList($minDuration, $maxDuration);
+                    return $category;
+                default:
+                    return $category;//empty value
+            }
 		}); 
-		//$result = [
-		//["category" => "all",
-		//"tasks" => $this->getAllTasksForCurrentUser($minDuration, $maxDuration)],
-		//["category" => "test",
-		//"tasks" => $this->getTestTasksForCurrentUser($minDuration, $maxDuration)],
-		//["category" => "continue",
-		//"tasks" => $this->getContinueTasksForCurrentUser($minDuration, $maxDuration)],
-		//["category" => "finished",
-		//"tasks" => $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration)],
-		//["category" => "myList",
-		//"tasks" => $this->getCurrentUserTaskList($minDuration, $maxDuration)]
-		//];
+
 		return $this->sendResponse($result, "Mixed categories");
 	}
     /**
@@ -250,7 +262,7 @@ class TaskController extends BaseController
      *
      * Requires user token - header 'Authorization'
      */
-    private function getAllTasksForCurrentUser($minDuration, $maxDuration)
+    private function getNewTasksCategoryForCurrentUser($minDuration, $maxDuration)
     {
         $user = auth()->user();
 
