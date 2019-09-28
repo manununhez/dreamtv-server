@@ -195,7 +195,9 @@ class TaskController extends BaseController
             $maxDuration = $input['max_duration'];
         
         switch ($task_type) {
-            case "all":
+        	case "mix":
+			return $this->getTaskMixed($minDuration, $maxDuration);    
+	case "all":
                 return $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
             
             case "continue":
@@ -211,12 +213,36 @@ class TaskController extends BaseController
                 return $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
             
             default:
-                return $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
+                return $this->sendError("Wrong parameter type", 300);
 
         }
     }
 
-   
+   private function getTaskMixed($minDuration, $maxDuration)
+	{
+		$categories = collect(["all", "test", "continue", "finished", "myList"]);
+		$result = $categories->map(function ($item) use ($minDuration, $maxDuration){
+			if($item == "all"){
+				$category = collect();
+				$category['category'] = $item;
+				$category['tasks'] = $this->getAllTasksForCurrentUser($minDuration, $maxDuration);
+				return $category;
+			}
+		}); 
+		//$result = [
+		//["category" => "all",
+		//"tasks" => $this->getAllTasksForCurrentUser($minDuration, $maxDuration)],
+		//["category" => "test",
+		//"tasks" => $this->getTestTasksForCurrentUser($minDuration, $maxDuration)],
+		//["category" => "continue",
+		//"tasks" => $this->getContinueTasksForCurrentUser($minDuration, $maxDuration)],
+		//["category" => "finished",
+		//"tasks" => $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration)],
+		//["category" => "myList",
+		//"tasks" => $this->getCurrentUserTaskList($minDuration, $maxDuration)]
+		//];
+		return $this->sendResponse($result, "Mixed categories");
+	}
     /**
      * Retrieve all review tasks
      *
@@ -240,14 +266,16 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             } else {           
                 //We only shows tasks not finished yet by the user
                 $tasks = Task::with('videos')
                             ->with('userTasks.userTaskErrors')
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
 
             } 
         } else if ($maxDuration == null){ //duration > min
@@ -261,7 +289,8 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             } else {
                //We only shows tasks not finished yet by the user
                 $tasks = Task::with('videos')
@@ -271,7 +300,8 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50); 
+                            ->limit(50)
+				->get(); 
             }
         } else if ($minDuration == null) { //$minDuration == null   //duration < max
             if($user->audio_language != 'NN') {
@@ -284,7 +314,8 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             } else {
                 //We only shows tasks not finished yet by the user
                 $tasks = Task::with('videos')
@@ -294,7 +325,8 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             }
         } else { //interval (min, max)
             if($user->audio_language != 'NN') {
@@ -308,7 +340,8 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             } else {
                 //We only shows tasks not finished yet by the user
                 $tasks = Task::with('videos')
@@ -319,12 +352,14 @@ class TaskController extends BaseController
                             })
                             ->whereNotIn('task_id',$userTasks) //not repeated in UserTasks
                             ->where('language', $user->sub_language)
-                            ->paginate(50);
+                            ->limit(50)
+				->get();
             }
         }
         
-        return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
-    }
+        //return $this->sendResponse($tasks->toArray(), "All tasks retrieved.");
+    	return $tasks;
+	}
 
 
        /**
@@ -431,8 +466,8 @@ class TaskController extends BaseController
             }
         }
         
-        return $this->sendResponse($tasks->toArray(), "Test tasks retrieved.");
-       
+        //return $this->sendResponse($tasks->toArray(), "Test tasks retrieved.");
+       return $tasks;
     }
 
     /**
@@ -462,8 +497,9 @@ class TaskController extends BaseController
                     });
         
 
-        return $this->sendResponse($tasks->toArray(), "Current User Task List retrieved.");
-    }
+       // return $this->sendResponse($tasks, "Current User Task List retrieved.");
+    		return $tasks;
+	}
     
     /**
      * Retrieve all review tasks to continue
@@ -510,8 +546,8 @@ class TaskController extends BaseController
                         ->get();
         }
         
-        return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
-       
+        //return $this->sendResponse($tasks->toArray(), "Continue tasks retrieved.");
+       return $tasks;
     }
 
 
@@ -558,8 +594,9 @@ class TaskController extends BaseController
                         ->get();
         }
         
-        return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
-    }
+       // return $this->sendResponse($tasks->toArray(), "Finished tasks retrieved.");
+   		return $tasks;
+	 }
 
 
     /**

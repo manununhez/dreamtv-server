@@ -84,7 +84,7 @@ class VideoTestController extends Controller
         $grid->id('Id');
         $grid->video_id('Video id');
         $grid->subtitle_version('Subtitle version');
-        $grid->language_code('Language code');
+        $grid->subtitle_language_code('Subt Language code');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
@@ -104,7 +104,7 @@ class VideoTestController extends Controller
         $show->id('Id');
         $show->video_id('Video id');
         $show->subtitle_version('Subtitle version');
-        $show->language_code('Language code');
+        $show->subtitle_language_code('Subt Language code');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -122,7 +122,7 @@ class VideoTestController extends Controller
 
         $form->text('video_id', 'Video id');
         $form->number('subtitle_version', 'Subtitle version');
-        $form->text('language_code', 'Language code');
+        $form->text('subtitle_language_code', 'Subtitle Language code');
 
         return $form;
     }
