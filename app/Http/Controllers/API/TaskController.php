@@ -223,34 +223,33 @@ class TaskController extends BaseController
 	{
 		$categories = collect(["new", "test", "continue", "finished", "myList"]);
 		$result = $categories->map(function ($item) use ($minDuration, $maxDuration){
-			$category = collect();
-            $category['category'] = "";
-            $category['tasks'] = collect()
+                $category = collect();
+                $category['category'] = "";
+                $category['tasks'] = collect()
             
-            switch ($item) {
-                case 'new':
+                if($item == 'new'){
                     $category['category'] = $item;
                     $category['tasks'] = $this->getNewTasksCategoryForCurrentUser($minDuration, $maxDuration);
                     return $category;
-                case 'test':
+                }else if($item == 'test'){
                     $category['category'] = $item;
                     $category['tasks'] = $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
-                case 'continue':
+                }else if($item ==  'continue'){
                     $category['category'] = $item;
                     $category['tasks'] = $this->getContinueTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
-                case 'finished':
+                }else if($item == 'finished'){
                     $category['category'] = $item;
                     $category['tasks'] = $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
-                case 'myList':
+                }else if($item == 'myList'){
                     $category['category'] = $item;
                     $category['tasks'] = $this->getCurrentUserTaskList($minDuration, $maxDuration);
                     return $category;
-                default:
+                }else{
                     return $category;//empty value
-            }
+                }
 		}); 
 
 		return $this->sendResponse($result, "Mixed categories");
