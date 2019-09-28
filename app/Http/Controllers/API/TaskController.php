@@ -221,46 +221,41 @@ class TaskController extends BaseController
 
    private function getAllTaskMixedForCurrentUser($minDuration, $maxDuration)
 	{
-		$categories = collect(["test", "continue", "myList", "topics", "new", "finished", "settings"]);
+        $categories = collect(["test", "continue", "myList", "topics", "new", "finished", "settings"]);
+
 		$result = $categories->map(function ($item) use ($minDuration, $maxDuration){
     
             switch ($item) {
                 case 'new':
-			$orderIndex['order_index'] = 4;
-			$name['name'] = $item;
-			$visible['visible'] = true;
-			$category['category'] = collect([$orderIndex, $name, $visible]);
+                    $category['category'] = collect(['order_index' => 4, 'name' => $item, 'visible' => true]);
                     $category['tasks'] = $this->getNewTasksCategoryForCurrentUser($minDuration, $maxDuration);
                     return $category;
                 case 'test':
-                
-				$orderIndex['order_index'] = 4;
-                        	$name['name'] = $item;
-				$visible['visible'] = true;                                      $category['category'] = collect([0, $item, true]);
-                    $cat	$category['category'] = collect([$orderIndex, $name, $visible]); egory['tasks'] = $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
+                    $category['category'] = collect(['order_index' => 0, 'name' => $item, 'visible' => true]);
+				    $category['tasks'] = $this->getTestTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
                 case 'continue':
-                    $category['category'] = collect([1, $item, true]);
+                    $category['category'] = collect(['order_index' => 1, 'name' => $item, 'visible' => true]);
                     $category['tasks'] = $this->getContinueTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
                 case 'finished':
-                    $category['category'] = collect([5, $item, true]);
+                    $category['category'] = collect(['order_index' => 5, 'name' => $item, 'visible' => true]);
                     $category['tasks'] = $this->getFinishedTasksForCurrentUser($minDuration, $maxDuration);
                     return $category;
                 case 'myList':
-                    $category['category'] = collect([2, $item, true]);
+                    $category['category'] = collect(['order_index' => 2, 'name' => $item, 'visible' => true]);
                     $category['tasks'] = $this->getCurrentUserTaskList($minDuration, $maxDuration);
                     return $category;
-		case 'settings':
-			$category['category'] = collect([6, $item, true]);
-			$category['tasks'] = collect();
-			return $category;
-		case 'topics':
-			$category['category'] = collect([3, $item, true]);
-			$category['tasks'] = collect();
-			return $category;
+        		case 'settings':
+        			$category['category'] = collect(['order_index' => 6, 'name' => $item, 'visible' => true]);
+        			$category['tasks'] = collect();
+        			return $category;
+        		case 'topics':
+        			$category['category'] = collect(['order_index' => 3, 'name' => $item, 'visible' => true]);
+        			$category['tasks'] = collect();
+        			return $category;
                 default:
-                    return $this->sendError("Category not exists!", 300);
+                            return $this->sendError("Category not exists!", 300);
             }
 		}); 
 
