@@ -1225,7 +1225,7 @@ fetch(url, {
 ## Save User task
 Store a newly created resource in storage.
 
-Parameters => task_id (mandatory, text), subtitle_version (mandatory, text), subtitle_position (mandatory, text)
+Parameters => task_id (mandatory, text), sub_version (mandatory, text), subtitle_position (mandatory, text)
 Requires user token - header 'Authorization'
 
 > Example request:

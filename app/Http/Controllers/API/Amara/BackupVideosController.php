@@ -51,7 +51,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$videoTest->subtitle_language_code,
+                        'language'=>$videoTest->sub_language,
                         //'assignee'=>'ted_Snai',
                         'type' => $Translate,
                         'limit'=> $limit,
@@ -66,7 +66,7 @@ class BackupVideosController extends BaseController
                         'team' => 'ted',
                         'order_by'=> '-modified',
                         'video_id'=>$videoId,
-                        'language'=>$videoTest->subtitle_language_code,
+                        'language'=>$videoTest->sub_language,
                         //'assignee'=>'ted_Snai',
                         'type' => $Review,
                         'limit'=> $limit,
@@ -80,7 +80,7 @@ class BackupVideosController extends BaseController
                             'team' => 'ted',
                             'order_by'=> '-modified',
                             'video_id'=>$videoId,
-                            'language'=>$videoTest->subtitle_language_code,
+                            'language'=>$videoTest->sub_language,
                             //'assignee'=>'ted_Snai',
                             'type' => $Approve,
                             'limit'=> $limit,
@@ -104,7 +104,7 @@ class BackupVideosController extends BaseController
                             $v = $API->getVideoInfo(array("video_id" => $value->video_id));
                 
                             $videoLanguage = $API->getVideoLanguage(array("video_id" => $value->video_id,
-                                 'language_code' => $videoTest->subtitle_language_code));
+                                 'language_code' => $videoTest->sub_language));
                                 
                     
                                 Video::create([
@@ -130,7 +130,7 @@ class BackupVideosController extends BaseController
                                         'video_id' => $value->video_id,
                                         'video_title' => $videoLanguage->title,
                                         'video_description' => $videoLanguage->description,
-                                        'language' => $videoTest->subtitle_language_code,
+                                        'language' => $videoTest->sub_language,
                                         'type' => $value->type,
                                         'created' => $value ->created,
                                         'modified' => $value->modified,

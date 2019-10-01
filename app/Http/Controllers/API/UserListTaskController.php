@@ -47,8 +47,8 @@ class UserListTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'sub_language_config' => 'required|string',
-            'audio_language_config' => 'required|string'
+            'sub_language' => 'required|string',
+            'audio_language' => 'required|string'
         ]);
 
 
@@ -110,8 +110,8 @@ class UserListTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'sub_language_config' => 'required|string',
-            'audio_language_config' => 'required|string'
+            'sub_language' => 'required|string',
+            'audio_language' => 'required|string'
         ]);
 
 
@@ -128,8 +128,8 @@ class UserListTaskController extends BaseController
         }
 
     	$userListTask->task_id = $input['task_id'];
-    	$userListTask->sub_language_config = $input['sub_language_config'];
-    	$userListTask->audio_language_config = $input['audio_language_config'];
+    	$userListTask->sub_language = $input['sub_language'];
+    	$userListTask->audio_language = $input['audio_language'];
     	$updated = $userListTask->save();
 
         if($updated)

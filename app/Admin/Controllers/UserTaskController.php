@@ -84,7 +84,7 @@ class UserTaskController extends Controller
         $grid->id('Id');
         $grid->user_id('User id');
         $grid->task_id('Task id');
-        $grid->subtitle_version('Subtitle version');
+        $grid->sub_version('Subtitle version');
         $grid->time_watched('Time watched');
         $grid->completed('Completed');
         $grid->rating('Rating');
@@ -107,7 +107,7 @@ class UserTaskController extends Controller
         $show->id('Id');
         $show->user_id('User id');
         $show->task_id('Task id');
-        $show->subtitle_version('Subtitle version');
+        $show->sub_version('Subtitle version');
         $show->time_watched('Time watched');
         $show->completed('Completed');
         $show->rating('Rating');
@@ -128,7 +128,7 @@ class UserTaskController extends Controller
 
         $form->number('user_id', 'User id');
         $form->number('task_id', 'Task id');
-        $form->text('subtitle_version', 'Subtitle version');
+        $form->text('sub_version', 'Subtitle version');
         $form->number('time_watched', 'Time watched');
         $form->switch('completed', 'Completed');
         $form->number('rating', 'Rating');

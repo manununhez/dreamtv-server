@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserListTask extends Model
 {
 
-   protected $fillable = ['user_id','task_id', 'sub_language_config', 'audio_language_config']; 
+   protected $fillable = ['user_id','task_id', 'sub_language', 'audio_language']; 
 
 
    public function users(){

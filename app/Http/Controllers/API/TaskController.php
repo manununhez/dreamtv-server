@@ -504,9 +504,9 @@ class TaskController extends BaseController
                             return Task::with('videos')
                                         ->with('userTasks.userTaskErrors')
                                         ->whereHas('videos', function($query) use ($list){
-                                            $query->where('primary_audio_language_code', $list->audio_language_config);
+                                            $query->where('primary_audio_language_code', $list->audio_language);
                                         })
-                                        ->where('language', $list->sub_language_config)
+                                        ->where('language', $list->sub_language)
                                         ->where('task_id', $list->task_id)
                                         ->first();
                     })

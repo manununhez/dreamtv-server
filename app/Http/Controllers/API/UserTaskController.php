@@ -33,7 +33,7 @@ class UserTaskController extends BaseController
      * Save User task
      * Store a newly created resource in storage.
      *
-     * Parameters => task_id (mandatory, text), subtitle_version (mandatory, text)
+     * Parameters => task_id (mandatory, text), sub_version (mandatory, text)
      * Requires user token - header 'Authorization'
      */
      public function store(Request $request)
@@ -44,7 +44,7 @@ class UserTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'subtitle_version' => 'required|string'
+            'sub_version' => 'required|string'
             ]);
 
         if($validator->fails()){
@@ -60,7 +60,7 @@ class UserTaskController extends BaseController
         }
         else
         {
-            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['subtitle_version']);
+            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['sub_version']);
             return $this->sendResponse($userTask->toArray(), 'User Tasks created successfully.');
         }
 
@@ -101,7 +101,7 @@ class UserTaskController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'subtitle_version' => 'required|string'
+            'sub_version' => 'required|string'
         ]);
 
 
@@ -111,7 +111,7 @@ class UserTaskController extends BaseController
 
         $userTask = UserTask::where('task_id', $input['task_id'])
                             ->where('user_id', auth()->user()->id)
-                            ->where('subtitle_version', $input['subtitle_version'])
+                            ->where('sub_version', $input['sub_version'])
                             ->first();
 	
     	if(is_null($userTask))
@@ -130,7 +130,7 @@ class UserTaskController extends BaseController
 
         if($updated)
         {
-            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['subtitle_version']);
+            $userTask = $this->getUserTaskWithErrors($input['task_id'], $input['sub_version']);
 
             return $this->sendResponse($userTask->toArray(), 'User Task updated successfully.');
         }
@@ -210,13 +210,13 @@ class UserTaskController extends BaseController
             $userTask = UserTask::with('userTaskErrors')
                     ->where('user_id', $userId)
                     ->where('task_id', $taskId)
-                    ->orderBy('subtitle_version', 'desc')
+                    ->orderBy('sub_version', 'desc')
                     ->first();
         } else { //specific subtitle version
             $userTask = UserTask::with('userTaskErrors')
                     ->where('user_id', $userId)
                     ->where('task_id', $taskId)
-                    ->where('subtitle_version', $subtitleVersion)
+                    ->where('sub_version', $subtitleVersion)
                     ->first();
         }
 

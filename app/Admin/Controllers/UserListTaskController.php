@@ -84,8 +84,8 @@ class UserListTaskController extends Controller
         $grid->id('Id');
         $grid->user_id('User id');
         $grid->task_id('Task id');
-        $grid->sub_language_config('Sub language config');
-        $grid->audio_language_config('Audio language config');
+        $grid->sub_language('Sub language');
+        $grid->audio_language('Audio language');
         $grid->created_at('Created at');
         $grid->updated_at('Updated at');
 
@@ -105,8 +105,8 @@ class UserListTaskController extends Controller
         $show->id('Id');
         $show->user_id('User id');
         $show->task_id('Task id');
-        $show->sub_language_config('Sub language config');
-        $show->audio_language_config('Audio language config');
+        $show->sub_language('Sub language');
+        $show->audio_language('Audio language');
         $show->created_at('Created at');
         $show->updated_at('Updated at');
 
@@ -124,8 +124,8 @@ class UserListTaskController extends Controller
 
         $form->number('user_id', 'User id');
         $form->number('task_id', 'Task id');
-        $form->text('sub_language_config', 'Sub language config');
-        $form->text('audio_language_config', 'Audio language config');
+        $form->text('sub_language', 'Sub language');
+        $form->text('audio_language', 'Audio language');
 
         return $form;
     }

@@ -17,8 +17,8 @@ class CreateUserListTasksTable extends Migration
     		$table->increments('id');
     		$table->integer('user_id')->unsigned();
     		$table->integer('task_id');
-    		$table->string('sub_language_config');
-    		$table->string('audio_language_config');
+    		$table->string('sub_language');
+    		$table->string('audio_language');
     		$table->timestamps();
     		
             $table->unique(['user_id', 'task_id'], 'un_user_list_tasks');

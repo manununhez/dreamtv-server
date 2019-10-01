@@ -8,7 +8,7 @@ class VideoTest extends Model
 {
     
    protected $fillable= [
-		'video_id', 'subtitle_version', 'subtitle_language_code'
+		'video_id', 'sub_version', 'sub_language'
 	];
 
 }

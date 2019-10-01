@@ -45,7 +45,7 @@ class UserTaskErrorController extends BaseController
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
             'reason_code' => 'required|string',
-            'subtitle_version' => 'required|string',
+            'sub_version' => 'required|string',
             'subtitle_position' => 'required|integer'
         ]);
 
@@ -56,7 +56,7 @@ class UserTaskErrorController extends BaseController
 
 
         #We obtain user_task ID
-        $userTask = $this->obtainUserTaskId($input['task_id'], $input['subtitle_version']);
+        $userTask = $this->obtainUserTaskId($input['task_id'], $input['sub_version']);
 
         if(is_null($userTask))
             return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
@@ -112,7 +112,7 @@ class UserTaskErrorController extends BaseController
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
             'reason_code' => 'required|string',
-            'subtitle_version' => 'required|string',
+            'sub_version' => 'required|string',
             'subtitle_position' => 'required|integer'
         ]);
 
@@ -122,7 +122,7 @@ class UserTaskErrorController extends BaseController
         }
 
         #We obtain user_task ID
-        $userTask = $this->obtainUserTaskId($input['task_id'], $input['subtitle_version']);
+        $userTask = $this->obtainUserTaskId($input['task_id'], $input['sub_version']);
 
         if(is_null($userTask))
             return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
@@ -165,7 +165,7 @@ class UserTaskErrorController extends BaseController
 
         $validator = Validator::make($input, [
             'task_id' => 'required|integer',
-            'subtitle_version' => 'required|string',
+            'sub_version' => 'required|string',
             'subtitle_position' => 'required|integer'
         ]);
 
@@ -175,7 +175,7 @@ class UserTaskErrorController extends BaseController
         }
 
         #We obtain user_task ID
-        $userTask = $this->obtainUserTaskId($input['task_id'], $input['subtitle_version']);
+        $userTask = $this->obtainUserTaskId($input['task_id'], $input['sub_version']);
 
         if(is_null($userTask))
             return $this->sendError('UserTask with task_id = '.$input['task_id'].' not found.', 400);
@@ -204,7 +204,7 @@ class UserTaskErrorController extends BaseController
 
         $userTask = UserTask::where('task_id', $taskId)
                             ->where('user_id', $userId)
-                            ->where('subtitle_version', $subtitleVersion)
+                            ->where('sub_version', $subtitleVersion)
                             ->first();
         return $userTask;
     }
