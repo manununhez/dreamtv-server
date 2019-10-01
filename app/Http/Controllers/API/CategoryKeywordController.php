@@ -208,7 +208,9 @@ class CategoryKeywordController extends BaseController
             foreach ((array)$keywordsArray as $key => $value) {
                 $multipleValuesToInsert[] = array(
                                                 "category_id" => $categoryId,
-                                                "keyword" => $value
+                                                "keyword" => $value,
+						"created_at" => now(),
+						"updated_at" => now()
                                             );
             }
 

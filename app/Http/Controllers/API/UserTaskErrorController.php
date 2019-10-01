@@ -230,7 +230,9 @@ class UserTaskErrorController extends BaseController
                                                 "user_tasks_id" => $userTaskId,
                                                 "reason_code" => $value["reason_code"],
                                                 "subtitle_position" => $input['subtitle_position'],
-                                                "comment" => isset($input['comment']) ? $input['comment'] : null
+                                                "comment" => isset($input['comment']) ? $input['comment'] : null,
+"created_at" => now(),
+"updated_at" => now()
                                             );
             }
 
