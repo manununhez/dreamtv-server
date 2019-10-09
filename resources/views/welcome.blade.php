@@ -84,8 +84,10 @@
 
                 <div class="links">
                     <a href="{{url('/admin')}}">Admin Panel</a>
-			<a href="{{url('/docs/index.html')}}">Documentation</a>
-                    <a href="*">About</a>
+                    <a href="{{url('/docs/index.html')}}">Documentation</a>
+                    <a href="{{url('/docs/info/about.html')}}">About</a>
+                    <a href="{{url('/docs/info/privacy_policy.html')}}">Privacy Policy</a>
+                    <a href="{{url('/docs/info/terms_and_conditions.html')}}">Terms and conditions</a>
                     <a href="https://github.com/manununhez/dreamtv-server">GitHub</a>
                 </div>
             </div>
